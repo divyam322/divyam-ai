@@ -1,1482 +1,1343 @@
 <!DOCTYPE html>
-<!-- DIVYAM.AI DASHBOARD - UPDATED -->
-
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
+    <title>DIVYAM.AI — Dashboard</title>
 
-<meta
- name="viewport"
- content="width=device-width, initial-scale=1.0">
+    <!-- SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            color: #f4f7ff;
+            overflow-x: hidden;
+
+            background:
+                radial-gradient(
+                    circle at 10% 0%,
+                    rgba(59,130,246,0.18),
+                    transparent 32%
+                ),
+                radial-gradient(
+                    circle at 90% 100%,
+                    rgba(124,58,237,0.16),
+                    transparent 35%
+                ),
+                #07111f;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+
+            width: 550px;
+            height: 550px;
+
+            background: #2563eb;
+            filter: blur(190px);
+            opacity: 0.12;
 
-<title>DIVYAM.AI — Dashboard</title>
+            top: -280px;
+            left: -220px;
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+            pointer-events: none;
+            z-index: -2;
+        }
 
-<style>
+        body::after {
+            content: "";
+            position: fixed;
 
-/* =========================
-   RESET
-========================= */
+            width: 550px;
+            height: 550px;
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+            background: #7c3aed;
+            filter: blur(190px);
+            opacity: 0.11;
 
-html {
-    scroll-behavior: smooth;
-}
+            bottom: -280px;
+            right: -220px;
 
-body {
+            pointer-events: none;
+            z-index: -2;
+        }
 
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+        /* =========================
+           NAVIGATION
+        ========================= */
 
-    min-height: 100vh;
+        nav {
+            height: 74px;
 
-    color: #f4f7ff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
-    overflow-x: hidden;
+            padding: 0 6%;
 
-    background:
-        radial-gradient(
-            circle at 10% 0%,
-            rgba(59,130,246,0.18),
-            transparent 32%
-        ),
-        radial-gradient(
-            circle at 90% 100%,
-            rgba(124,58,237,0.16),
-            transparent 35%
-        ),
-        #07111f;
-}
+            position: sticky;
+            top: 0;
+            z-index: 100;
 
+            background: rgba(7,17,31,0.78);
 
-/* =========================
-   BACKGROUND GLOWS
-========================= */
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
 
-body::before {
+            border-bottom:
+                1px solid rgba(147,197,253,0.10);
+        }
 
-    content: "";
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
 
-    position: fixed;
+        .logo span {
+            background:
+                linear-gradient(
+                    90deg,
+                    #60a5fa,
+                    #818cf8,
+                    #a78bfa
+                );
 
-    width: 550px;
-    height: 550px;
+            -webkit-background-clip: text;
+            background-clip: text;
 
-    background: #2563eb;
+            color: transparent;
+        }
 
-    filter: blur(190px);
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
 
-    opacity: 0.12;
+        .user-name {
+            color: #aebbd0;
+            font-size: 14px;
+        }
 
-    top: -280px;
-    left: -220px;
+        .logout {
+            padding: 9px 16px;
 
-    pointer-events: none;
+            border-radius: 10px;
 
-    z-index: -2;
-}
+            border:
+                1px solid rgba(147,197,253,0.14);
 
+            background:
+                rgba(30,58,95,0.35);
 
-body::after {
+            color: #cbd5e1;
 
-    content: "";
+            cursor: pointer;
 
-    position: fixed;
+            transition: 0.25s;
+        }
 
-    width: 550px;
-    height: 550px;
+        .logout:hover {
+            background:
+                rgba(239,68,68,0.12);
 
-    background: #7c3aed;
+            border-color:
+                rgba(248,113,113,0.35);
 
-    filter: blur(190px);
+            color: #fecaca;
+        }
 
-    opacity: 0.11;
+        /* =========================
+           DASHBOARD
+        ========================= */
 
-    bottom: -280px;
-    right: -220px;
+        .dashboard {
+            max-width: 1200px;
 
-    pointer-events: none;
+            margin: auto;
 
-    z-index: -2;
-}
+            padding:
+                65px 25px 100px;
+        }
 
+        /* =========================
+           WELCOME
+        ========================= */
 
-/* =========================
-   NAVBAR
-========================= */
+        .welcome {
+            margin-bottom: 42px;
+        }
 
-nav {
+        .welcome-label {
+            color: #7f96b4;
 
-    height: 74px;
+            font-size: 13px;
+            font-weight: 600;
 
-    display: flex;
+            letter-spacing: 1.5px;
 
-    align-items: center;
+            margin-bottom: 12px;
+        }
 
-    justify-content: space-between;
+        .welcome h1 {
+            font-size:
+                clamp(38px, 6vw, 60px);
 
-    padding: 0 6%;
+            line-height: 1.05;
 
-    position: sticky;
+            letter-spacing: -2.5px;
 
-    top: 0;
+            margin-bottom: 14px;
+        }
 
-    z-index: 100;
+        .gradient {
+            background:
+                linear-gradient(
+                    90deg,
+                    #60a5fa,
+                    #818cf8,
+                    #a78bfa
+                );
 
-    background:
-        rgba(7,17,31,0.78);
+            -webkit-background-clip: text;
+            background-clip: text;
 
-    backdrop-filter:
-        blur(22px);
+            color: transparent;
+        }
 
-    -webkit-backdrop-filter:
-        blur(22px);
+        .welcome p {
+            color: #8ea2bb;
 
-    border-bottom:
-        1px solid rgba(147,197,253,0.10);
-}
+            font-size: 16px;
 
+            line-height: 1.6;
+        }
 
-.logo {
+        /* =========================
+           AI CARD
+        ========================= */
 
-    font-size: 24px;
+        .ai-card {
+            position: relative;
 
-    font-weight: 800;
+            padding: 40px;
 
-    letter-spacing: 1px;
-}
+            border-radius: 28px;
 
+            margin-bottom: 45px;
 
-.logo span {
+            overflow: hidden;
 
-    background:
-        linear-gradient(
-            90deg,
-            #60a5fa,
-            #818cf8,
-            #a78bfa
-        );
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(30,64,175,0.22),
+                    rgba(67,56,202,0.14),
+                    rgba(15,35,60,0.70)
+                );
 
-    -webkit-background-clip: text;
+            border:
+                1px solid rgba(96,165,250,0.20);
 
-    background-clip: text;
+            box-shadow:
+                0 25px 80px rgba(0,0,0,0.28),
+                inset 0 1px 0 rgba(255,255,255,0.05);
+        }
 
-    color: transparent;
-}
+        .ai-card::before {
+            content: "";
 
+            position: absolute;
 
-.nav-right {
+            width: 300px;
+            height: 300px;
 
-    display: flex;
+            background: #3b82f6;
 
-    align-items: center;
+            filter: blur(140px);
 
-    gap: 18px;
-}
+            opacity: 0.13;
 
+            top: -170px;
+            right: -70px;
 
-.user-name {
+            pointer-events: none;
+        }
 
-    color: #aebbd0;
+        .ai-card::after {
+            content: "";
 
-    font-size: 14px;
-}
+            position: absolute;
 
+            width: 250px;
+            height: 250px;
 
-.logout {
+            background: #8b5cf6;
 
-    padding: 9px 16px;
+            filter: blur(140px);
 
-    border-radius: 10px;
+            opacity: 0.10;
 
-    border:
-        1px solid rgba(147,197,253,0.14);
+            bottom: -180px;
+            left: 20%;
 
-    background:
-        rgba(30,58,95,0.35);
+            pointer-events: none;
+        }
 
-    color: #cbd5e1;
+        .ai-top {
+            position: relative;
+            z-index: 2;
 
-    cursor: pointer;
+            display: flex;
+            align-items: center;
 
-    transition: 0.25s;
-}
+            gap: 18px;
 
+            margin-bottom: 26px;
+        }
 
-.logout:hover {
+        .ai-icon {
+            width: 60px;
+            height: 60px;
 
-    background:
-        rgba(239,68,68,0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-    border-color:
-        rgba(248,113,113,0.35);
+            border-radius: 18px;
 
-    color: #fecaca;
-}
+            font-size: 29px;
 
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(59,130,246,0.28),
+                    rgba(124,58,237,0.28)
+                );
 
-/* =========================
-   DASHBOARD
-========================= */
+            border:
+                1px solid rgba(147,197,253,0.18);
 
-.dashboard {
+            box-shadow:
+                0 0 30px rgba(59,130,246,0.15);
+        }
 
-    max-width: 1200px;
+        .ai-title h2 {
+            font-size: 25px;
+            margin-bottom: 5px;
+        }
 
-    margin: auto;
+        .ai-title p {
+            color: #91a4bd;
+            font-size: 13px;
+        }
 
-    padding:
-        65px 25px 100px;
-}
+        /* =========================
+           QUESTION BOX
+        ========================= */
 
+        .question-box {
+            position: relative;
+            z-index: 2;
 
-/* =========================
-   WELCOME
-========================= */
+            display: flex;
 
-.welcome {
+            gap: 12px;
 
-    margin-bottom: 42px;
-}
+            padding: 8px;
 
+            border-radius: 15px;
 
-.welcome-label {
+            background:
+                rgba(4,14,28,0.55);
 
-    color: #7f96b4;
+            border:
+                1px solid rgba(147,197,253,0.12);
 
-    font-size: 13px;
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.03);
+        }
 
-    font-weight: 600;
+        .question-box input {
+            flex: 1;
 
-    letter-spacing: 1.5px;
+            min-width: 0;
 
-    margin-bottom: 12px;
-}
+            border: none;
+            outline: none;
 
+            background: transparent;
 
-.welcome h1 {
+            color: white;
 
-    font-size:
-        clamp(38px, 6vw, 60px);
+            padding: 13px;
 
-    line-height: 1.05;
+            font-size: 14px;
+        }
 
-    letter-spacing: -2.5px;
+        .question-box input::placeholder {
+            color: #657891;
+        }
 
-    margin-bottom: 14px;
-}
+        .ask-button {
+            border: none;
 
+            border-radius: 11px;
 
-.gradient {
+            padding: 12px 21px;
 
-    background:
-        linear-gradient(
-            90deg,
-            #60a5fa,
-            #818cf8,
-            #a78bfa
-        );
+            color: white;
 
-    -webkit-background-clip: text;
+            font-weight: bold;
 
-    background-clip: text;
+            cursor: pointer;
 
-    color: transparent;
-}
+            background:
+                linear-gradient(
+                    90deg,
+                    #2563eb,
+                    #4f46e5,
+                    #7c3aed
+                );
 
+            box-shadow:
+                0 0 25px rgba(59,130,246,0.20);
 
-.welcome p {
+            transition: 0.25s;
+        }
 
-    color: #8ea2bb;
+        .ask-button:hover {
+            transform: translateY(-2px);
 
-    font-size: 16px;
+            box-shadow:
+                0 0 35px rgba(59,130,246,0.35);
+        }
 
-    line-height: 1.6;
-}
+        .ask-button:disabled {
+            opacity: 0.6;
+            cursor: wait;
+            transform: none;
+        }
 
+        /* =========================
+           AI RESPONSE
+        ========================= */
 
-/* =========================
-   AI MAIN CARD
-========================= */
+        .answer-box {
+            display: none;
 
-.ai-card {
+            position: relative;
+            z-index: 2;
 
-    position: relative;
+            margin-top: 20px;
 
-    padding: 40px;
+            padding: 24px;
 
-    border-radius: 28px;
+            border-radius: 18px;
 
-    margin-bottom: 45px;
+            background:
+                rgba(4,14,28,0.55);
 
-    overflow: hidden;
+            border:
+                1px solid rgba(96,165,250,0.15);
 
-    background:
-        linear-gradient(
-            135deg,
-            rgba(30,64,175,0.22),
-            rgba(67,56,202,0.14),
-            rgba(15,35,60,0.70)
-        );
+            color: #dbeafe;
 
-    border:
-        1px solid rgba(96,165,250,0.20);
+            line-height: 1.7;
 
-    box-shadow:
-        0 25px 80px rgba(0,0,0,0.28),
-        inset 0 1px 0 rgba(255,255,255,0.05);
-}
+            white-space: pre-wrap;
+        }
 
+        .answer-title {
+            color: #93b4ff;
 
-.ai-card::before {
+            font-size: 13px;
 
-    content: "";
+            font-weight: bold;
 
-    position: absolute;
+            margin-bottom: 10px;
+        }
 
-    width: 300px;
-    height: 300px;
+        /* =========================
+           SECTION HEADINGS
+        ========================= */
 
-    background: #3b82f6;
+        .section-heading {
+            margin-top: 45px;
+            margin-bottom: 20px;
+        }
 
-    filter: blur(140px);
+        .section-heading h2 {
+            font-size: 24px;
+            margin-bottom: 6px;
+        }
 
-    opacity: 0.13;
+        .section-heading p {
+            color: #71859e;
+            font-size: 14px;
+        }
 
-    top: -170px;
-    right: -70px;
+        /* =========================
+           STUDY TOOLS
+        ========================= */
 
-    pointer-events: none;
-}
+        .tools {
+            display: grid;
 
+            grid-template-columns:
+                repeat(3, 1fr);
 
-.ai-card::after {
+            gap: 20px;
+        }
 
-    content: "";
+        .tool {
+            position: relative;
 
-    position: absolute;
+            padding: 30px;
 
-    width: 250px;
-    height: 250px;
+            min-height: 225px;
 
-    background: #8b5cf6;
+            border-radius: 22px;
 
-    filter: blur(140px);
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(20,43,70,0.72),
+                    rgba(11,28,48,0.62)
+                );
 
-    opacity: 0.10;
+            border:
+                1px solid rgba(147,197,253,0.10);
 
-    bottom: -180px;
-    left: 20%;
+            transition: 0.3s;
 
-    pointer-events: none;
-}
+            cursor: pointer;
 
+            overflow: hidden;
+        }
 
-.ai-top {
+        .tool::before {
+            content: "";
 
-    position: relative;
+            position: absolute;
 
-    z-index: 2;
+            width: 130px;
+            height: 130px;
 
-    display: flex;
+            border-radius: 50%;
 
-    align-items: center;
+            filter: blur(70px);
 
-    gap: 18px;
+            opacity: 0.14;
 
-    margin-bottom: 26px;
-}
+            top: -70px;
+            right: -50px;
+        }
 
+        .tool:nth-child(1)::before {
+            background: #3b82f6;
+        }
 
-.ai-icon {
+        .tool:nth-child(2)::before {
+            background: #8b5cf6;
+        }
 
-    width: 60px;
-    height: 60px;
+        .tool:nth-child(3)::before {
+            background: #06b6d4;
+        }
 
-    display: flex;
+        .tool:hover {
+            transform: translateY(-7px);
 
-    align-items: center;
-    justify-content: center;
+            border-color:
+                rgba(96,165,250,0.30);
 
-    border-radius: 18px;
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.28);
+        }
 
-    font-size: 29px;
+        .tool-icon {
+            position: relative;
 
-    background:
-        linear-gradient(
-            135deg,
-            rgba(59,130,246,0.28),
-            rgba(124,58,237,0.28)
-        );
+            font-size: 35px;
 
-    border:
-        1px solid rgba(147,197,253,0.18);
+            margin-bottom: 22px;
+        }
 
-    box-shadow:
-        0 0 30px rgba(59,130,246,0.15);
-}
+        .tool h3 {
+            position: relative;
 
+            font-size: 20px;
 
-.ai-title h2 {
+            margin-bottom: 10px;
+        }
 
-    font-size: 25px;
+        .tool p {
+            position: relative;
 
-    margin-bottom: 5px;
-}
+            color: #8195ad;
 
+            font-size: 14px;
 
-.ai-title p {
+            line-height: 1.65;
 
-    color: #91a4bd;
+            margin-bottom: 18px;
+        }
 
-    font-size: 13px;
-}
+        .tool-link {
+            position: relative;
 
+            color: #93b4ff;
 
-/* =========================
-   QUESTION BOX
-========================= */
+            font-size: 13px;
 
-.question-box {
+            font-weight: bold;
+        }
 
-    position: relative;
+        /* =========================
+           PROGRESS
+        ========================= */
 
-    z-index: 2;
+        .progress-card {
+            padding: 30px;
 
-    display: flex;
+            border-radius: 22px;
 
-    gap: 12px;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(20,43,70,0.65),
+                    rgba(10,25,43,0.60)
+                );
 
-    padding: 8px;
+            border:
+                1px solid rgba(147,197,253,0.10);
 
-    border-radius: 15px;
+            margin-top: 30px;
+        }
 
-    background:
-        rgba(4,14,28,0.55);
+        .progress-top {
+            display: flex;
 
-    border:
-        1px solid rgba(147,197,253,0.12);
+            justify-content: space-between;
+            align-items: center;
 
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.03);
-}
+            margin-bottom: 18px;
+        }
 
+        .progress-top h3 {
+            font-size: 19px;
+        }
 
-.question-box input {
+        .progress-number {
+            color: #93b4ff;
+            font-weight: bold;
+        }
 
-    flex: 1;
+        .progress-bar {
+            width: 100%;
+            height: 9px;
 
-    min-width: 0;
+            background:
+                rgba(96,165,250,0.08);
 
-    border: none;
+            border-radius: 20px;
 
-    outline: none;
+            overflow: hidden;
+        }
 
-    background: transparent;
+        .progress-fill {
+            width: 0%;
+            height: 100%;
 
-    color: white;
+            border-radius: 20px;
 
-    padding: 13px;
+            background:
+                linear-gradient(
+                    90deg,
+                    #2563eb,
+                    #6366f1,
+                    #8b5cf6
+                );
 
-    font-size: 14px;
-}
+            box-shadow:
+                0 0 18px rgba(99,102,241,0.35);
 
+            transition:
+                width 1s ease;
+        }
 
-.question-box input::placeholder {
+        .progress-text {
+            color: #61758d;
 
-    color: #657891;
-}
+            font-size: 12px;
 
+            margin-top: 12px;
+        }
 
-.ask-button {
+        /* =========================
+           FOOTER
+        ========================= */
 
-    border: none;
+        footer {
+            text-align: center;
 
-    border-radius: 11px;
+            padding: 35px;
 
-    padding: 12px 21px;
+            border-top:
+                1px solid rgba(147,197,253,0.08);
 
-    color: white;
+            color: #52667e;
 
-    font-weight: bold;
+            font-size: 12px;
+        }
 
-    cursor: pointer;
+        /* =========================
+           MOBILE
+        ========================= */
 
-    background:
-        linear-gradient(
-            90deg,
-            #2563eb,
-            #4f46e5,
-            #7c3aed
-        );
+        @media (max-width: 800px) {
 
-    box-shadow:
-        0 0 25px rgba(59,130,246,0.20);
+            nav {
+                padding: 0 20px;
+            }
 
-    transition: 0.25s;
-}
+            .user-name {
+                display: none;
+            }
 
+            .dashboard {
+                padding:
+                    45px 18px 70px;
+            }
 
-.ask-button:hover {
+            .ai-card {
+                padding: 25px;
+            }
 
-    transform:
-        translateY(-2px);
+            .question-box {
+                flex-direction: column;
+            }
 
-    box-shadow:
-        0 0 35px rgba(59,130,246,0.35);
-}
+            .ask-button {
+                width: 100%;
+            }
 
+            .tools {
+                grid-template-columns: 1fr;
+            }
+        }
 
-/* =========================
-   SECTION HEADINGS
-========================= */
-
-.section-heading {
-
-    margin-top: 45px;
-
-    margin-bottom: 20px;
-}
-
-
-.section-heading h2 {
-
-    font-size: 24px;
-
-    margin-bottom: 6px;
-}
-
-
-.section-heading p {
-
-    color: #71859e;
-
-    font-size: 14px;
-}
-
-
-/* =========================
-   STUDY TOOLS
-========================= */
-
-.tools {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
-    gap: 20px;
-}
-
-
-.tool {
-
-    position: relative;
-
-    padding: 30px;
-
-    min-height: 225px;
-
-    border-radius: 22px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(20,43,70,0.72),
-            rgba(11,28,48,0.62)
-        );
-
-    border:
-        1px solid rgba(147,197,253,0.10);
-
-    transition: 0.3s;
-
-    cursor: pointer;
-
-    overflow: hidden;
-}
-
-
-.tool::before {
-
-    content: "";
-
-    position: absolute;
-
-    width: 130px;
-    height: 130px;
-
-    border-radius: 50%;
-
-    filter: blur(70px);
-
-    opacity: 0.14;
-
-    top: -70px;
-    right: -50px;
-}
-
-
-.tool:nth-child(1)::before {
-
-    background: #3b82f6;
-}
-
-
-.tool:nth-child(2)::before {
-
-    background: #8b5cf6;
-}
-
-
-.tool:nth-child(3)::before {
-
-    background: #06b6d4;
-}
-
-
-.tool:hover {
-
-    transform:
-        translateY(-7px);
-
-    border-color:
-        rgba(96,165,250,0.30);
-
-    box-shadow:
-        0 20px 60px rgba(0,0,0,0.28);
-}
-
-
-.tool-icon {
-
-    position: relative;
-
-    font-size: 35px;
-
-    margin-bottom: 22px;
-}
-
-
-.tool h3 {
-
-    position: relative;
-
-    font-size: 20px;
-
-    margin-bottom: 10px;
-}
-
-
-.tool p {
-
-    position: relative;
-
-    color: #8195ad;
-
-    font-size: 14px;
-
-    line-height: 1.65;
-
-    margin-bottom: 18px;
-}
-
-
-.tool-link {
-
-    position: relative;
-
-    color: #93b4ff;
-
-    font-size: 13px;
-
-    font-weight: bold;
-}
-
-
-/* =========================
-   PROGRESS
-========================= */
-
-.progress-card {
-
-    padding: 30px;
-
-    border-radius: 22px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(20,43,70,0.65),
-            rgba(10,25,43,0.60)
-        );
-
-    border:
-        1px solid rgba(147,197,253,0.10);
-
-    margin-top: 30px;
-}
-
-
-.progress-top {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    margin-bottom: 18px;
-}
-
-
-.progress-top h3 {
-
-    font-size: 19px;
-}
-
-
-.progress-number {
-
-    color: #93b4ff;
-
-    font-weight: bold;
-}
-
-
-.progress-bar {
-
-    width: 100%;
-
-    height: 9px;
-
-    background:
-        rgba(96,165,250,0.08);
-
-    border-radius: 20px;
-
-    overflow: hidden;
-}
-
-
-.progress-fill {
-
-    width: 0%;
-
-    height: 100%;
-
-    border-radius: 20px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #2563eb,
-            #6366f1,
-            #8b5cf6
-        );
-
-    box-shadow:
-        0 0 18px rgba(99,102,241,0.35);
-
-    transition:
-        width 1s ease;
-}
-
-
-.progress-text {
-
-    color: #61758d;
-
-    font-size: 12px;
-
-    margin-top: 12px;
-}
-
-
-/* =========================
-   FOOTER
-========================= */
-
-footer {
-
-    text-align: center;
-
-    padding: 35px;
-
-    border-top:
-        1px solid rgba(147,197,253,0.08);
-
-    color: #52667e;
-
-    font-size: 12px;
-}
-
-
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 800px) {
-
-    nav {
-
-        padding: 0 20px;
-    }
-
-
-    .user-name {
-
-        display: none;
-    }
-
-
-    .dashboard {
-
-        padding:
-            45px 18px 70px;
-    }
-
-
-    .ai-card {
-
-        padding: 25px;
-    }
-
-
-    .question-box {
-
-        flex-direction: column;
-    }
-
-
-    .ask-button {
-
-        width: 100%;
-    }
-
-
-    .tools {
-
-        grid-template-columns: 1fr;
-    }
-
-}
-
-</style>
+    </style>
 
 </head>
 
 <body>
 
-<!-- =========================
-     NAVIGATION
-========================= -->
+    <!-- =========================
+         NAVIGATION
+    ========================= -->
 
-<nav>
+    <nav>
 
-```
-<div class="logo">
+        <div class="logo">
+            DIVYAM<span>.AI</span>
+        </div>
 
-    DIVYAM<span>.AI</span>
+        <div class="nav-right">
 
-</div>
+            <div
+                class="user-name"
+                id="userName">
+                Loading...
+            </div>
 
-
-<div class="nav-right">
-
-
-    <div
-        class="user-name"
-        id="userName">
-
-        Loading...
-
-    </div>
-
-
-    <button
-        class="logout"
-        onclick="logout()">
-
-        Log Out
-
-    </button>
-
-
-</div>
-```
-
-</nav>
-
-<!-- =========================
-     DASHBOARD
-========================= -->
-
-<main class="dashboard">
-
-```
-<!-- WELCOME -->
-
-<section class="welcome">
-
-
-    <div class="welcome-label">
-
-        YOUR PERSONAL AI STUDY SPACE
-
-    </div>
-
-
-    <h1>
-
-        Welcome,
-
-        <span
-            class="gradient"
-            id="welcomeName">
-
-            Student
-
-        </span>
-
-        👋
-
-    </h1>
-
-
-    <p>
-
-        What would you like to learn today?
-
-    </p>
-
-
-</section>
-
-
-
-<!-- =====================
-     ASK DIVYAM AI
-====================== -->
-
-<section class="ai-card">
-
-
-    <div class="ai-top">
-
-
-        <div class="ai-icon">
-
-            🤖
+            <button
+                class="logout"
+                onclick="logout()">
+                Log Out
+            </button>
 
         </div>
 
+    </nav>
 
-        <div class="ai-title">
 
+    <!-- =========================
+         DASHBOARD
+    ========================= -->
 
-            <h2>
+    <main class="dashboard">
 
-                Ask Divyam AI
+        <!-- WELCOME -->
 
-            </h2>
+        <section class="welcome">
 
+            <div class="welcome-label">
+                YOUR PERSONAL AI STUDY SPACE
+            </div>
+
+            <h1>
+                Welcome,
+                <span
+                    class="gradient"
+                    id="welcomeName">
+                    Student
+                </span>
+                👋
+            </h1>
 
             <p>
-
-                Your personal AI study companion
-
+                What would you like to learn today?
             </p>
 
+        </section>
+
+
+        <!-- =========================
+             ASK DIVYAM AI
+        ========================= -->
+
+        <section class="ai-card">
+
+            <div class="ai-top">
+
+                <div class="ai-icon">
+                    🤖
+                </div>
+
+                <div class="ai-title">
+
+                    <h2>
+                        Ask Divyam AI
+                    </h2>
+
+                    <p>
+                        Your personal AI study companion
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="question-box">
+
+                <input
+                    id="questionInput"
+                    type="text"
+                    placeholder="Ask me anything about your studies..."
+                    autocomplete="off">
+
+                <button
+                    class="ask-button"
+                    id="askButton"
+                    onclick="askAI()">
+
+                    Ask AI →
+
+                </button>
+
+            </div>
+
+
+            <!-- AI ANSWER -->
+
+            <div
+                class="answer-box"
+                id="answerBox">
+
+                <div class="answer-title">
+                    🤖 DIVYAM.AI
+                </div>
+
+                <div id="answerText"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             STUDY TOOLS
+        ========================= -->
+
+        <div class="section-heading">
+
+            <h2>
+                Study Tools
+            </h2>
+
+            <p>
+                Everything you need to learn smarter.
+            </p>
 
         </div>
 
 
-    </div>
+        <section class="tools">
 
 
-    <div class="question-box">
+            <!-- DOUBT SOLVER -->
+
+            <div
+                class="tool"
+                onclick="comingSoon('Doubt Solver')">
+
+                <div class="tool-icon">
+                    🤖
+                </div>
+
+                <h3>
+                    Doubt Solver
+                </h3>
+
+                <p>
+                    Get simple, step-by-step
+                    explanations for your questions.
+                </p>
+
+                <div class="tool-link">
+                    Solve a doubt →
+                </div>
+
+            </div>
 
 
-        <input
-            id="questionInput"
-            type="text"
-            placeholder="Ask me anything about your studies...">
+            <!-- AI NOTES -->
+
+            <div
+                class="tool"
+                onclick="comingSoon('AI Notes')">
+
+                <div class="tool-icon">
+                    📚
+                </div>
+
+                <h3>
+                    AI Notes
+                </h3>
+
+                <p>
+                    Turn chapters into concise notes,
+                    summaries and revision material.
+                </p>
+
+                <div class="tool-link">
+                    Create notes →
+                </div>
+
+            </div>
 
 
-        <button
-            class="ask-button"
-            onclick="askAI()">
+            <!-- TESTS -->
 
-            Ask AI →
+            <div
+                class="tool"
+                onclick="comingSoon('Custom Tests')">
 
-        </button>
+                <div class="tool-icon">
+                    📝
+                </div>
 
+                <h3>
+                    Custom Tests
+                </h3>
 
-    </div>
+                <p>
+                    Generate tests based on your class,
+                    subject, chapters and difficulty.
+                </p>
 
+                <div class="tool-link">
+                    Create a test →
+                </div>
 
-</section>
+            </div>
 
-
-
-<!-- =====================
-     STUDY TOOLS
-====================== -->
-
-<div class="section-heading">
-
-
-    <h2>
-
-        Study Tools
-
-    </h2>
+        </section>
 
 
-    <p>
+        <!-- =========================
+             PROGRESS
+        ========================= -->
 
-        Everything you need to learn smarter.
+        <div class="section-heading">
 
-    </p>
+            <h2>
+                Your Progress
+            </h2>
 
-
-</div>
-
-
-<section class="tools">
-
-
-    <!-- DOUBT SOLVER -->
-
-    <div
-        class="tool"
-        onclick="comingSoon('Doubt Solver')">
-
-
-        <div class="tool-icon">
-
-            🤖
-
-        </div>
-
-
-        <h3>
-
-            Doubt Solver
-
-        </h3>
-
-
-        <p>
-
-            Get simple, step-by-step
-            explanations for your questions.
-
-        </p>
-
-
-        <div class="tool-link">
-
-            Solve a doubt →
-
-        </div>
-
-
-    </div>
-
-
-
-    <!-- AI NOTES -->
-
-    <div
-        class="tool"
-        onclick="comingSoon('AI Notes')">
-
-
-        <div class="tool-icon">
-
-            📚
+            <p>
+                Keep learning and improve every day.
+            </p>
 
         </div>
 
 
-        <h3>
+        <section class="progress-card">
 
-            AI Notes
+            <div class="progress-top">
 
-        </h3>
+                <h3>
+                    Learning Progress
+                </h3>
 
+                <div
+                    class="progress-number"
+                    id="progressNumber">
+                    0%
+                </div>
 
-        <p>
+            </div>
 
-            Turn chapters into concise notes,
-            summaries and revision material.
 
-        </p>
+            <div class="progress-bar">
 
+                <div
+                    class="progress-fill"
+                    id="progressFill">
+                </div>
 
-        <div class="tool-link">
+            </div>
 
-            Create notes →
 
-        </div>
+            <div class="progress-text">
+                Your learning journey starts here 🚀
+            </div>
 
+        </section>
 
-    </div>
+    </main>
 
 
+    <!-- =========================
+         FOOTER
+    ========================= -->
 
-    <!-- TESTS -->
+    <footer>
 
-    <div
-        class="tool"
-        onclick="comingSoon('Custom Tests')">
+        © 2026 DIVYAM.AI
 
+        <br><br>
 
-        <div class="tool-icon">
+        Your AI-powered study companion.
 
-            📝
+    </footer>
 
-        </div>
 
+    <script>
 
-        <h3>
+        /* =========================
+           SUPABASE
+        ========================= */
 
-            Custom Tests
+        const SUPABASE_URL =
+            "https://teosakxikuswuhtbkmuv.supabase.co";
 
-        </h3>
+        const SUPABASE_KEY =
+            "sb_publishable_Wh3yh8OShJ2HnvwUhbInlg_0rGRIxOe";
 
-
-        <p>
-
-            Generate tests based on your class,
-            subject, chapters and difficulty.
-
-        </p>
-
-
-        <div class="tool-link">
-
-            Create a test →
-
-        </div>
-
-
-    </div>
-
-
-</section>
-
-
-
-<!-- =====================
-     PROGRESS
-====================== -->
-
-<div class="section-heading">
-
-
-    <h2>
-
-        Your Progress
-
-    </h2>
-
-
-    <p>
-
-        Keep learning and improve every day.
-
-    </p>
-
-
-</div>
-
-
-<section class="progress-card">
-
-
-    <div class="progress-top">
-
-
-        <h3>
-
-            Learning Progress
-
-        </h3>
-
-
-        <div
-            class="progress-number"
-            id="progressNumber">
-
-            0%
-
-        </div>
-
-
-    </div>
-
-
-    <div class="progress-bar">
-
-
-        <div
-            class="progress-fill"
-            id="progressFill">
-
-        </div>
-
-
-    </div>
-
-
-    <div class="progress-text">
-
-        Your learning journey starts here 🚀
-
-    </div>
-
-
-</section>
-```
-
-</main>
-
-<!-- =========================
-     FOOTER
-========================= -->
-
-<footer>
-
-```
-© 2026 DIVYAM.AI
-
-<br><br>
-
-Your AI-powered study companion.
-```
-
-</footer>
-
-<script>
-
-/* =========================
-   SUPABASE
-========================= */
-
-const SUPABASE_URL =
-    "https://teosakxikuswuhtbkmuv.supabase.co";
-
-
-const SUPABASE_KEY =
-    "sb_publishable_Wh3yh8OShJ2HnvwUhbInlg_0rGRIxOe";
-
-
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
-
-
-/* =========================
-   CHECK USER
-========================= */
-
-async function checkUser() {
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient.auth.getUser();
-
-
-    if (error || !data.user) {
-
-    document.getElementById("welcomeName").innerText = "Student";
-    document.getElementById("userName").innerText = "Guest";
-
-    return;
-
-}
-
-
-    const user =
-        data.user;
-
-
-    const name =
-        user.user_metadata?.full_name
-        ||
-        user.email.split("@")[0];
-
-
-    document.getElementById(
-        "welcomeName"
-    ).innerText =
-        name;
-
-
-    document.getElementById(
-        "userName"
-    ).innerText =
-        user.email;
-
-}
-
-
-/* =========================
-   LOGOUT
-========================= */
-
-async function logout() {
-
-    await supabaseClient.auth.signOut();
-
-    window.location.href =
-        "auth.html";
-
-}
-
-
-/* =========================
-   ASK AI
-========================= */
-
-async function askAI() {
-
-    const input = document.getElementById("questionInput");
-    const question = input.value.trim();
-
-    if (!question) {
-        alert("Please type a question first.");
-        input.focus();
-        return;
-    }
-
-    const button = document.querySelector(".ask-button");
-
-    button.disabled = true;
-    button.innerText = "Thinking...";
-
-    try {
-
-        const response = await fetch(
-            "https://teosakxikuswuhtbkmuv.supabase.co/functions/v1/ask-ai",
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-                    question: question
-                })
-            }
-        );
-
-        const result = await response.json();
-
-        if (!response.ok) {
-            throw new Error(
-                result.error || "AI request failed."
+        const supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_KEY
             );
-        }
-
-        alert(
-            "🤖 DIVYAM.AI\n\n" +
-            result.answer
-        );
-
-    } catch (error) {
-
-    console.error("DIVYAM.AI ERROR:", error);
-
-    alert(
-        "❌ Could not connect to DIVYAM.AI\n\n" +
-        "Error: " +
-        (error.message || error)
-    );
-
-} finally {
-
-        button.disabled = false;
-        button.innerText = "Ask AI →";
-
-    }
 
 
+        /* =========================
+           CHECK USER
+        ========================= */
 
-    alert(
-        "🤖 Divyam AI\n\n" +
-        "The AI Doubt Solver is the next feature we're building!\n\n" +
-        "Your question:\n" +
-        question
-    );
+        async function checkUser() {
 
-}
+            try {
 
-
-/* =========================
-   COMING SOON
-========================= */
-
-function comingSoon(tool) {
-
-    alert(
-        "🚀 " +
-        tool +
-        " is coming soon!\n\n" +
-        "We're building this feature for DIVYAM.AI."
-    );
-
-}
+                const {
+                    data,
+                    error
+                } =
+                    await supabaseClient.auth.getUser();
 
 
-/* =========================
-   ENTER KEY
-========================= */
+                if (error || !data.user) {
 
-document.getElementById(
-    "questionInput"
-).addEventListener(
-    "keydown",
-    function(event) {
+                    document.getElementById(
+                        "welcomeName"
+                    ).innerText = "Student";
 
-        if (
-            event.key === "Enter"
-        ) {
+                    document.getElementById(
+                        "userName"
+                    ).innerText = "Guest";
 
-            askAI();
+                    return;
+                }
+
+
+                const user = data.user;
+
+
+                const name =
+                    user.user_metadata?.full_name
+                    ||
+                    user.email?.split("@")[0]
+                    ||
+                    "Student";
+
+
+                document.getElementById(
+                    "welcomeName"
+                ).innerText = name;
+
+
+                document.getElementById(
+                    "userName"
+                ).innerText =
+                    user.email || name;
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "User check failed:",
+                    error
+                );
+
+            }
 
         }
 
-    }
-);
+
+        /* =========================
+           LOGOUT
+        ========================= */
+
+        async function logout() {
+
+            try {
+
+                await supabaseClient.auth.signOut();
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Logout error:",
+                    error
+                );
+
+            }
+
+            window.location.href =
+                "auth.html";
+
+        }
 
 
-/* =========================
-   START
-========================= */
+        /* =========================
+           ASK AI
+        ========================= */
 
-checkUser();
+        async function askAI() {
 
-</script>
+            const input =
+                document.getElementById(
+                    "questionInput"
+                );
+
+            const button =
+                document.getElementById(
+                    "askButton"
+                );
+
+            const answerBox =
+                document.getElementById(
+                    "answerBox"
+                );
+
+            const answerText =
+                document.getElementById(
+                    "answerText"
+                );
+
+
+            const question =
+                input.value.trim();
+
+
+            if (!question) {
+
+                alert(
+                    "Please type a question first."
+                );
+
+                input.focus();
+
+                return;
+
+            }
+
+
+            button.disabled = true;
+
+            button.innerText =
+                "Thinking...";
+
+
+            answerBox.style.display =
+                "block";
+
+            answerText.innerText =
+                "Thinking...";
+
+
+            try {
+
+                const response =
+                    await fetch(
+
+                        SUPABASE_URL +
+                        "/functions/v1/ask-ai",
+
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    question:
+                                        question
+
+                                })
+
+                        }
+
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        result.error ||
+                        "AI request failed."
+                    );
+
+                }
+
+
+                answerText.innerText =
+                    result.answer ||
+                    "I couldn't generate an answer.";
+
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "AI Error:",
+                    error
+                );
+
+
+                answerText.innerText =
+                    "❌ Could not connect to DIVYAM.AI\n\n" +
+                    error.message;
+
+            }
+
+
+            finally {
+
+                button.disabled =
+                    false;
+
+                button.innerText =
+                    "Ask AI →";
+
+            }
+
+        }
+
+
+        /* =========================
+           COMING SOON
+        ========================= */
+
+        function comingSoon(tool) {
+
+            alert(
+                "🚀 " +
+                tool +
+                " is coming soon!\n\n" +
+                "We're building this feature for DIVYAM.AI."
+            );
+
+        }
+
+
+        /* =========================
+           ENTER KEY
+        ========================= */
+
+        document
+            .getElementById(
+                "questionInput"
+            )
+            .addEventListener(
+                "keydown",
+                function(event) {
+
+                    if (
+                        event.key === "Enter"
+                    ) {
+
+                        askAI();
+
+                    }
+
+                }
+            );
+
+
+        /* =========================
+           START DASHBOARD
+        ========================= */
+
+        checkUser();
+
+    </script>
 
 </body>
 

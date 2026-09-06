@@ -1357,29 +1357,66 @@ async function logout() {
    ASK AI
 ========================= */
 
-function askAI() {
+async function askAI() {
 
-    const input =
-        document.getElementById(
-            "questionInput"
-        );
-
-
-    const question =
-        input.value.trim();
-
+    const input = document.getElementById("questionInput");
+    const question = input.value.trim();
 
     if (!question) {
+        alert("Please type a question first.");
+        input.focus();
+        return;
+    }
 
-        alert(
-            "Please type a question first."
+    const button = document.querySelector(".ask-button");
+
+    button.disabled = true;
+    button.innerText = "Thinking...";
+
+    try {
+
+        const response = await fetch(
+            "https://teosakxikuswuhtbkmuv.supabase.co/functions/v1/ask-ai",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    question: question
+                })
+            }
         );
 
-        input.focus();
+        const result = await response.json();
 
-        return;
+        if (!response.ok) {
+            throw new Error(
+                result.error || "AI request failed."
+            );
+        }
+
+        alert(
+            "🤖 DIVYAM.AI\n\n" +
+            result.answer
+        );
+
+    } catch (error) {
+
+        alert(
+            "❌ Could not connect to DIVYAM.AI\n\n" +
+            error.message
+        );
+
+    } finally {
+
+        button.disabled = false;
+        button.innerText = "Ask AI →";
 
     }
+
 
 
     alert(

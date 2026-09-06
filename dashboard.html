@@ -1304,17 +1304,14 @@ async function checkUser() {
         await supabaseClient.auth.getUser();
 
 
-    if (
-        error ||
-        !data.user
-    ) {
+    if (error || !data.user) {
 
-        window.location.href =
-            "auth.html";
+    document.getElementById("welcomeName").innerText = "Student";
+    document.getElementById("userName").innerText = "Guest";
 
-        return;
+    return;
 
-    }
+}
 
 
     const user =

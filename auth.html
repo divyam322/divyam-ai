@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DIVYAM.AI — Login</title>
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #05050a;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* BACKGROUND GLOW */
+
+.glow-one {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    background: #8b5cf6;
+    filter: blur(180px);
+    opacity: 0.18;
+    top: -200px;
+    left: -150px;
+}
+
+.glow-two {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    background: #06b6d4;
+    filter: blur(180px);
+    opacity: 0.14;
+    bottom: -250px;
+    right: -150px;
+}
+
+.glow-three {
+    position: fixed;
+    width: 400px;
+    height: 400px;
+    background: #ec4899;
+    filter: blur(180px);
+    opacity: 0.10;
+    top: 40%;
+    left: 45%;
+}
+
+/* MAIN CONTAINER */
+
+.container {
+    width: 430px;
+    max-width: 92%;
+    position: relative;
+    z-index: 2;
+}
+
+/* LOGO */
+
+.logo {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+}
+
+.logo span {
+    background: linear-gradient(
+        90deg,
+        #a855f7,
+        #6366f1,
+        #06b6d4,
+        #ec4899
+    );
+
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* CARD */
+
+.auth-card {
+    padding: 38px;
+
+    border-radius: 26px;
+
+    background: rgba(15,15,25,0.78);
+
+    backdrop-filter: blur(25px);
+
+    border: 1px solid rgba(255,255,255,0.10);
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,0.55);
+}
+
+/* HEADING */
+
+.auth-card h1 {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #9292a2;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+/* TABS */
+
+.tabs {
+    display: flex;
+    background: rgba(255,255,255,0.05);
+    padding: 5px;
+    border-radius: 12px;
+    margin-bottom: 28px;
+}
+
+.tab {
+    flex: 1;
+    padding: 11px;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: #888897;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.tab.active {
+    background: rgba(139,92,246,0.25);
+    color: white;
+}
+
+/* FORM */
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    color: #b8b8c5;
+    margin-bottom: 8px;
+}
+
+input {
+    width: 100%;
+    padding: 14px 15px;
+
+    border-radius: 12px;
+
+    border: 1px solid rgba(255,255,255,0.10);
+
+    background: rgba(255,255,255,0.045);
+
+    color: white;
+
+    outline: none;
+
+    font-size: 14px;
+
+    transition: 0.25s;
+}
+
+input:focus {
+    border-color: #8b5cf6;
+
+    box-shadow:
+        0 0 20px rgba(139,92,246,0.15);
+}
+
+input::placeholder {
+    color: #5f5f6d;
+}
+
+/* PASSWORD */
+
+.password-box {
+    position: relative;
+}
+
+.password-box input {
+    padding-right: 50px;
+}
+
+.show-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #777786;
+}
+
+/* FORGOT */
+
+.forgot {
+    display: block;
+    text-align: right;
+    color: #a78bfa;
+    font-size: 13px;
+    text-decoration: none;
+    margin-top: -8px;
+    margin-bottom: 20px;
+}
+
+.forgot:hover {
+    color: #c4b5fd;
+}
+
+/* BUTTON */
+
+.submit-button {
+    width: 100%;
+
+    padding: 15px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    color: white;
+
+    font-weight: bold;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    background:
+        linear-gradient(
+            90deg,
+            #7c3aed,
+            #4f46e5,
+            #0891b2
+        );
+
+    box-shadow:
+        0 0 25px rgba(124,58,237,0.30);
+
+    transition: 0.3s;
+}
+
+.submit-button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 0 40px rgba(99,102,241,0.50);
+}
+
+/* TERMS */
+
+.terms {
+    margin-top: 20px;
+
+    font-size: 11px;
+
+    color: #666675;
+
+    text-align: center;
+
+    line-height: 1.5;
+}
+
+/* HIDDEN */
+
+.hidden {
+    display: none;
+}
+
+/* MOBILE */
+
+@media (max-width: 500px) {
+
+    .auth-card {
+        padding: 28px 22px;
+    }
+
+    .auth-card h1 {
+        font-size: 26px;
+    }
+}
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+
+<body>
+
+<div class="glow-one"></div>
+<div class="glow-two"></div>
+<div class="glow-three"></div>
+
+<div class="container">
+
+```
+<div class="logo">
+    DIVYAM<span>.AI</span>
+</div>
+
+
+<div class="auth-card">
+
+    <h1 id="title">
+        Welcome back
+    </h1>
+
+    <p class="subtitle" id="subtitle">
+        Sign in to continue your learning journey.
+    </p>
+
+
+    <!-- TABS -->
+
+    <div class="tabs">
+
+        <button
+            class="tab active"
+            id="loginTab"
+            onclick="showLogin()">
+
+            Log In
+
+        </button>
+
+        <button
+            class="tab"
+            id="signupTab"
+            onclick="showSignup()">
+
+            Sign Up
+
+        </button>
+
+    </div>
+
+
+    <!-- LOGIN -->
+
+    <form id="loginForm">
+
+        <div class="form-group">
+
+            <label>
+                Email
+            </label>
+
+            <input
+                type="email"
+                placeholder="you@example.com"
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Password
+            </label>
+
+            <div class="password-box">
+
+                <input
+                    id="loginPassword"
+                    type="password"
+                    placeholder="Enter your password"
+                    required>
+
+                <span
+                    class="show-password"
+                    onclick="togglePassword('loginPassword')">
+
+                    👁
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <a href="#" class="forgot">
+            Forgot password?
+        </a>
+
+
+        <button
+            type="submit"
+            class="submit-button">
+
+            ✨ Log In
+
+        </button>
+
+    </form>
+
+
+    <!-- SIGN UP -->
+
+    <form id="signupForm" class="hidden">
+
+        <div class="form-group">
+
+            <label>
+                Your Name
+            </label>
+
+            <input
+                type="text"
+                placeholder="Enter your name"
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Email
+            </label>
+
+            <input
+                type="email"
+                placeholder="you@example.com"
+                required>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Password
+            </label>
+
+            <div class="password-box">
+
+                <input
+                    id="signupPassword"
+                    type="password"
+                    placeholder="Create a password"
+                    required>
+
+                <span
+                    class="show-password"
+                    onclick="togglePassword('signupPassword')">
+
+                    👁
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="submit-button">
+
+            🚀 Create Account
+
+        </button>
+
+
+        <p class="terms">
+
+            By creating an account, you agree to use
+            DIVYAM.AI responsibly for educational purposes.
+
+        </p>
+
+    </form>
+
+</div>
+```
+
+</div>
+
+<script>
+
+<script>
+
+const SUPABASE_URL =
+    "https://teosakxikuswuhtbkmuv.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_Wh3yh8OShJ2HnvwUhbInlg_0rGRIxOe";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =========================
+   SWITCH LOGIN / SIGNUP
+========================= */
+
+function showLogin() {
+
+    document.getElementById("loginForm")
+        .classList.remove("hidden");
+
+    document.getElementById("signupForm")
+        .classList.add("hidden");
+
+    document.getElementById("loginTab")
+        .classList.add("active");
+
+    document.getElementById("signupTab")
+        .classList.remove("active");
+
+    document.getElementById("title")
+        .innerText = "Welcome back";
+
+    document.getElementById("subtitle")
+        .innerText =
+        "Sign in to continue your learning journey.";
+}
+
+
+function showSignup() {
+
+    document.getElementById("loginForm")
+        .classList.add("hidden");
+
+    document.getElementById("signupForm")
+        .classList.remove("hidden");
+
+    document.getElementById("loginTab")
+        .classList.remove("active");
+
+    document.getElementById("signupTab")
+        .classList.add("active");
+
+    document.getElementById("title")
+        .innerText = "Create your account";
+
+    document.getElementById("subtitle")
+        .innerText =
+        "Join DIVYAM.AI and start learning smarter.";
+}
+
+
+/* =========================
+   SHOW / HIDE PASSWORD
+========================= */
+
+function togglePassword(id) {
+
+    const input =
+        document.getElementById(id);
+
+    if (input.type === "password") {
+
+        input.type = "text";
+
+    } else {
+
+        input.type = "password";
+
+    }
+
+}
+
+
+/* =========================
+   SIGN UP
+========================= */
+
+document.getElementById("signupForm")
+.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const inputs =
+        this.querySelectorAll("input");
+
+    const name = inputs[0].value.trim();
+    const email = inputs[1].value.trim();
+    const password = inputs[2].value;
+
+    const button =
+        this.querySelector(".submit-button");
+
+    button.innerText = "Creating account...";
+    button.disabled = true;
+
+
+    try {
+
+        const { data, error } =
+            await supabaseClient.auth.signUp({
+
+                email: email,
+
+                password: password,
+
+                options: {
+
+                    data: {
+                        full_name: name
+                    },
+
+                    emailRedirectTo:
+                        window.location.href
+
+                }
+
+            });
+
+
+        if (error) {
+
+            alert(
+                "❌ Sign up failed:\n\n" +
+                error.message
+            );
+
+            button.innerText =
+                "🚀 Create Account";
+
+            button.disabled = false;
+
+            return;
+        }
+
+
+        alert(
+            "✅ Account created!\n\n" +
+            "We've sent a verification email to:\n" +
+            email +
+            "\n\nPlease check your inbox and verify your email before logging in."
+        );
+
+
+        this.reset();
+
+        showLogin();
+
+        button.innerText =
+            "🚀 Create Account";
+
+        button.disabled = false;
+
+
+    } catch (error) {
+
+        alert(
+            "Something went wrong:\n\n" +
+            error.message
+        );
+
+        button.innerText =
+            "🚀 Create Account";
+
+        button.disabled = false;
+
+    }
+
+});
+
+
+/* =========================
+   LOGIN
+========================= */
+
+document.getElementById("loginForm")
+.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const inputs =
+        this.querySelectorAll("input");
+
+    const email =
+        inputs[0].value.trim();
+
+    const password =
+        inputs[1].value;
+
+    const button =
+        this.querySelector(".submit-button");
+
+    button.innerText =
+        "Logging in...";
+
+    button.disabled = true;
+
+
+    try {
+
+        const { data, error } =
+            await supabaseClient.auth
+            .signInWithPassword({
+
+                email: email,
+
+                password: password
+
+            });
+
+
+        if (error) {
+
+            alert(
+                "❌ Login failed:\n\n" +
+                error.message
+            );
+
+            button.innerText =
+                "✨ Log In";
+
+            button.disabled = false;
+
+            return;
+        }
+
+
+        /* CHECK EMAIL VERIFICATION */
+
+        if (
+            !data.user.email_confirmed_at
+        ) {
+
+            await supabaseClient.auth.signOut();
+
+            alert(
+                "📧 Please verify your email first.\n\n" +
+                "Check your inbox for the DIVYAM.AI verification email."
+            );
+
+            button.innerText =
+                "✨ Log In";
+
+            button.disabled = false;
+
+            return;
+        }
+
+
+        /* SUCCESS */
+
+        alert(
+            "🎉 Welcome to DIVYAM.AI!"
+        );
+
+
+        window.location.href =
+            "dashboard.html";
+
+
+    } catch (error) {
+
+        alert(
+            "Something went wrong:\n\n" +
+            error.message
+        );
+
+        button.innerText =
+            "✨ Log In";
+
+        button.disabled = false;
+
+    }
+
+});
+
+</script>
+
+</script>
+
+</body>
+</html>

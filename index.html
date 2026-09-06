@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>DIVYAM.AI | Your AI Study Companion</title>
+
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #05050a;
+        color: white;
+        overflow-x: hidden;
+    }
+
+    /* =========================
+       BACKGROUND GLOW
+    ========================= */
+
+    body::before {
+        content: "";
+        position: fixed;
+        width: 600px;
+        height: 600px;
+        background: #7c3aed;
+        filter: blur(180px);
+        opacity: 0.16;
+        top: -250px;
+        left: -200px;
+        z-index: -2;
+    }
+
+    body::after {
+        content: "";
+        position: fixed;
+        width: 600px;
+        height: 600px;
+        background: #06b6d4;
+        filter: blur(180px);
+        opacity: 0.12;
+        bottom: -300px;
+        right: -200px;
+        z-index: -2;
+    }
+
+    /* =========================
+       NAVBAR
+    ========================= */
+
+    nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+
+        height: 76px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 0 7%;
+
+        background: rgba(5, 5, 10, 0.72);
+        backdrop-filter: blur(18px);
+
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .logo {
+        font-size: 25px;
+        font-weight: 800;
+        letter-spacing: 1px;
+    }
+
+    .logo span {
+        background: linear-gradient(
+            90deg,
+            #a855f7,
+            #3b82f6,
+            #22d3ee
+        );
+
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 30px;
+    }
+
+    .nav-links a {
+        color: #a5a5b5;
+        text-decoration: none;
+        font-size: 14px;
+        transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+        color: white;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+        min-height: 680px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        text-align: center;
+
+        padding: 100px 20px;
+    }
+
+    .badge {
+        padding: 9px 18px;
+
+        border-radius: 50px;
+
+        border: 1px solid rgba(168,85,247,0.35);
+
+        background: rgba(168,85,247,0.08);
+
+        color: #c4b5fd;
+
+        font-size: 14px;
+
+        margin-bottom: 28px;
+
+        box-shadow:
+            0 0 30px rgba(168,85,247,0.12);
+    }
+
+    .hero h1 {
+        font-size: clamp(50px, 8vw, 92px);
+
+        line-height: 1.02;
+
+        max-width: 1000px;
+
+        margin-bottom: 28px;
+
+        letter-spacing: -3px;
+    }
+
+    .gradient-text {
+        background: linear-gradient(
+            90deg,
+            #a855f7,
+            #6366f1,
+            #06b6d4,
+            #ec4899
+        );
+
+        background-size: 300% 300%;
+
+        -webkit-background-clip: text;
+
+        color: transparent;
+
+        animation: gradientMove 8s ease infinite;
+    }
+
+    @keyframes gradientMove {
+
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    .hero p {
+        max-width: 650px;
+
+        color: #9696a6;
+
+        font-size: 18px;
+
+        line-height: 1.7;
+
+        margin-bottom: 35px;
+    }
+
+    /* =========================
+       HERO BUTTON
+    ========================= */
+
+    .primary-button {
+
+        padding: 16px 30px;
+
+        border: none;
+
+        border-radius: 13px;
+
+        color: white;
+
+        font-size: 16px;
+
+        font-weight: bold;
+
+        cursor: pointer;
+
+        background: linear-gradient(
+            90deg,
+            #7c3aed,
+            #4f46e5,
+            #0891b2
+        );
+
+        box-shadow:
+            0 0 25px rgba(124,58,237,0.35);
+
+        transition: 0.3s;
+    }
+
+    .primary-button:hover {
+
+        transform: translateY(-4px) scale(1.03);
+
+        box-shadow:
+            0 0 45px rgba(99,102,241,0.55);
+    }
+
+    /* =========================
+       FEATURES
+    ========================= */
+
+    .features {
+
+        max-width: 1150px;
+
+        margin: auto;
+
+        padding: 30px 25px 110px;
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 22px;
+    }
+
+    .card {
+
+        position: relative;
+
+        padding: 34px;
+
+        min-height: 250px;
+
+        border-radius: 24px;
+
+        background:
+            linear-gradient(
+                145deg,
+                rgba(255,255,255,0.055),
+                rgba(255,255,255,0.018)
+            );
+
+        border: 1px solid rgba(255,255,255,0.09);
+
+        overflow: hidden;
+
+        transition: 0.35s;
+    }
+
+    .card::before {
+
+        content: "";
+
+        position: absolute;
+
+        width: 180px;
+        height: 180px;
+
+        border-radius: 50%;
+
+        filter: blur(80px);
+
+        opacity: 0.18;
+
+        top: -80px;
+        right: -70px;
+    }
+
+    .card:nth-child(1)::before {
+        background: #a855f7;
+    }
+
+    .card:nth-child(2)::before {
+        background: #06b6d4;
+    }
+
+    .card:nth-child(3)::before {
+        background: #ec4899;
+    }
+
+    .card:hover {
+
+        transform: translateY(-8px);
+
+        border-color:
+            rgba(168,85,247,0.4);
+
+        box-shadow:
+            0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    .icon {
+
+        font-size: 38px;
+
+        margin-bottom: 25px;
+    }
+
+    .card h2 {
+
+        font-size: 23px;
+
+        margin-bottom: 14px;
+    }
+
+    .card p {
+
+        color: #9292a2;
+
+        line-height: 1.7;
+
+        font-size: 15px;
+    }
+
+    .card-link {
+
+        display: inline-block;
+
+        margin-top: 25px;
+
+        color: #b9a2ff;
+
+        font-size: 14px;
+
+        text-decoration: none;
+    }
+
+    /* =========================
+       SECTION
+    ========================= */
+
+    .section {
+
+        padding: 110px 20px;
+
+        text-align: center;
+
+        border-top:
+            1px solid rgba(255,255,255,0.07);
+    }
+
+    .section h2 {
+
+        font-size: clamp(32px, 5vw, 48px);
+
+        margin-bottom: 15px;
+    }
+
+    .section > p {
+
+        color: #888897;
+
+        font-size: 17px;
+    }
+
+    /* =========================
+       BENEFITS
+    ========================= */
+
+    .benefits {
+
+        max-width: 900px;
+
+        margin: 55px auto 0;
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 18px;
+
+        text-align: left;
+    }
+
+    .benefit {
+
+        padding: 23px;
+
+        border-radius: 17px;
+
+        background:
+            rgba(255,255,255,0.035);
+
+        border:
+            1px solid rgba(255,255,255,0.08);
+
+        color: #c7c7d2;
+
+        transition: 0.3s;
+    }
+
+    .benefit:hover {
+
+        transform: translateX(5px);
+
+        border-color:
+            rgba(99,102,241,0.35);
+
+        background:
+            rgba(99,102,241,0.06);
+    }
+
+    /* =========================
+       CTA
+    ========================= */
+
+    .cta {
+
+        max-width: 1000px;
+
+        margin: 40px auto 110px;
+
+        padding: 65px 30px;
+
+        text-align: center;
+
+        border-radius: 30px;
+
+        background:
+            linear-gradient(
+                135deg,
+                rgba(124,58,237,0.13),
+                rgba(6,182,212,0.08),
+                rgba(236,72,153,0.08)
+            );
+
+        border:
+            1px solid rgba(255,255,255,0.1);
+
+        box-shadow:
+            0 30px 100px rgba(0,0,0,0.4);
+    }
+
+    .cta h2 {
+
+        font-size: 40px;
+
+        margin-bottom: 18px;
+    }
+
+    .cta p {
+
+        color: #9292a2;
+
+        margin-bottom: 30px;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+
+        border-top:
+            1px solid rgba(255,255,255,0.07);
+
+        padding: 35px;
+
+        text-align: center;
+
+        color: #5f5f70;
+
+        font-size: 13px;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 800px) {
+
+        .nav-links {
+            display: none;
+        }
+
+        .features {
+            grid-template-columns: 1fr;
+        }
+
+        .benefits {
+            grid-template-columns: 1fr;
+        }
+
+        .hero h1 {
+            letter-spacing: -2px;
+        }
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<!-- NAVIGATION -->
+
+<nav>
+
+    <div class="logo">
+        DIVYAM<span>.AI</span>
+    </div>
+
+    <div class="nav-links">
+
+        <a href="#">Home</a>
+
+        <a href="#doubt">
+            Doubt Solver
+        </a>
+
+        <a href="#notes">
+            AI Notes
+        </a>
+
+        <a href="#tests">
+            Tests
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="badge">
+        ✨ AI-powered learning for students
+    </div>
+
+    <h1>
+
+        Study smarter.<br>
+
+        <span class="gradient-text">
+            Understand everything.
+        </span>
+
+    </h1>
+
+    <p>
+
+        Your personal AI study companion that helps
+        you clear doubts, create powerful notes and
+        practice with custom tests.
+
+    </p>
+
+    <button
+        class="primary-button"
+        onclick="alert('Doubt Solver coming next!')">
+
+        🤖 Clear a Doubt
+
+    </button>
+
+</section>
+
+
+<!-- FEATURES -->
+
+<section class="features">
+
+    <div class="card" id="doubt">
+
+        <div class="icon">
+            🤖
+        </div>
+
+        <h2>
+            Clear Doubts
+        </h2>
+
+        <p>
+
+            Stuck on a question?
+
+            Ask Divyam.ai and get a simple,
+            step-by-step explanation made for
+            your class level.
+
+        </p>
+
+        <a href="#" class="card-link">
+            Start learning →
+        </a>
+
+    </div>
+
+
+    <div class="card" id="notes">
+
+        <div class="icon">
+            📚
+        </div>
+
+        <h2>
+            AI Notes
+        </h2>
+
+        <p>
+
+            Turn chapters into personalized
+            notes, summaries, revision sheets
+            and beautifully formatted PDFs.
+
+        </p>
+
+        <a href="#" class="card-link">
+            Make notes →
+        </a>
+
+    </div>
+
+
+    <div class="card" id="tests">
+
+        <div class="icon">
+            📝
+        </div>
+
+        <h2>
+            Custom Tests
+        </h2>
+
+        <p>
+
+            Choose your class, subject,
+            chapters, marks and difficulty.
+            Divyam.ai creates the test for you.
+
+        </p>
+
+        <a href="#" class="card-link">
+            Create a test →
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- BENEFITS -->
+
+<section class="section">
+
+    <h2>
+        Everything you need to study better.
+    </h2>
+
+    <p>
+        Built around the way students actually learn.
+    </p>
+
+
+    <div class="benefits">
+
+        <div class="benefit">
+            📸 Ask questions from a photo
+        </div>
+
+        <div class="benefit">
+            📖 Upload your chapter
+        </div>
+
+        <div class="benefit">
+            📄 Generate custom PDF notes
+        </div>
+
+        <div class="benefit">
+            🎯 Practice with AI-generated tests
+        </div>
+
+        <div class="benefit">
+            🧠 Get explanations at your level
+        </div>
+
+        <div class="benefit">
+            📊 Track your progress
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CTA -->
+
+<section class="cta">
+
+    <h2>
+        Ready to study smarter?
+    </h2>
+
+    <p>
+        Your AI study companion is just getting started.
+    </p>
+
+    <button
+        class="primary-button"
+        onclick="alert('Divyam.ai is being built!')">
+
+        ✨ Start Learning
+
+    </button>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    © 2026 DIVYAM.AI
+
+    <br><br>
+
+    Built for students. Powered by AI.
+
+</footer>
+```
+
+</body>
+</html>

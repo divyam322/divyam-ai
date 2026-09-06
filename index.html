@@ -66,7 +66,7 @@
         top: 0;
         z-index: 100;
 
-        height: 76px;
+        min-height: 76px;
 
         display: flex;
         align-items: center;
@@ -84,6 +84,7 @@
         font-size: 25px;
         font-weight: 800;
         letter-spacing: 1px;
+        white-space: nowrap;
     }
 
     .logo span {
@@ -95,38 +96,15 @@
         );
 
         -webkit-background-clip: text;
+        background-clip: text;
         color: transparent;
     }
 
     .nav-links {
-    display: flex;
-    gap: 30px;
-}
-
-.nav-start-button {
-    padding: 10px 18px;
-    border: none;
-    border-radius: 10px;
-    color: white;
-    font-size: 13px;
-    font-weight: bold;
-    cursor: pointer;
-
-    background: linear-gradient(
-        90deg,
-        #7c3aed,
-        #4f46e5,
-        #0891b2
-    );
-
-    box-shadow: 0 0 20px rgba(124,58,237,0.25);
-    transition: 0.3s;
-}
-
-.nav-start-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 30px rgba(99,102,241,0.45);
-}
+        display: flex;
+        align-items: center;
+        gap: 28px;
+    }
 
     .nav-links a {
         color: #a5a5b5;
@@ -137,6 +115,41 @@
 
     .nav-links a:hover {
         color: white;
+    }
+
+    /* TOP START LEARNING BUTTON */
+
+    .nav-start-button {
+        padding: 11px 19px;
+
+        border: none;
+        border-radius: 11px;
+
+        color: white;
+
+        font-size: 13px;
+        font-weight: bold;
+
+        cursor: pointer;
+
+        background: linear-gradient(
+            90deg,
+            #7c3aed,
+            #4f46e5,
+            #0891b2
+        );
+
+        box-shadow:
+            0 0 22px rgba(124,58,237,0.30);
+
+        transition: 0.3s;
+    }
+
+    .nav-start-button:hover {
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 0 35px rgba(99,102,241,0.55);
     }
 
     /* =========================
@@ -199,6 +212,7 @@
         background-size: 300% 300%;
 
         -webkit-background-clip: text;
+        background-clip: text;
 
         color: transparent;
 
@@ -237,7 +251,6 @@
     ========================= */
 
     .primary-button {
-
         padding: 16px 30px;
 
         border: none;
@@ -266,7 +279,6 @@
     }
 
     .primary-button:hover {
-
         transform: translateY(-4px) scale(1.03);
 
         box-shadow:
@@ -278,7 +290,6 @@
     ========================= */
 
     .features {
-
         max-width: 1150px;
 
         margin: auto;
@@ -294,7 +305,6 @@
     }
 
     .card {
-
         position: relative;
 
         padding: 34px;
@@ -318,7 +328,6 @@
     }
 
     .card::before {
-
         content: "";
 
         position: absolute;
@@ -349,7 +358,6 @@
     }
 
     .card:hover {
-
         transform: translateY(-8px);
 
         border-color:
@@ -360,21 +368,16 @@
     }
 
     .icon {
-
         font-size: 38px;
-
         margin-bottom: 25px;
     }
 
     .card h2 {
-
         font-size: 23px;
-
         margin-bottom: 14px;
     }
 
     .card p {
-
         color: #9292a2;
 
         line-height: 1.7;
@@ -383,7 +386,6 @@
     }
 
     .card-link {
-
         display: inline-block;
 
         margin-top: 25px;
@@ -395,12 +397,15 @@
         text-decoration: none;
     }
 
+    .card-link:hover {
+        color: white;
+    }
+
     /* =========================
        SECTION
     ========================= */
 
     .section {
-
         padding: 110px 20px;
 
         text-align: center;
@@ -410,14 +415,12 @@
     }
 
     .section h2 {
-
         font-size: clamp(32px, 5vw, 48px);
 
         margin-bottom: 15px;
     }
 
     .section > p {
-
         color: #888897;
 
         font-size: 17px;
@@ -428,7 +431,6 @@
     ========================= */
 
     .benefits {
-
         max-width: 900px;
 
         margin: 55px auto 0;
@@ -444,7 +446,6 @@
     }
 
     .benefit {
-
         padding: 23px;
 
         border-radius: 17px;
@@ -461,7 +462,6 @@
     }
 
     .benefit:hover {
-
         transform: translateX(5px);
 
         border-color:
@@ -476,7 +476,6 @@
     ========================= */
 
     .cta {
-
         max-width: 1000px;
 
         margin: 40px auto 110px;
@@ -503,16 +502,12 @@
     }
 
     .cta h2 {
-
         font-size: 40px;
-
         margin-bottom: 18px;
     }
 
     .cta p {
-
         color: #9292a2;
-
         margin-bottom: 30px;
     }
 
@@ -521,7 +516,6 @@
     ========================= */
 
     footer {
-
         border-top:
             1px solid rgba(255,255,255,0.07);
 
@@ -540,8 +534,17 @@
 
     @media (max-width: 800px) {
 
+        nav {
+            padding: 12px 5%;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
         .nav-links {
-            display: none;
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .features {
@@ -565,7 +568,9 @@
 <body>
 
 ```
-<!-- NAVIGATION -->
+<!-- =========================
+     NAVIGATION
+========================= -->
 
 <nav>
 
@@ -573,34 +578,38 @@
         DIVYAM<span>.AI</span>
     </div>
 
-  <div class="nav-links">
+    <div class="nav-links">
 
-    <a href="#">Home</a>
+        <a href="#">Home</a>
 
-    <a href="#doubt">
-        Doubt Solver
-    </a>
+        <a href="#doubt">
+            Doubt Solver
+        </a>
 
-    <a href="#notes">
-        AI Notes
-    </a>
+        <a href="#notes">
+            AI Notes
+        </a>
 
-    <a href="#tests">
-        Tests
-    </a>
+        <a href="#tests">
+            Tests
+        </a>
 
-    <button
-        class="nav-start-button"
-        onclick="window.location.href='auth.html'">
+        <button
+            class="nav-start-button"
+            onclick="window.location.href='auth.html'">
 
-        ✨ Start Learning
+            ✨ Start Learning
 
+        </button>
 
-</div>
+    </div>
+
 </nav>
 
 
-<!-- HERO -->
+<!-- =========================
+     HERO
+========================= -->
 
 <section class="hero">
 
@@ -628,7 +637,7 @@
 
     <button
         class="primary-button"
-        onclick="alert('Doubt Solver coming next!')">
+        onclick="window.location.href='auth.html'">
 
         🤖 Clear a Doubt
 
@@ -637,7 +646,9 @@
 </section>
 
 
-<!-- FEATURES -->
+<!-- =========================
+     FEATURES
+========================= -->
 
 <section class="features">
 
@@ -661,8 +672,12 @@
 
         </p>
 
-        <a href="#" class="card-link">
+        <a
+            href="auth.html"
+            class="card-link">
+
             Start learning →
+
         </a>
 
     </div>
@@ -686,8 +701,12 @@
 
         </p>
 
-        <a href="#" class="card-link">
+        <a
+            href="auth.html"
+            class="card-link">
+
             Make notes →
+
         </a>
 
     </div>
@@ -711,8 +730,12 @@
 
         </p>
 
-        <a href="#" class="card-link">
+        <a
+            href="auth.html"
+            class="card-link">
+
             Create a test →
+
         </a>
 
     </div>
@@ -720,7 +743,9 @@
 </section>
 
 
-<!-- BENEFITS -->
+<!-- =========================
+     BENEFITS
+========================= -->
 
 <section class="section">
 
@@ -731,7 +756,6 @@
     <p>
         Built around the way students actually learn.
     </p>
-
 
     <div class="benefits">
 
@@ -764,7 +788,9 @@
 </section>
 
 
-<!-- CTA -->
+<!-- =========================
+     CTA
+========================= -->
 
 <section class="cta">
 
@@ -777,17 +803,19 @@
     </p>
 
     <button
-    class="primary-button"
-    onclick="window.location.href='auth.html'">
+        class="primary-button"
+        onclick="window.location.href='auth.html'">
 
-    ✨ Start Learning
+        ✨ Start Learning
 
-</button>
+    </button>
 
 </section>
 
 
-<!-- FOOTER -->
+<!-- =========================
+     FOOTER
+========================= -->
 
 <footer>
 

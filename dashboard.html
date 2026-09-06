@@ -16,6 +16,10 @@
 
 <style>
 
+/* =========================
+   RESET
+========================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -27,52 +31,80 @@ html {
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #05050a;
-    color: white;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
     min-height: 100vh;
+
+    color: #f4f7ff;
+
     overflow-x: hidden;
+
+    background:
+        radial-gradient(
+            circle at 10% 0%,
+            rgba(59,130,246,0.18),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 90% 100%,
+            rgba(124,58,237,0.16),
+            transparent 35%
+        ),
+        #07111f;
 }
 
 
 /* =========================
-   BACKGROUND
+   BACKGROUND GLOWS
 ========================= */
 
 body::before {
+
     content: "";
+
     position: fixed;
 
-    width: 600px;
-    height: 600px;
+    width: 550px;
+    height: 550px;
 
-    background: #7c3aed;
+    background: #2563eb;
 
-    filter: blur(180px);
+    filter: blur(190px);
 
-    opacity: 0.13;
+    opacity: 0.12;
 
-    top: -250px;
+    top: -280px;
     left: -220px;
+
+    pointer-events: none;
 
     z-index: -2;
 }
 
+
 body::after {
+
     content: "";
+
     position: fixed;
 
-    width: 600px;
-    height: 600px;
+    width: 550px;
+    height: 550px;
 
-    background: #06b6d4;
+    background: #7c3aed;
 
-    filter: blur(180px);
+    filter: blur(190px);
 
-    opacity: 0.10;
+    opacity: 0.11;
 
-    bottom: -300px;
+    bottom: -280px;
     right: -220px;
+
+    pointer-events: none;
 
     z-index: -2;
 }
@@ -87,23 +119,30 @@ nav {
     height: 74px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
 
     padding: 0 6%;
 
     position: sticky;
+
     top: 0;
 
     z-index: 100;
 
     background:
-        rgba(5,5,10,0.78);
+        rgba(7,17,31,0.78);
 
-    backdrop-filter: blur(20px);
+    backdrop-filter:
+        blur(22px);
+
+    -webkit-backdrop-filter:
+        blur(22px);
 
     border-bottom:
-        1px solid rgba(255,255,255,0.08);
+        1px solid rgba(147,197,253,0.10);
 }
 
 
@@ -122,10 +161,9 @@ nav {
     background:
         linear-gradient(
             90deg,
-            #a855f7,
-            #6366f1,
-            #06b6d4,
-            #ec4899
+            #60a5fa,
+            #818cf8,
+            #a78bfa
         );
 
     -webkit-background-clip: text;
@@ -148,7 +186,7 @@ nav {
 
 .user-name {
 
-    color: #bdbdcc;
+    color: #aebbd0;
 
     font-size: 14px;
 }
@@ -156,17 +194,17 @@ nav {
 
 .logout {
 
-    padding: 9px 15px;
+    padding: 9px 16px;
 
-    border-radius: 9px;
+    border-radius: 10px;
 
     border:
-        1px solid rgba(255,255,255,0.12);
+        1px solid rgba(147,197,253,0.14);
 
     background:
-        rgba(255,255,255,0.04);
+        rgba(30,58,95,0.35);
 
-    color: #c9c9d5;
+    color: #cbd5e1;
 
     cursor: pointer;
 
@@ -180,9 +218,9 @@ nav {
         rgba(239,68,68,0.12);
 
     border-color:
-        rgba(239,68,68,0.35);
+        rgba(248,113,113,0.35);
 
-    color: #fca5a5;
+    color: #fecaca;
 }
 
 
@@ -207,26 +245,32 @@ nav {
 
 .welcome {
 
-    margin-bottom: 45px;
+    margin-bottom: 42px;
 }
 
 
 .welcome-label {
 
-    color: #9b9bab;
+    color: #7f96b4;
 
-    font-size: 14px;
+    font-size: 13px;
 
-    margin-bottom: 10px;
+    font-weight: 600;
+
+    letter-spacing: 1.5px;
+
+    margin-bottom: 12px;
 }
 
 
 .welcome h1 {
 
     font-size:
-        clamp(36px, 6vw, 58px);
+        clamp(38px, 6vw, 60px);
 
-    letter-spacing: -2px;
+    line-height: 1.05;
+
+    letter-spacing: -2.5px;
 
     margin-bottom: 14px;
 }
@@ -237,9 +281,9 @@ nav {
     background:
         linear-gradient(
             90deg,
-            #a855f7,
-            #6366f1,
-            #06b6d4
+            #60a5fa,
+            #818cf8,
+            #a78bfa
         );
 
     -webkit-background-clip: text;
@@ -252,7 +296,7 @@ nav {
 
 .welcome p {
 
-    color: #858595;
+    color: #8ea2bb;
 
     font-size: 16px;
 
@@ -272,23 +316,24 @@ nav {
 
     border-radius: 28px;
 
-    margin-bottom: 35px;
+    margin-bottom: 45px;
 
     overflow: hidden;
 
     background:
         linear-gradient(
             135deg,
-            rgba(124,58,237,0.16),
-            rgba(6,182,212,0.07),
-            rgba(255,255,255,0.025)
+            rgba(30,64,175,0.22),
+            rgba(67,56,202,0.14),
+            rgba(15,35,60,0.70)
         );
 
     border:
-        1px solid rgba(168,85,247,0.20);
+        1px solid rgba(96,165,250,0.20);
 
     box-shadow:
-        0 25px 80px rgba(0,0,0,0.35);
+        0 25px 80px rgba(0,0,0,0.28),
+        inset 0 1px 0 rgba(255,255,255,0.05);
 }
 
 
@@ -298,17 +343,39 @@ nav {
 
     position: absolute;
 
-    width: 280px;
-    height: 280px;
+    width: 300px;
+    height: 300px;
 
-    background: #8b5cf6;
+    background: #3b82f6;
 
-    filter: blur(130px);
+    filter: blur(140px);
 
     opacity: 0.13;
 
-    top: -160px;
-    right: -80px;
+    top: -170px;
+    right: -70px;
+
+    pointer-events: none;
+}
+
+
+.ai-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 250px;
+    height: 250px;
+
+    background: #8b5cf6;
+
+    filter: blur(140px);
+
+    opacity: 0.10;
+
+    bottom: -180px;
+    left: 20%;
 
     pointer-events: none;
 }
@@ -316,39 +383,46 @@ nav {
 
 .ai-top {
 
+    position: relative;
+
+    z-index: 2;
+
     display: flex;
 
     align-items: center;
 
     gap: 18px;
 
-    margin-bottom: 25px;
+    margin-bottom: 26px;
 }
 
 
 .ai-icon {
 
-    width: 58px;
-    height: 58px;
+    width: 60px;
+    height: 60px;
 
     display: flex;
 
     align-items: center;
     justify-content: center;
 
-    border-radius: 17px;
+    border-radius: 18px;
 
-    font-size: 28px;
+    font-size: 29px;
 
     background:
         linear-gradient(
             135deg,
-            rgba(168,85,247,0.30),
-            rgba(6,182,212,0.18)
+            rgba(59,130,246,0.28),
+            rgba(124,58,237,0.28)
         );
 
     border:
-        1px solid rgba(255,255,255,0.10);
+        1px solid rgba(147,197,253,0.18);
+
+    box-shadow:
+        0 0 30px rgba(59,130,246,0.15);
 }
 
 
@@ -362,27 +436,38 @@ nav {
 
 .ai-title p {
 
-    color: #858595;
+    color: #91a4bd;
 
     font-size: 13px;
 }
 
 
+/* =========================
+   QUESTION BOX
+========================= */
+
 .question-box {
+
+    position: relative;
+
+    z-index: 2;
 
     display: flex;
 
     gap: 12px;
 
-    background:
-        rgba(0,0,0,0.22);
-
     padding: 8px;
 
     border-radius: 15px;
 
+    background:
+        rgba(4,14,28,0.55);
+
     border:
-        1px solid rgba(255,255,255,0.09);
+        1px solid rgba(147,197,253,0.12);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.03);
 }
 
 
@@ -400,7 +485,7 @@ nav {
 
     color: white;
 
-    padding: 12px;
+    padding: 13px;
 
     font-size: 14px;
 }
@@ -408,7 +493,7 @@ nav {
 
 .question-box input::placeholder {
 
-    color: #666675;
+    color: #657891;
 }
 
 
@@ -416,9 +501,9 @@ nav {
 
     border: none;
 
-    border-radius: 10px;
+    border-radius: 11px;
 
-    padding: 12px 20px;
+    padding: 12px 21px;
 
     color: white;
 
@@ -429,10 +514,13 @@ nav {
     background:
         linear-gradient(
             90deg,
-            #7c3aed,
+            #2563eb,
             #4f46e5,
-            #0891b2
+            #7c3aed
         );
+
+    box-shadow:
+        0 0 25px rgba(59,130,246,0.20);
 
     transition: 0.25s;
 }
@@ -440,15 +528,16 @@ nav {
 
 .ask-button:hover {
 
-    transform: translateY(-2px);
+    transform:
+        translateY(-2px);
 
     box-shadow:
-        0 0 25px rgba(99,102,241,0.35);
+        0 0 35px rgba(59,130,246,0.35);
 }
 
 
 /* =========================
-   TOOLS
+   SECTION HEADINGS
 ========================= */
 
 .section-heading {
@@ -469,11 +558,15 @@ nav {
 
 .section-heading p {
 
-    color: #777787;
+    color: #71859e;
 
     font-size: 14px;
 }
 
+
+/* =========================
+   STUDY TOOLS
+========================= */
 
 .tools {
 
@@ -488,25 +581,67 @@ nav {
 
 .tool {
 
+    position: relative;
+
     padding: 30px;
 
-    min-height: 220px;
+    min-height: 225px;
 
     border-radius: 22px;
 
     background:
         linear-gradient(
             145deg,
-            rgba(255,255,255,0.055),
-            rgba(255,255,255,0.018)
+            rgba(20,43,70,0.72),
+            rgba(11,28,48,0.62)
         );
 
     border:
-        1px solid rgba(255,255,255,0.08);
+        1px solid rgba(147,197,253,0.10);
 
     transition: 0.3s;
 
     cursor: pointer;
+
+    overflow: hidden;
+}
+
+
+.tool::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 130px;
+    height: 130px;
+
+    border-radius: 50%;
+
+    filter: blur(70px);
+
+    opacity: 0.14;
+
+    top: -70px;
+    right: -50px;
+}
+
+
+.tool:nth-child(1)::before {
+
+    background: #3b82f6;
+}
+
+
+.tool:nth-child(2)::before {
+
+    background: #8b5cf6;
+}
+
+
+.tool:nth-child(3)::before {
+
+    background: #06b6d4;
 }
 
 
@@ -516,14 +651,16 @@ nav {
         translateY(-7px);
 
     border-color:
-        rgba(139,92,246,0.35);
+        rgba(96,165,250,0.30);
 
     box-shadow:
-        0 20px 60px rgba(0,0,0,0.35);
+        0 20px 60px rgba(0,0,0,0.28);
 }
 
 
 .tool-icon {
+
+    position: relative;
 
     font-size: 35px;
 
@@ -533,6 +670,8 @@ nav {
 
 .tool h3 {
 
+    position: relative;
+
     font-size: 20px;
 
     margin-bottom: 10px;
@@ -541,7 +680,9 @@ nav {
 
 .tool p {
 
-    color: #858595;
+    position: relative;
+
+    color: #8195ad;
 
     font-size: 14px;
 
@@ -553,7 +694,9 @@ nav {
 
 .tool-link {
 
-    color: #b9a2ff;
+    position: relative;
+
+    color: #93b4ff;
 
     font-size: 13px;
 
@@ -572,10 +715,14 @@ nav {
     border-radius: 22px;
 
     background:
-        rgba(255,255,255,0.035);
+        linear-gradient(
+            145deg,
+            rgba(20,43,70,0.65),
+            rgba(10,25,43,0.60)
+        );
 
     border:
-        1px solid rgba(255,255,255,0.08);
+        1px solid rgba(147,197,253,0.10);
 
     margin-top: 30px;
 }
@@ -601,7 +748,7 @@ nav {
 
 .progress-number {
 
-    color: #a78bfa;
+    color: #93b4ff;
 
     font-weight: bold;
 }
@@ -614,7 +761,7 @@ nav {
     height: 9px;
 
     background:
-        rgba(255,255,255,0.07);
+        rgba(96,165,250,0.08);
 
     border-radius: 20px;
 
@@ -633,10 +780,13 @@ nav {
     background:
         linear-gradient(
             90deg,
-            #7c3aed,
+            #2563eb,
             #6366f1,
-            #06b6d4
+            #8b5cf6
         );
+
+    box-shadow:
+        0 0 18px rgba(99,102,241,0.35);
 
     transition:
         width 1s ease;
@@ -645,7 +795,7 @@ nav {
 
 .progress-text {
 
-    color: #686877;
+    color: #61758d;
 
     font-size: 12px;
 
@@ -664,9 +814,9 @@ footer {
     padding: 35px;
 
     border-top:
-        1px solid rgba(255,255,255,0.07);
+        1px solid rgba(147,197,253,0.08);
 
-    color: #555565;
+    color: #52667e;
 
     font-size: 12px;
 }
@@ -728,7 +878,9 @@ footer {
 
 <body>
 
-<!-- NAVBAR -->
+<!-- =========================
+     NAVIGATION
+========================= -->
 
 <nav>
 
@@ -741,6 +893,7 @@ footer {
 
 
 <div class="nav-right">
+
 
     <div
         class="user-name"
@@ -759,12 +912,15 @@ footer {
 
     </button>
 
+
 </div>
 ```
 
 </nav>
 
-<!-- DASHBOARD -->
+<!-- =========================
+     DASHBOARD
+========================= -->
 
 <main class="dashboard">
 
@@ -773,8 +929,11 @@ footer {
 
 <section class="welcome">
 
+
     <div class="welcome-label">
+
         YOUR PERSONAL AI STUDY SPACE
+
     </div>
 
 
@@ -789,6 +948,7 @@ footer {
             Student
 
         </span>
+
         👋
 
     </h1>
@@ -800,11 +960,14 @@ footer {
 
     </p>
 
+
 </section>
 
 
 
-<!-- AI -->
+<!-- =====================
+     ASK DIVYAM AI
+====================== -->
 
 <section class="ai-card">
 
@@ -821,13 +984,20 @@ footer {
 
         <div class="ai-title">
 
+
             <h2>
+
                 Ask Divyam AI
+
             </h2>
 
+
             <p>
+
                 Your personal AI study companion
+
             </p>
+
 
         </div>
 
@@ -860,17 +1030,26 @@ footer {
 
 
 
-<!-- TOOLS -->
+<!-- =====================
+     STUDY TOOLS
+====================== -->
 
 <div class="section-heading">
 
+
     <h2>
+
         Study Tools
+
     </h2>
 
+
     <p>
+
         Everything you need to learn smarter.
+
     </p>
+
 
 </div>
 
@@ -878,7 +1057,7 @@ footer {
 <section class="tools">
 
 
-    <!-- DOUBTS -->
+    <!-- DOUBT SOLVER -->
 
     <div
         class="tool"
@@ -886,26 +1065,31 @@ footer {
 
 
         <div class="tool-icon">
+
             🤖
+
         </div>
 
 
         <h3>
+
             Doubt Solver
+
         </h3>
 
 
         <p>
 
-            Get simple,
-            step-by-step explanations
-            for your questions.
+            Get simple, step-by-step
+            explanations for your questions.
 
         </p>
 
 
         <div class="tool-link">
+
             Solve a doubt →
+
         </div>
 
 
@@ -913,7 +1097,7 @@ footer {
 
 
 
-    <!-- NOTES -->
+    <!-- AI NOTES -->
 
     <div
         class="tool"
@@ -921,26 +1105,31 @@ footer {
 
 
         <div class="tool-icon">
+
             📚
+
         </div>
 
 
         <h3>
+
             AI Notes
+
         </h3>
 
 
         <p>
 
-            Turn chapters into
-            concise notes, summaries
-            and revision material.
+            Turn chapters into concise notes,
+            summaries and revision material.
 
         </p>
 
 
         <div class="tool-link">
+
             Create notes →
+
         </div>
 
 
@@ -956,26 +1145,31 @@ footer {
 
 
         <div class="tool-icon">
+
             📝
+
         </div>
 
 
         <h3>
+
             Custom Tests
+
         </h3>
 
 
         <p>
 
-            Generate tests based on
-            your class, subject,
-            chapters and difficulty.
+            Generate tests based on your class,
+            subject, chapters and difficulty.
 
         </p>
 
 
         <div class="tool-link">
+
             Create a test →
+
         </div>
 
 
@@ -986,17 +1180,26 @@ footer {
 
 
 
-<!-- PROGRESS -->
+<!-- =====================
+     PROGRESS
+====================== -->
 
 <div class="section-heading">
 
+
     <h2>
+
         Your Progress
+
     </h2>
 
+
     <p>
+
         Keep learning and improve every day.
+
     </p>
+
 
 </div>
 
@@ -1006,8 +1209,11 @@ footer {
 
     <div class="progress-top">
 
+
         <h3>
+
             Learning Progress
+
         </h3>
 
 
@@ -1019,16 +1225,19 @@ footer {
 
         </div>
 
+
     </div>
 
 
     <div class="progress-bar">
+
 
         <div
             class="progress-fill"
             id="progressFill">
 
         </div>
+
 
     </div>
 
@@ -1045,7 +1254,9 @@ footer {
 
 </main>
 
-<!-- FOOTER -->
+<!-- =========================
+     FOOTER
+========================= -->
 
 <footer>
 
@@ -1060,7 +1271,6 @@ Your AI-powered study companion.
 </footer>
 
 <script>
-
 
 /* =========================
    SUPABASE
@@ -1081,20 +1291,17 @@ const supabaseClient =
     );
 
 
-
 /* =========================
-   CHECK LOGIN
+   CHECK USER
 ========================= */
 
 async function checkUser() {
-
 
     const {
         data,
         error
     } =
-        await supabaseClient.auth
-        .getUser();
+        await supabaseClient.auth.getUser();
 
 
     if (
@@ -1122,14 +1329,14 @@ async function checkUser() {
 
     document.getElementById(
         "welcomeName"
-    ).innerText = name;
+    ).innerText =
+        name;
 
 
     document.getElementById(
         "userName"
     ).innerText =
         user.email;
-
 
 }
 
@@ -1140,9 +1347,7 @@ async function checkUser() {
 
 async function logout() {
 
-
     await supabaseClient.auth.signOut();
-
 
     window.location.href =
         "auth.html";
@@ -1155,7 +1360,6 @@ async function logout() {
 ========================= */
 
 function askAI() {
-
 
     const input =
         document.getElementById(
@@ -1182,7 +1386,7 @@ function askAI() {
 
     alert(
         "🤖 Divyam AI\n\n" +
-        "AI Doubt Solver is coming next!\n\n" +
+        "The AI Doubt Solver is the next feature we're building!\n\n" +
         "Your question:\n" +
         question
     );
@@ -1196,12 +1400,11 @@ function askAI() {
 
 function comingSoon(tool) {
 
-
     alert(
         "🚀 " +
         tool +
         " is coming soon!\n\n" +
-        We're building this feature for DIVYAM.AI."
+        "We're building this feature for DIVYAM.AI."
     );
 
 }
@@ -1235,8 +1438,8 @@ document.getElementById(
 
 checkUser();
 
-
 </script>
 
 </body>
+
 </html>

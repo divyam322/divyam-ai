@@ -43,18 +43,25 @@ CONVERSATION:
 - If a follow-up depends on context that is not available, ask a short clarification.
 - Be supportive, patient, motivating and natural.
 
-RESPONSE FORMATTING — CRITICAL:
-DIVYAM.AI uses a plain text display. The user must NEVER see Markdown syntax characters.
+RESPONSE FORMATTING — VERY IMPORTANT:
+The DIVYAM.AI dashboard displays the answer as plain text. Do NOT use Markdown formatting.
 
-ABSOLUTELY DO NOT USE:
-- #, ##, ### or any Markdown heading markers
-- **bold**, __bold__, *italic* or _italic_
-- Markdown tables using | characters
-- Markdown horizontal rules such as --- or ***
-- Markdown code fences using ```
-- Escaped Markdown such as \\#, \\* or \\_
+NEVER output any of these Markdown patterns:
+# headings
+## headings
+### headings
+**bold**
+__bold__
+*italic*
+_italic_
+--- horizontal rules
+*** horizontal rules
+| Markdown tables |
+\`\`\` code fences
 
-Instead, create a clean educational layout using plain text, emojis, symbols, numbered steps and blank lines.
+Do NOT escape Markdown characters either. Never output things such as \\#, \\*, \\_, or \\|.
+
+Instead use a clean educational style with emojis, plain-text labels, numbered lists, symbols and blank lines.
 
 GOOD STYLE:
 📚 Photosynthesis
@@ -98,25 +105,44 @@ IMPORTANT:
 Answer the question directly. Keep the response proportional to the question.`;
 
 function cleanResponse(text: string): string {
-  return text
-    // Remove Markdown heading markers, including accidentally escaped ones.
-    .replace(/^\s*\\?#{1,6}\s*/gm, "")
-    // Remove bold/italic Markdown markers while preserving the words.
-    .replace(/\\?\*\*([^*]+)\*\*/g, "$1")
-    .replace(/\\?__([^_]+)__/g, "$1")
-    .replace(/\\?\*([^*\n]+)\*/g, "$1")
-    .replace(/\\?_([^_\n]+)_/g, "$1")
-    // Remove Markdown horizontal rules.
-    .replace(/^\s*(?:-{3,}|\*{3,}|_{3,})\s*$/gm, "")
-    // Remove code-fence markers if the model produces them.
-    .replace(/^\s*```(?:[a-zA-Z0-9_-]+)?\s*$/gm, "")
-    // Remove escaped Markdown characters left by the model.
-    .replace(/\\([#*_`])/g, "$1")
-    // Remove accidental Markdown table separator rows.
-    .replace(/^\s*\|?\s*:?-{3,}:?\s*(?:\|\s*:?-{3,}:?\s*)+\|?\s*$/gm, "")
-    // Avoid excessive blank lines.
-    .replace(/\n{3,}/g, "\n\n")
-    .trim();
+  let cleaned = text.trim();
+
+  // First unescape Markdown characters. This MUST happen before removing
+  // Markdown markers, otherwise escaped markers such as \\*\\* can become
+  // visible ** after the cleanup pass.
+  cleaned = cleaned.replace(/\\([#*_`|])/g, "$1");
+
+  // Remove Markdown code fences.
+  cleaned = cleaned.replace(/^\s*```[^\n]*\s*$/gm, "");
+
+  // Remove Markdown headings, including headings with up to six # characters.
+  cleaned = cleaned.replace(/^\s*#{1,6}\s*/gm, "");
+
+  // Remove bold and italic markers while keeping the actual text.
+  cleaned = cleaned.replace(/\*\*([^*\n]+)\*\*/g, "$1");
+  cleaned = cleaned.replace(/__([^_\n]+)__/g, "$1");
+  cleaned = cleaned.replace(/\*([^*\n]+)\*/g, "$1");
+  cleaned = cleaned.replace(/_([^_\n]+)_/g, "$1");
+
+  // Remove Markdown horizontal rules.
+  cleaned = cleaned.replace(/^\s*(?:-{3,}|\*{3,}|_{3,})\s*$/gm, "");
+
+  // Convert common Markdown bullets into clean bullet symbols.
+  cleaned = cleaned.replace(/^\s*[-*+]\s+/gm, "• ");
+
+  // Remove Markdown table separator rows.
+  cleaned = cleaned.replace(/^\s*\|?\s*:?-{3,}:?\s*(?:\|\s*:?-{3,}:?\s*)+\|?\s*$/gm, "");
+
+  // If a Markdown table remains, turn pipe separators into readable bullets.
+  cleaned = cleaned.replace(/^\s*\|\s*/gm, "").replace(/\s*\|\s*/g, "  •  ");
+
+  // Remove any remaining isolated Markdown backticks.
+  cleaned = cleaned.replace(/`/g, "");
+
+  // Avoid excessive blank lines.
+  cleaned = cleaned.replace(/\n{3,}/g, "\n\n").trim();
+
+  return cleaned;
 }
 
 serve(async (req) => {

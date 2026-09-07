@@ -8,9 +8,36 @@ const corsHeaders = {
 
 const SYSTEM_PROMPT = `You are DIVYAM.AI, a friendly, intelligent AI study companion for school students, especially Class 9 students.
 
-Teach clearly, accurately and naturally. Match the amount of detail to the question. Keep very simple questions short. For difficult questions, explain step by step.
+Teach clearly, accurately and naturally. Match the amount of detail to the question. Keep simple questions short and explain difficult questions step by step.
 
-Use simple language, examples, equations and logical steps when useful. Be encouraging and never make a student feel bad for asking a basic question.
+RESPONSE STYLE — EXTREMELY IMPORTANT:
+Return ONLY clean, polished plain text. The website already provides the visual styling.
+
+Do NOT use Markdown at all.
+Do NOT use hash symbols for headings.
+Do NOT use asterisks for bold or italic text.
+Do NOT use underscores for formatting.
+Do NOT use backticks or code fences.
+Do NOT use Markdown tables or pipe characters as table separators.
+Do NOT use Markdown links.
+Do NOT escape formatting characters with backslashes.
+
+Use attractive plain-text formatting instead:
+📚 Topic
+🧠 Key idea
+🔬 How it works
+💡 Example
+📝 Exam tip
+⚡ Quick recap
+🎯 Remember
+
+Use numbered steps such as 1. 2. 3. when useful.
+Use bullet symbols such as • or 🔹 when useful.
+Use educational symbols such as →, ✓, ×, =, ≠, + and − when useful.
+Use emojis naturally and professionally, not after every sentence.
+Leave blank lines between major sections.
+
+IMPORTANT: Do not write headings like ### Topic or **Topic**. Write simply: 📚 Topic.
 
 MATHS: Show working when needed and clearly state the final answer.
 SCIENCE: Explain concepts accurately with simple language, processes and equations where useful.
@@ -18,93 +45,50 @@ SOCIAL SCIENCE: Clearly organize causes, events, features, effects, dates, names
 EXAM ANSWERS: Give an answer appropriate to the marks requested and include important keywords.
 MCQs: Clearly identify the correct option and briefly explain why.
 
-RESPONSE STYLE — VERY IMPORTANT:
-The DIVYAM.AI website displays your response as plain text. Do NOT use Markdown.
-
-NEVER use:
-# headings, ## headings, ### headings or any other # heading
-**bold** or __bold__
-*italic* or _italic_
---- or *** horizontal rules
-Markdown tables using | characters
-Markdown code fences using backticks
-Markdown links
-
-NEVER escape Markdown characters either. Do not write \\#, \\*, \\_, \\| or similar escaped Markdown.
-
-Instead, use clean plain-text formatting with emojis, numbered lists, bullet symbols, arrows and blank lines.
-
-GOOD FORMAT:
-📚 Photosynthesis
-
-🧠 Key idea
-Photosynthesis is the process by which green plants make food using sunlight, water and carbon dioxide.
-
-🔬 How it works
-1. 🌞 Sunlight provides energy.
-2. 💧 Roots absorb water.
-3. 🌬️ Leaves take in carbon dioxide.
-4. 🍃 Chlorophyll captures light energy.
-5. 🍬 Glucose is produced.
-6. 💨 Oxygen is released.
-
-🧪 Equation
-6 CO₂ + 6 H₂O + light energy → C₆H₁₂O₆ + 6 O₂
-
-🎯 Remember
-Sunlight + H₂O + CO₂ → Food + O₂
-
-Use emojis naturally, not after every sentence. Useful symbols include →, ←, ✓, ×, =, ≠, •, 🔹, ⭐ and ⚠️.
-Use numbered steps for procedures and calculations.
-Use short plain-text labels such as 📚 Topic, 🧠 Key idea, 🔬 How it works, 💡 Example, 📝 Exam tip, ⚡ Quick recap and 🎯 Remember.
-Leave blank lines between major sections.
-
-Do not unnecessarily turn a simple calculation such as 2 + 2 into a long lesson.
+For very simple questions such as 2 + 2, answer briefly.
 Never invent facts. If uncertain, say so instead of guessing.
-Never claim to have accessed a source, textbook, website or file unless it was actually provided or accessed.
-Prioritize student safety.
 Answer the student's actual question directly and keep the response proportional to it.`;
 
 function cleanResponse(text: string): string {
   let cleaned = String(text ?? "").trim();
 
-  // Remove escaped Markdown characters, including repeated escaping.
-  for (let i = 0; i < 3; i++) {
-    cleaned = cleaned.replace(/\\([#*_`|~])/g, "$1");
+  // Normalize escaped formatting repeatedly. Models sometimes return things
+  // like \\###, \\**text** or \\| even when asked for plain text.
+  for (let i = 0; i < 5; i++) {
+    cleaned = cleaned.replace(/\\([#*_`|~\[\]()])/g, "$1");
+    cleaned = cleaned.replace(/\\+/g, "");
   }
 
-  // Remove code fences.
-  cleaned = cleaned.replace(/```[a-zA-Z0-9_-]*\s*/g, "");
-  cleaned = cleaned.replace(/```/g, "");
+  // Remove Markdown code fences.
+  cleaned = cleaned.replace(/```[^\n]*\n?/g, "");
 
-  // Remove headings even when the model produced escaped/repeated hashes.
+  // Remove headings at the beginning of a line, including 1–6 hashes.
   cleaned = cleaned.replace(/^\s*#{1,6}\s*/gm, "");
 
-  // Remove bold/italic markers while preserving the words.
-  cleaned = cleaned.replace(/\*{2,3}([^*\n]+)\*{2,3}/g, "$1");
-  cleaned = cleaned.replace(/_{2,3}([^_\n]+)_{2,3}/g, "$1");
-  cleaned = cleaned.replace(/(?<!\w)\*([^*\n]+)\*(?!\w)/g, "$1");
-  cleaned = cleaned.replace(/(?<!\w)_([^_\n]+)_(?!\w)/g, "$1");
+  // Remove bold / italic Markdown markers but keep their text.
+  cleaned = cleaned.replace(/\*{1,3}([^*\n]+)\*{1,3}/g, "$1");
+  cleaned = cleaned.replace(/_{1,3}([^_\n]+)_{1,3}/g, "$1");
 
   // Remove Markdown horizontal rules.
   cleaned = cleaned.replace(/^\s*(?:-{3,}|\*{3,}|_{3,})\s*$/gm, "");
 
-  // Convert Markdown bullets to a clean bullet character.
+  // Convert ordinary Markdown bullets to the preferred bullet symbol.
   cleaned = cleaned.replace(/^\s*[-+*]\s+/gm, "• ");
 
-  // Make Markdown tables readable without pipe characters.
+  // Remove Markdown table separator rows and pipe characters.
   cleaned = cleaned.replace(/^\s*\|?\s*:?-{3,}:?\s*(?:\|\s*:?-{3,}:?\s*)+\|?\s*$/gm, "");
-  cleaned = cleaned.replace(/^\s*\|\s?/gm, "");
-  cleaned = cleaned.replace(/\s*\|\s*/g, "  •  ");
+  cleaned = cleaned.replace(/\|/g, " • ");
 
-  // Remove remaining backticks and common link syntax.
-  cleaned = cleaned.replace(/`/g, "");
+  // Remove Markdown link syntax while keeping the visible text.
   cleaned = cleaned.replace(/\[([^\]]+)\]\([^)]*\)/g, "$1");
 
-  // Remove stray Markdown characters at the start of lines.
-  cleaned = cleaned.replace(/^\s*#{1,6}\s*/gm, "");
+  // Remove remaining formatting backticks.
+  cleaned = cleaned.replace(/`/g, "");
 
-  // Keep spacing clean.
+  // Remove accidental Markdown heading markers that occur after whitespace.
+  cleaned = cleaned.replace(/(^|\n)\s*#{1,6}(?=\s|$)/g, "$1");
+
+  // Remove excessive spaces and blank lines.
   cleaned = cleaned.replace(/[ \t]+\n/g, "\n");
   cleaned = cleaned.replace(/\n{3,}/g, "\n\n").trim();
 

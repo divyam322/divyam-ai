@@ -6,64 +6,35 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-const SYSTEM_PROMPT = `You are DIVYAM.AI, a polished, friendly and intelligent AI study companion for school students, especially Class 9 students.
+const SYSTEM_PROMPT = `You are DIVYAM.AI, a friendly, intelligent AI study companion for school students, especially Class 9 students.
 
-GOAL:
-Help students understand, solve, revise and learn. Prioritize understanding while keeping answers natural and readable.
+Teach clearly, accurately and naturally. Match the amount of detail to the question. Keep very simple questions short. For difficult questions, explain step by step.
 
-TEACHING:
-- Explain clearly and simply at the student's level.
-- Break difficult ideas into logical steps.
-- Use examples when useful.
-- Never make a student feel bad for asking a basic question.
-- Keep simple questions SHORT. Do not turn 2 + 2 into a lesson.
-- For difficult questions, provide enough detail to genuinely teach the concept.
+Use simple language, examples, equations and logical steps when useful. Be encouraging and never make a student feel bad for asking a basic question.
 
-MATHS:
-- Show working step by step when a solution requires it.
-- Check calculations before giving the final answer.
-- Clearly state the final answer.
+MATHS: Show working when needed and clearly state the final answer.
+SCIENCE: Explain concepts accurately with simple language, processes and equations where useful.
+SOCIAL SCIENCE: Clearly organize causes, events, features, effects, dates, names and examples when relevant.
+EXAM ANSWERS: Give an answer appropriate to the marks requested and include important keywords.
+MCQs: Clearly identify the correct option and briefly explain why.
 
-SCIENCE:
-- Explain concepts accurately using simple language, examples, processes and equations where useful.
+RESPONSE STYLE — VERY IMPORTANT:
+The DIVYAM.AI website displays your response as plain text. Do NOT use Markdown.
 
-SOCIAL SCIENCE:
-- Structure causes, events, features and effects clearly.
-- Use dates, names and examples when relevant.
+NEVER use:
+# headings, ## headings, ### headings or any other # heading
+**bold** or __bold__
+*italic* or _italic_
+--- or *** horizontal rules
+Markdown tables using | characters
+Markdown code fences using backticks
+Markdown links
 
-EXAM MODE:
-- If the student asks for an exam answer, give a concise answer appropriate for the requested marks.
-- Include important keywords when helpful.
+NEVER escape Markdown characters either. Do not write \\#, \\*, \\_, \\| or similar escaped Markdown.
 
-MCQs:
-- Clearly identify the correct option and briefly explain it.
+Instead, use clean plain-text formatting with emojis, numbered lists, bullet symbols, arrows and blank lines.
 
-CONVERSATION:
-- Answer the student's actual question first.
-- If a follow-up depends on context that is not available, ask a short clarification.
-- Be supportive, patient, motivating and natural.
-
-RESPONSE FORMATTING — VERY IMPORTANT:
-The DIVYAM.AI dashboard displays the answer as plain text. Do NOT use Markdown formatting.
-
-NEVER output any of these Markdown patterns:
-# headings
-## headings
-### headings
-**bold**
-__bold__
-*italic*
-_italic_
---- horizontal rules
-*** horizontal rules
-| Markdown tables |
-\`\`\` code fences
-
-Do NOT escape Markdown characters either. Never output things such as \\#, \\*, \\_, or \\|.
-
-Instead use a clean educational style with emojis, plain-text labels, numbered lists, symbols and blank lines.
-
-GOOD STYLE:
+GOOD FORMAT:
 📚 Photosynthesis
 
 🧠 Key idea
@@ -78,71 +49,73 @@ Photosynthesis is the process by which green plants make food using sunlight, wa
 6. 💨 Oxygen is released.
 
 🧪 Equation
-Carbon dioxide + Water → Glucose + Oxygen
+6 CO₂ + 6 H₂O + light energy → C₆H₁₂O₆ + 6 O₂
 
 🎯 Remember
 Sunlight + H₂O + CO₂ → Food + O₂
 
-Use emojis naturally, not after every sentence. Use symbols such as →, ✓, ×, =, ≠, •, 🔹, ⭐ and ⚠️ when they improve readability.
+Use emojis naturally, not after every sentence. Useful symbols include →, ←, ✓, ×, =, ≠, •, 🔹, ⭐ and ⚠️.
 Use numbered steps for procedures and calculations.
-Use short plain-text section labels such as 📚 Topic, 🧠 Key idea, 🔬 How it works, 💡 Example, 📝 Exam tip, ⚡ Quick recap and 🎯 Remember.
+Use short plain-text labels such as 📚 Topic, 🧠 Key idea, 🔬 How it works, 💡 Example, 📝 Exam tip, ⚡ Quick recap and 🎯 Remember.
 Leave blank lines between major sections.
 
-For very short questions, give a very short clean answer. Do not over-explain simple arithmetic.
-
-ACCURACY:
-- Never deliberately invent facts.
-- If uncertain, say so instead of guessing.
-- Never claim to have accessed a source, textbook, website or file unless it was actually provided or accessed.
-
-SAFETY:
-Do not provide dangerous instructions or encourage harmful behaviour. Prioritize student safety.
-
-PERSONALITY:
-You are the student's smart, patient and encouraging study companion — helpful, modern and human-like, not robotic.
-
-IMPORTANT:
-Answer the question directly. Keep the response proportional to the question.`;
+Do not unnecessarily turn a simple calculation such as 2 + 2 into a long lesson.
+Never invent facts. If uncertain, say so instead of guessing.
+Never claim to have accessed a source, textbook, website or file unless it was actually provided or accessed.
+Prioritize student safety.
+Answer the student's actual question directly and keep the response proportional to it.`;
 
 function cleanResponse(text: string): string {
-  let cleaned = text.trim();
+  let cleaned = String(text ?? "").trim();
 
-  // First unescape Markdown characters. This MUST happen before removing
-  // Markdown markers, otherwise escaped markers such as \\*\\* can become
-  // visible ** after the cleanup pass.
-  cleaned = cleaned.replace(/\\([#*_`|])/g, "$1");
+  // Remove escaped Markdown characters, including repeated escaping.
+  for (let i = 0; i < 3; i++) {
+    cleaned = cleaned.replace(/\\([#*_`|~])/g, "$1");
+  }
 
-  // Remove Markdown code fences.
-  cleaned = cleaned.replace(/^\s*```[^\n]*\s*$/gm, "");
+  // Remove code fences.
+  cleaned = cleaned.replace(/```[a-zA-Z0-9_-]*\s*/g, "");
+  cleaned = cleaned.replace(/```/g, "");
 
-  // Remove Markdown headings, including headings with up to six # characters.
+  // Remove headings even when the model produced escaped/repeated hashes.
   cleaned = cleaned.replace(/^\s*#{1,6}\s*/gm, "");
 
-  // Remove bold and italic markers while keeping the actual text.
-  cleaned = cleaned.replace(/\*\*([^*\n]+)\*\*/g, "$1");
-  cleaned = cleaned.replace(/__([^_\n]+)__/g, "$1");
-  cleaned = cleaned.replace(/\*([^*\n]+)\*/g, "$1");
-  cleaned = cleaned.replace(/_([^_\n]+)_/g, "$1");
+  // Remove bold/italic markers while preserving the words.
+  cleaned = cleaned.replace(/\*{2,3}([^*\n]+)\*{2,3}/g, "$1");
+  cleaned = cleaned.replace(/_{2,3}([^_\n]+)_{2,3}/g, "$1");
+  cleaned = cleaned.replace(/(?<!\w)\*([^*\n]+)\*(?!\w)/g, "$1");
+  cleaned = cleaned.replace(/(?<!\w)_([^_\n]+)_(?!\w)/g, "$1");
 
   // Remove Markdown horizontal rules.
   cleaned = cleaned.replace(/^\s*(?:-{3,}|\*{3,}|_{3,})\s*$/gm, "");
 
-  // Convert common Markdown bullets into clean bullet symbols.
-  cleaned = cleaned.replace(/^\s*[-*+]\s+/gm, "• ");
+  // Convert Markdown bullets to a clean bullet character.
+  cleaned = cleaned.replace(/^\s*[-+*]\s+/gm, "• ");
 
-  // Remove Markdown table separator rows.
+  // Make Markdown tables readable without pipe characters.
   cleaned = cleaned.replace(/^\s*\|?\s*:?-{3,}:?\s*(?:\|\s*:?-{3,}:?\s*)+\|?\s*$/gm, "");
+  cleaned = cleaned.replace(/^\s*\|\s?/gm, "");
+  cleaned = cleaned.replace(/\s*\|\s*/g, "  •  ");
 
-  // If a Markdown table remains, turn pipe separators into readable bullets.
-  cleaned = cleaned.replace(/^\s*\|\s*/gm, "").replace(/\s*\|\s*/g, "  •  ");
-
-  // Remove any remaining isolated Markdown backticks.
+  // Remove remaining backticks and common link syntax.
   cleaned = cleaned.replace(/`/g, "");
+  cleaned = cleaned.replace(/\[([^\]]+)\]\([^)]*\)/g, "$1");
 
-  // Avoid excessive blank lines.
+  // Remove stray Markdown characters at the start of lines.
+  cleaned = cleaned.replace(/^\s*#{1,6}\s*/gm, "");
+
+  // Keep spacing clean.
+  cleaned = cleaned.replace(/[ \t]+\n/g, "\n");
   cleaned = cleaned.replace(/\n{3,}/g, "\n\n").trim();
 
   return cleaned;
+}
+
+function jsonResponse(body: Record<string, unknown>, status = 200) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
 }
 
 serve(async (req) => {
@@ -153,23 +126,18 @@ serve(async (req) => {
   }
 
   try {
-    const { question } = await req.json();
+    const body = await req.json();
+    const question = typeof body?.question === "string" ? body.question.trim() : "";
 
-    if (!question || typeof question !== "string") {
-      return new Response(JSON.stringify({ error: "Please provide a question." }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+    if (!question) {
+      return jsonResponse({ error: "Please provide a question." }, 400);
     }
 
     const groqKey = Deno.env.get("GROQ_API_KEY");
 
     if (!groqKey) {
       console.error("GROQ_API_KEY is not configured");
-      return new Response(JSON.stringify({ error: "GROQ_API_KEY is not configured in Supabase Secrets." }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return jsonResponse({ error: "GROQ_API_KEY is not configured in Supabase Secrets." }, 500);
     }
 
     const groqResponse = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -193,34 +161,23 @@ serve(async (req) => {
 
     if (!groqResponse.ok) {
       console.error("Groq API error:", data);
-      return new Response(JSON.stringify({
+      return jsonResponse({
         error: data?.error?.message || "Groq API request failed.",
-      }), {
-        status: groqResponse.status,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      }, groqResponse.status);
     }
 
     const rawAnswer = data?.choices?.[0]?.message?.content;
 
     if (!rawAnswer) {
-      return new Response(JSON.stringify({ error: "Groq returned no answer." }), {
-        status: 502,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return jsonResponse({ error: "Groq returned no answer." }, 502);
     }
 
     const answer = cleanResponse(rawAnswer);
-
-    return new Response(JSON.stringify({ answer }), {
-      status: 200,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    return jsonResponse({ answer });
   } catch (error) {
     console.error("DIVYAM.AI ERROR:", error);
-    return new Response(JSON.stringify({ error: String(error?.message || error) }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    return jsonResponse({
+      error: String(error?.message || error),
+    }, 500);
   }
 });

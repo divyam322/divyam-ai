@@ -43,34 +43,33 @@ CONVERSATION:
 - If a follow-up depends on context that is not available, ask a short clarification.
 - Be supportive, patient, motivating and natural.
 
-✨ RESPONSE FORMATTING — VERY IMPORTANT:
-Make responses visually pleasant and modern, like a polished educational AI app.
+RESPONSE STYLE — IMPORTANT:
+DIVYAM.AI is displayed in a simple text-based interface. Make every response look clean, modern and pleasant WITHOUT relying on Markdown rendering.
 
-DO NOT use Markdown heading syntax such as #, ## or ###. Headings containing # look ugly in the DIVYAM.AI interface.
-Instead, create headings naturally using short labels, emojis and line breaks.
+DO NOT use Markdown headings. NEVER begin a line with #, ## or ###.
+DO NOT use Markdown tables.
+DO NOT use Markdown code fences.
+DO NOT use raw Markdown formatting such as **bold**, *italic* or __bold__, because the interface displays those characters literally.
 
-Preferred visual patterns include:
-📚 Topic
+Instead, use plain text with emojis, symbols, spacing and line breaks.
+
+Good section labels:
+📚 Photosynthesis
 🧠 Key idea
-🔹 Point
-✅ Answer
+🔬 How it works
 💡 Example
 📝 Exam tip
 ⚡ Quick recap
 🎯 Remember
+✅ Final answer
 
-Use emojis naturally, not on every sentence. Choose emojis that match the meaning.
-Use symbols such as →, ✓, ×, =, ≠, •, 🔹, ⭐, ⚠️ and ➜ when they improve readability.
-Use bold text for important words or final answers.
+Use emojis naturally and sparingly. Use symbols such as →, ✓, ×, =, ≠, •, 🔹, ⭐, ⚠️ and ➜ when they genuinely improve readability.
 Use numbered steps for procedures and calculations.
-Use bullet points when listing information.
-Use tables only when a comparison genuinely benefits from a table.
-Leave blank lines between major sections so the answer does not look crowded.
+Use bullet points beginning with • or 🔹 when listing information.
+Use CAPITALS sparingly for short labels when emphasis is needed.
+Leave blank lines between major sections.
 
-Do not write literal Markdown heading markers (#, ##, ###) anywhere in the response.
-Do not overuse emojis.
-Do not use emojis as decoration when they make the answer harder to read.
-For very short questions, give a very short, clean response.
+For a simple question, give a simple answer. For a complex question, provide a well-structured explanation.
 
 ACCURACY:
 - Never deliberately invent facts.
@@ -85,6 +84,15 @@ You are the student's smart, patient and encouraging study companion — helpful
 
 IMPORTANT:
 Answer the question directly. Keep the response proportional to the question.`;
+
+// Final safety cleanup so formatting remains clean even if the model accidentally
+// returns Markdown heading markers.
+function cleanResponse(text: string): string {
+  return text
+    .replace(/^\s*#{1,6}\s+/gm, "")
+    .replace(/```[\s\S]*?```/g, (block) => block.replace(/```/g, ""))
+    .trim();
+}
 
 serve(async (req) => {
   console.log("DIVYAM.AI function received a request");
@@ -142,14 +150,16 @@ serve(async (req) => {
       });
     }
 
-    const answer = data?.choices?.[0]?.message?.content;
+    const rawAnswer = data?.choices?.[0]?.message?.content;
 
-    if (!answer) {
+    if (!rawAnswer) {
       return new Response(JSON.stringify({ error: "Groq returned no answer." }), {
         status: 502,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
+
+    const answer = cleanResponse(rawAnswer);
 
     return new Response(JSON.stringify({ answer }), {
       status: 200,

@@ -6,23 +6,22 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-const SYSTEM_PROMPT = `You are DIVYAM.AI, a friendly, intelligent AI study companion for school students, especially Class 9 students.
+const SYSTEM_PROMPT = `You are DIVYAM.AI, a friendly and intelligent AI study companion for school students, especially Class 9 students.
 
 Teach clearly, accurately and naturally. Match the amount of detail to the question. Keep simple questions short and explain difficult questions step by step.
 
-RESPONSE STYLE — EXTREMELY IMPORTANT:
-Return ONLY clean, polished plain text. The website already provides the visual styling.
+OUTPUT FORMAT — VERY IMPORTANT:
+Return clean, polished plain text only.
+The website displays your answer directly, so NEVER use Markdown formatting.
 
-Do NOT use Markdown at all.
-Do NOT use hash symbols for headings.
-Do NOT use asterisks for bold or italic text.
-Do NOT use underscores for formatting.
-Do NOT use backticks or code fences.
-Do NOT use Markdown tables or pipe characters as table separators.
-Do NOT use Markdown links.
-Do NOT escape formatting characters with backslashes.
+NEVER output these characters for formatting: # * _ ` | ~
+NEVER output Markdown headings such as ### Heading.
+NEVER output bold such as **Heading**.
+NEVER output italic such as *text* or _text_.
+NEVER output Markdown tables, Markdown links, code fences, or horizontal rules.
+NEVER escape formatting with backslashes.
 
-Use attractive plain-text formatting instead:
+Instead use attractive plain text:
 📚 Topic
 🧠 Key idea
 🔬 How it works
@@ -31,18 +30,18 @@ Use attractive plain-text formatting instead:
 ⚡ Quick recap
 🎯 Remember
 
-Use numbered steps such as 1. 2. 3. when useful.
-Use bullet symbols such as • or 🔹 when useful.
-Use educational symbols such as →, ✓, ×, =, ≠, + and − when useful.
-Use emojis naturally and professionally, not after every sentence.
-Leave blank lines between major sections.
+Use numbered steps: 1. 2. 3.
+Use bullets: • or 🔹
+Use useful symbols: → ✓ × = ≠ + − ≥ ≤
+Use emojis naturally and professionally.
+Leave a blank line between major sections.
 
-IMPORTANT: Do not write headings like ### Topic or **Topic**. Write simply: 📚 Topic.
+IMPORTANT: A heading must look like “📚 What is Photosynthesis?” and NOT “### What is Photosynthesis?” or “**What is Photosynthesis?**”.
 
 MATHS: Show working when needed and clearly state the final answer.
 SCIENCE: Explain concepts accurately with simple language, processes and equations where useful.
-SOCIAL SCIENCE: Clearly organize causes, events, features, effects, dates, names and examples when relevant.
-EXAM ANSWERS: Give an answer appropriate to the marks requested and include important keywords.
+SOCIAL SCIENCE: Organize causes, events, features, effects, dates, names and examples clearly.
+EXAM ANSWERS: Match the requested marks and include important keywords.
 MCQs: Clearly identify the correct option and briefly explain why.
 
 For very simple questions such as 2 + 2, answer briefly.
@@ -50,49 +49,48 @@ Never invent facts. If uncertain, say so instead of guessing.
 Answer the student's actual question directly and keep the response proportional to it.`;
 
 function cleanResponse(text: string): string {
-  let cleaned = String(text ?? "").trim();
+  let cleaned = String(text ?? "");
 
-  // Normalize escaped formatting repeatedly. Models sometimes return things
-  // like \\###, \\**text** or \\| even when asked for plain text.
-  for (let i = 0; i < 5; i++) {
-    cleaned = cleaned.replace(/\\([#*_`|~\[\]()])/g, "$1");
-    cleaned = cleaned.replace(/\\+/g, "");
-  }
+  // Remove escaped Markdown characters and stray backslashes.
+  cleaned = cleaned.replace(/\\([#*_`|~\[\]()])/g, "$1");
+  cleaned = cleaned.replace(/\\/g, "");
 
   // Remove Markdown code fences.
-  cleaned = cleaned.replace(/```[^\n]*\n?/g, "");
+  cleaned = cleaned.replace(/```[\s\S]*?```/g, (block) => block.replace(/```/g, ""));
+  cleaned = cleaned.replace(/```/g, "");
 
-  // Remove headings at the beginning of a line, including 1–6 hashes.
-  cleaned = cleaned.replace(/^\s*#{1,6}\s*/gm, "");
+  // Remove ALL Markdown heading markers, even when the model puts them
+  // after spaces or accidentally uses them in the middle of a response.
+  cleaned = cleaned.replace(/(^|\n)\s*#{1,6}\s*/g, "$1");
+  cleaned = cleaned.replace(/\s#{1,6}\s+/g, " ");
 
-  // Remove bold / italic Markdown markers but keep their text.
-  cleaned = cleaned.replace(/\*{1,3}([^*\n]+)\*{1,3}/g, "$1");
-  cleaned = cleaned.replace(/_{1,3}([^_\n]+)_{1,3}/g, "$1");
+  // Remove ALL bold/italic markers while preserving the words.
+  cleaned = cleaned.replace(/\*{1,3}/g, "");
+  cleaned = cleaned.replace(/_{1,3}/g, "");
 
   // Remove Markdown horizontal rules.
   cleaned = cleaned.replace(/^\s*(?:-{3,}|\*{3,}|_{3,})\s*$/gm, "");
 
-  // Convert ordinary Markdown bullets to the preferred bullet symbol.
+  // Convert Markdown bullets to clean bullets.
   cleaned = cleaned.replace(/^\s*[-+*]\s+/gm, "• ");
 
-  // Remove Markdown table separator rows and pipe characters.
-  cleaned = cleaned.replace(/^\s*\|?\s*:?-{3,}:?\s*(?:\|\s*:?-{3,}:?\s*)+\|?\s*$/gm, "");
-  cleaned = cleaned.replace(/\|/g, " • ");
+  // Remove Markdown table separators and table pipes.
+  cleaned = cleaned.replace(/^\s*\|?\s*:?-{2,}:?\s*(?:\|\s*:?-{2,}:?\s*)+\|?\s*$/gm, "");
+  cleaned = cleaned.replace(/\|/g, "  •  ");
 
-  // Remove Markdown link syntax while keeping the visible text.
+  // Remove Markdown link syntax, keeping visible text.
   cleaned = cleaned.replace(/\[([^\]]+)\]\([^)]*\)/g, "$1");
 
-  // Remove remaining formatting backticks.
-  cleaned = cleaned.replace(/`/g, "");
+  // Remove remaining backticks and tildes used as formatting.
+  cleaned = cleaned.replace(/[`~]/g, "");
 
-  // Remove accidental Markdown heading markers that occur after whitespace.
-  cleaned = cleaned.replace(/(^|\n)\s*#{1,6}(?=\s|$)/g, "$1");
+  // Clean up formatting artifacts created by the transformations.
+  cleaned = cleaned.replace(/^[ \t]+/gm, "");
+  cleaned = cleaned.replace(/[ \t]+$/gm, "");
+  cleaned = cleaned.replace(/ {2,}/g, " ");
+  cleaned = cleaned.replace(/\n{3,}/g, "\n\n");
 
-  // Remove excessive spaces and blank lines.
-  cleaned = cleaned.replace(/[ \t]+\n/g, "\n");
-  cleaned = cleaned.replace(/\n{3,}/g, "\n\n").trim();
-
-  return cleaned;
+  return cleaned.trim();
 }
 
 function jsonResponse(body: Record<string, unknown>, status = 200) {

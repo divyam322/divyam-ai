@@ -823,254 +823,108 @@ async function logout(){
 ========================= */
 
 function cleanAIResponse(text){
-
-  if(typeof text !== "string"){
-    return "";
-  }
+  if(typeof text !== "string") return "";
 
   let cleaned = text;
 
+  // Remove code fences
+  cleaned = cleaned.replace(/```[\s\S]*?```/g, match => {
+    return match
+      .replace(/^```[a-zA-Z0-9_-]*\s*/i, "")
+      .replace(/```\s*$/i, "");
+  });
 
-  /* Remove code fences */
+  // Remove inline code markers
+  cleaned = cleaned.replace(/`([^`]+)`/g, "$1");
 
+  // Remove LaTeX display wrappers
+  cleaned = cleaned.replace(/\\\[([\s\S]*?)\\\]/g, "$1");
+  cleaned = cleaned.replace(/\\\(([\s\S]*?)\\\)/g, "$1");
+
+  // Remove dollar-based math wrappers
+  cleaned = cleaned.replace(/\$\$([\s\S]*?)\$\$/g, "$1");
+  cleaned = cleaned.replace(/(?<!\$)\$([^$\n]+)\$(?!\$)/g, "$1");
+
+  // Convert common LaTeX commands to normal Unicode
+  cleaned = cleaned.replace(/\\longrightarrow/g, "→");
+  cleaned = cleaned.replace(/\\rightarrow/g, "→");
+  cleaned = cleaned.replace(/\\Rightarrow/g, "⇒");
+  cleaned = cleaned.replace(/\\leftarrow/g, "←");
+  cleaned = cleaned.replace(/\\Leftarrow/g, "⇐");
+  cleaned = cleaned.replace(/\\leftrightarrow/g, "↔");
+  cleaned = cleaned.replace(/\\times/g, "×");
+  cleaned = cleaned.replace(/\\cdot/g, "·");
+  cleaned = cleaned.replace(/\\div/g, "÷");
+  cleaned = cleaned.replace(/\\pm/g, "±");
+  cleaned = cleaned.replace(/\\leq/g, "≤");
+  cleaned = cleaned.replace(/\\geq/g, "≥");
+  cleaned = cleaned.replace(/\\neq/g, "≠");
+  cleaned = cleaned.replace(/\\approx/g, "≈");
+  cleaned = cleaned.replace(/\\infty/g, "∞");
+  cleaned = cleaned.replace(/\\sqrt\{([^{}]+)\}/g, "√($1)");
+
+  // Convert \text{something} → something
+  cleaned = cleaned.replace(/\\text\{([^{}]*)\}/g, "$1");
+
+  // Convert simple LaTeX fractions
   cleaned = cleaned.replace(
-    /```[\s\S]*?```/g,
-    function(match){
-
-      return match
-        .replace(/```[a-zA-Z0-9_-]*/g,"")
-        .replace(/```/g,"");
-
-    }
+    /\\frac\{([^{}]+)\}\{([^{}]+)\}/g,
+    "($1/$2)"
   );
 
+  // Remove remaining common LaTeX formatting commands
+  cleaned = cleaned.replace(/\\mathrm\{([^{}]*)\}/g, "$1");
+  cleaned = cleaned.replace(/\\mathbf\{([^{}]*)\}/g, "$1");
+  cleaned = cleaned.replace(/\\mathit\{([^{}]*)\}/g, "$1");
+  cleaned = cleaned.replace(/\\left/g, "");
+  cleaned = cleaned.replace(/\\right/g, "");
 
-  /* Remove standalone backticks */
+  // Remove LaTeX spacing commands
+  cleaned = cleaned.replace(/\\[,;:!]/g, " ");
 
-  cleaned = cleaned.replace(/`/g,"");
+  // Convert common LaTeX escaped symbols
+  cleaned = cleaned.replace(/\\%/g, "%");
+  cleaned = cleaned.replace(/\\#/g, "#");
+  cleaned = cleaned.replace(/\\&/g, "&");
+  cleaned = cleaned.replace(/\\_/g, "_");
 
+  // Remove remaining LaTeX backslashes from simple commands
+  cleaned = cleaned.replace(/\\([a-zA-Z]+)\b/g, "$1");
 
-  /* Remove escaped Markdown */
+  // Convert Markdown headings into clean text
+  cleaned = cleaned.replace(/^\s{0,3}#{1,6}\s+/gm, "");
 
-  cleaned = cleaned.replace(/\\#/g,"#");
-  cleaned = cleaned.replace(/\\\*/g,"*");
-  cleaned = cleaned.replace(/\\_/g,"_");
-  cleaned = cleaned.replace(/\\~/g,"~");
+  // Remove Markdown block quotes
+  cleaned = cleaned.replace(/^\s{0,3}>\s?/gm, "");
 
+  // Remove bold Markdown
+  cleaned = cleaned.replace(/\*\*(.*?)\*\*/gs, "$1");
 
-  /* Remove Markdown headings */
+  // Remove underline-style bold
+  cleaned = cleaned.replace(/__(.*?)__/gs, "$1");
 
-  cleaned = cleaned.replace(
-    /^\s*#{1,6}\s*/gm,
-    ""
-  );
+  // Remove italic Markdown
+  cleaned = cleaned.replace(/(?<!\*)\*([^*\n]+)\*(?!\*)/g, "$1");
 
+  // Remove underscore italics
+  cleaned = cleaned.replace(/(?<!_)_([^_\n]+)_(?!_)/g, "$1");
 
-  /* Remove escaped Markdown headings */
+  // Convert Markdown bullets to clean bullets
+  cleaned = cleaned.replace(/^\s*[-*+]\s+/gm, "• ");
 
-  cleaned = cleaned.replace(
-    /^\s*\\#{1,6}\s*/gm,
-    ""
-  );
+  // Clean excessive separators
+  cleaned = cleaned.replace(/^\s*[-_=]{3,}\s*$/gm, "");
 
+  // Remove excessive blank lines
+  cleaned = cleaned.replace(/\n{3,}/g, "\n\n");
 
-  /* Remove bold */
+  // Clean spaces around arrows
+  cleaned = cleaned.replace(/\s+→\s+/g, " → ");
 
-  cleaned = cleaned.replace(
-    /\*\*([\s\S]*?)\*\*/g,
-    "$1"
-  );
+  // Clean spaces before punctuation
+  cleaned = cleaned.replace(/\s+([,.;!?])/g, "$1");
 
-
-  /* Remove escaped bold */
-
-  cleaned = cleaned.replace(
-    /\\\*\\\*([\s\S]*?)\\\*\\\*/g,
-    "$1"
-  );
-
-
-  /* Remove italic */
-
-  cleaned = cleaned.replace(
-    /(?<!\*)\*([^*\n]+)\*(?!\*)/g,
-    "$1"
-  );
-
-
-  /* Remove underscores used as formatting */
-
-  cleaned = cleaned.replace(
-    /__([\s\S]*?)__/g,
-    "$1"
-  );
-
-  cleaned = cleaned.replace(
-    /(?<!_)_([^_\n]+)_(?!_)/g,
-    "$1"
-  );
-
-
-  /* Remove block quotes */
-
-  cleaned = cleaned.replace(
-    /^\s*>\s?/gm,
-    ""
-  );
-
-
-  /* Remove horizontal rules */
-
-  cleaned = cleaned.replace(
-    /^\s*(---+|\*\*\*+|___+)\s*$/gm,
-    ""
-  );
-
-
-  /* Convert Markdown bullets to clean bullets */
-
-  cleaned = cleaned.replace(
-    /^\s*[-*+]\s+/gm,
-    "• "
-  );
-
-
-  /* Remove Markdown table pipes */
-
-  cleaned = cleaned.replace(
-    /^\s*\|/gm,
-    ""
-  );
-
-  cleaned = cleaned.replace(
-    /\|\s*$/gm,
-    ""
-  );
-
-  cleaned = cleaned.replace(
-    /\s*\|\s*/g,
-    "   •   "
-  );
-
-
-  /* Remove Markdown table separator rows */
-
-  cleaned = cleaned.replace(
-    /^\s*:?-+:?\s*(?:•\s*:?-+:?\s*)+$/gm,
-    ""
-  );
-
-
-  /* Remove LaTeX delimiters */
-
-  cleaned = cleaned.replace(/\\\[/g,"");
-  cleaned = cleaned.replace(/\\\]/g,"");
-  cleaned = cleaned.replace(/\\\(/g,"");
-  cleaned = cleaned.replace(/\\\)/g,"");
-
-
-  /* Remove common LaTeX commands */
-
-  cleaned = cleaned.replace(
-    /\\text\{([^{}]*)\}/g,
-    "$1"
-  );
-
-  cleaned = cleaned.replace(
-    /\\mathrm\{([^{}]*)\}/g,
-    "$1"
-  );
-
-  cleaned = cleaned.replace(
-    /\\mathbf\{([^{}]*)\}/g,
-    "$1"
-  );
-
-
-  /* Convert common LaTeX symbols */
-
-  cleaned = cleaned.replace(
-    /\\times/g,
-    "×"
-  );
-
-  cleaned = cleaned.replace(
-    /\\div/g,
-    "÷"
-  );
-
-  cleaned = cleaned.replace(
-    /\\rightarrow/g,
-    "→"
-  );
-
-  cleaned = cleaned.replace(
-    /\\longrightarrow/g,
-    "→"
-  );
-
-  cleaned = cleaned.replace(
-    /\\approx/g,
-    "≈"
-  );
-
-  cleaned = cleaned.replace(
-    /\\leq/g,
-    "≤"
-  );
-
-  cleaned = cleaned.replace(
-    /\\geq/g,
-    "≥"
-  );
-
-
-  /* Remove remaining LaTeX commands */
-
-  cleaned = cleaned.replace(
-    /\\[a-zA-Z]+\s*/g,
-    ""
-  );
-
-
-  /* Remove LaTeX braces */
-
-  cleaned = cleaned.replace(
-    /[{}]/g,
-    ""
-  );
-
-
-  /* Remove dollar math delimiters */
-
-  cleaned = cleaned.replace(
-    /\$/g,
-    ""
-  );
-
-
-  /* Clean repeated spaces */
-
-  cleaned = cleaned.replace(
-    /[ \t]{2,}/g,
-    " "
-  );
-
-
-  /* Keep paragraphs readable */
-
-  cleaned = cleaned.replace(
-    /\n{3,}/g,
-    "\n\n"
-  );
-
-
-  /* Remove blank space around beginning/end */
-
-  cleaned = cleaned.trim();
-
-
-  return cleaned;
+  return cleaned.trim();
 }
 
 

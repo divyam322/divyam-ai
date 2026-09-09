@@ -1,15 +1,14 @@
+````html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>DIVYAM.AI — Dashboard</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
 *{
   margin:0;
   padding:0;
@@ -300,7 +299,7 @@ nav{
   color:#dbeafe;
   line-height:1.75;
   white-space:pre-wrap;
-  font-size:15px
+  word-wrap:break-word
 }
 
 .answer-box.show{
@@ -355,6 +354,30 @@ nav{
   transition:.3s;
   cursor:pointer;
   overflow:hidden
+}
+
+.tool:before{
+  content:"";
+  position:absolute;
+  width:130px;
+  height:130px;
+  border-radius:50%;
+  filter:blur(70px);
+  opacity:.14;
+  top:-70px;
+  right:-50px
+}
+
+.tool:nth-child(1):before{
+  background:#3b82f6
+}
+
+.tool:nth-child(2):before{
+  background:#8b5cf6
+}
+
+.tool:nth-child(3):before{
+  background:#06b6d4
 }
 
 .tool:hover{
@@ -486,20 +509,17 @@ footer{
     grid-template-columns:1fr
   }
 }
-
 </style>
 </head>
 
 <body>
 
 <nav>
-
   <div class="logo">
     DIVYAM<span>.AI</span>
   </div>
 
   <div class="nav-right">
-
     <div class="user-name" id="userName">
       Loading...
     </div>
@@ -507,11 +527,8 @@ footer{
     <button class="logout" onclick="logout()">
       Log Out
     </button>
-
   </div>
-
 </nav>
-
 
 <main class="dashboard">
 
@@ -738,13 +755,10 @@ footer{
 
 
 <footer>
-
   © 2026 DIVYAM.AI
-
-  <br><br>
-
+  <br>
+  <br>
   Your AI-powered study companion.
-
 </footer>
 
 
@@ -763,9 +777,9 @@ const supabaseClient =
   );
 
 
-/* =========================
+/* ================================
    USER
-========================= */
+================================ */
 
 async function checkUser(){
 
@@ -805,132 +819,619 @@ async function checkUser(){
 }
 
 
-/* =========================
+/* ================================
    LOGOUT
-========================= */
+================================ */
 
 async function logout(){
 
   await supabaseClient.auth.signOut();
 
-  window.location.href =
-    "auth.html";
+  window.location.href = "auth.html";
 }
 
 
-/* =========================
-   AI RESPONSE CLEANER
-========================= */
+/* ================================
+   CLEAN AI RESPONSE
+================================ */
 
 function cleanAIResponse(text){
-  if(typeof text !== "string") return "";
+
+  if(typeof text !== "string"){
+    return "";
+  }
 
   let cleaned = text;
 
-  // Remove code fences
-  cleaned = cleaned.replace(/```[\s\S]*?```/g, match => {
-    return match
-      .replace(/^```[a-zA-Z0-9_-]*\s*/i, "")
-      .replace(/```\s*$/i, "");
-  });
 
-  // Remove inline code markers
-  cleaned = cleaned.replace(/`([^`]+)`/g, "$1");
+  /* --------------------------------
+     CODE BLOCKS
+  -------------------------------- */
 
-  // Remove LaTeX display wrappers
-  cleaned = cleaned.replace(/\\\[([\s\S]*?)\\\]/g, "$1");
-  cleaned = cleaned.replace(/\\\(([\s\S]*?)\\\)/g, "$1");
+  cleaned = cleaned.replace(
+    /```[\s\S]*?```/g,
+    match => {
 
-  // Remove dollar-based math wrappers
-  cleaned = cleaned.replace(/\$\$([\s\S]*?)\$\$/g, "$1");
-  cleaned = cleaned.replace(/(?<!\$)\$([^$\n]+)\$(?!\$)/g, "$1");
+      return match
+        .replace(
+          /^```[a-zA-Z0-9_-]*\s*/i,
+          ""
+        )
+        .replace(
+          /```\s*$/i,
+          ""
+        );
+    }
+  );
 
-  // Convert common LaTeX commands to normal Unicode
-  cleaned = cleaned.replace(/\\longrightarrow/g, "→");
-  cleaned = cleaned.replace(/\\rightarrow/g, "→");
-  cleaned = cleaned.replace(/\\Rightarrow/g, "⇒");
-  cleaned = cleaned.replace(/\\leftarrow/g, "←");
-  cleaned = cleaned.replace(/\\Leftarrow/g, "⇐");
-  cleaned = cleaned.replace(/\\leftrightarrow/g, "↔");
-  cleaned = cleaned.replace(/\\times/g, "×");
-  cleaned = cleaned.replace(/\\cdot/g, "·");
-  cleaned = cleaned.replace(/\\div/g, "÷");
-  cleaned = cleaned.replace(/\\pm/g, "±");
-  cleaned = cleaned.replace(/\\leq/g, "≤");
-  cleaned = cleaned.replace(/\\geq/g, "≥");
-  cleaned = cleaned.replace(/\\neq/g, "≠");
-  cleaned = cleaned.replace(/\\approx/g, "≈");
-  cleaned = cleaned.replace(/\\infty/g, "∞");
-  cleaned = cleaned.replace(/\\sqrt\{([^{}]+)\}/g, "√($1)");
 
-  // Convert \text{something} → something
-  cleaned = cleaned.replace(/\\text\{([^{}]*)\}/g, "$1");
+  /* --------------------------------
+     INLINE CODE
+  -------------------------------- */
 
-  // Convert simple LaTeX fractions
+  cleaned = cleaned.replace(
+    /`([^`]+)`/g,
+    "$1"
+  );
+
+
+  /* --------------------------------
+     LATEX WRAPPERS
+  -------------------------------- */
+
+  cleaned = cleaned.replace(
+    /\\\[([\s\S]*?)\\\]/g,
+    "$1"
+  );
+
+  cleaned = cleaned.replace(
+    /\\\(([\s\S]*?)\\\)/g,
+    "$1"
+  );
+
+  cleaned = cleaned.replace(
+    /\$\$([\s\S]*?)\$\$/g,
+    "$1"
+  );
+
+  cleaned = cleaned.replace(
+    /(?<!\$)\$([^$\n]+)\$(?!\$)/g,
+    "$1"
+  );
+
+
+  /* --------------------------------
+     LATEX SYMBOLS
+  -------------------------------- */
+
+  cleaned = cleaned.replace(
+    /\\longrightarrow/g,
+    "→"
+  );
+
+  cleaned = cleaned.replace(
+    /\\rightarrow/g,
+    "→"
+  );
+
+  cleaned = cleaned.replace(
+    /\\to\b/g,
+    "→"
+  );
+
+  cleaned = cleaned.replace(
+    /\\Rightarrow/g,
+    "⇒"
+  );
+
+  cleaned = cleaned.replace(
+    /\\leftarrow/g,
+    "←"
+  );
+
+  cleaned = cleaned.replace(
+    /\\Leftarrow/g,
+    "⇐"
+  );
+
+  cleaned = cleaned.replace(
+    /\\leftrightarrow/g,
+    "↔"
+  );
+
+  cleaned = cleaned.replace(
+    /\\times/g,
+    "×"
+  );
+
+  cleaned = cleaned.replace(
+    /\\cdot/g,
+    "·"
+  );
+
+  cleaned = cleaned.replace(
+    /\\div/g,
+    "÷"
+  );
+
+  cleaned = cleaned.replace(
+    /\\pm/g,
+    "±"
+  );
+
+  cleaned = cleaned.replace(
+    /\\leq/g,
+    "≤"
+  );
+
+  cleaned = cleaned.replace(
+    /\\geq/g,
+    "≥"
+  );
+
+  cleaned = cleaned.replace(
+    /\\neq/g,
+    "≠"
+  );
+
+  cleaned = cleaned.replace(
+    /\\approx/g,
+    "≈"
+  );
+
+  cleaned = cleaned.replace(
+    /\\infty/g,
+    "∞"
+  );
+
+
+  /* --------------------------------
+     SQRT
+  -------------------------------- */
+
+  cleaned = cleaned.replace(
+    /\\sqrt\{([^{}]+)\}/g,
+    "√($1)"
+  );
+
+
+  /* --------------------------------
+     FRACTIONS
+  -------------------------------- */
+
   cleaned = cleaned.replace(
     /\\frac\{([^{}]+)\}\{([^{}]+)\}/g,
     "($1/$2)"
   );
 
-  // Remove remaining common LaTeX formatting commands
-  cleaned = cleaned.replace(/\\mathrm\{([^{}]*)\}/g, "$1");
-  cleaned = cleaned.replace(/\\mathbf\{([^{}]*)\}/g, "$1");
-  cleaned = cleaned.replace(/\\mathit\{([^{}]*)\}/g, "$1");
-  cleaned = cleaned.replace(/\\left/g, "");
-  cleaned = cleaned.replace(/\\right/g, "");
 
-  // Remove LaTeX spacing commands
-  cleaned = cleaned.replace(/\\[,;:!]/g, " ");
+  /* --------------------------------
+     LATEX TEXT
+  -------------------------------- */
 
-  // Convert common LaTeX escaped symbols
-  cleaned = cleaned.replace(/\\%/g, "%");
-  cleaned = cleaned.replace(/\\#/g, "#");
-  cleaned = cleaned.replace(/\\&/g, "&");
-  cleaned = cleaned.replace(/\\_/g, "_");
+  cleaned = cleaned.replace(
+    /\\text\{([^{}]*)\}/g,
+    "$1"
+  );
 
-  // Remove remaining LaTeX backslashes from simple commands
-  cleaned = cleaned.replace(/\\([a-zA-Z]+)\b/g, "$1");
+  cleaned = cleaned.replace(
+    /\\mathrm\{([^{}]*)\}/g,
+    "$1"
+  );
 
-  // Convert Markdown headings into clean text
-  cleaned = cleaned.replace(/^\s{0,3}#{1,6}\s+/gm, "");
+  cleaned = cleaned.replace(
+    /\\mathbf\{([^{}]*)\}/g,
+    "$1"
+  );
 
-  // Remove Markdown block quotes
-  cleaned = cleaned.replace(/^\s{0,3}>\s?/gm, "");
+  cleaned = cleaned.replace(
+    /\\mathit\{([^{}]*)\}/g,
+    "$1"
+  );
 
-  // Remove bold Markdown
-  cleaned = cleaned.replace(/\*\*(.*?)\*\*/gs, "$1");
 
-  // Remove underline-style bold
-  cleaned = cleaned.replace(/__(.*?)__/gs, "$1");
+  /* --------------------------------
+     LATEX BRACKETS
+  -------------------------------- */
 
-  // Remove italic Markdown
-  cleaned = cleaned.replace(/(?<!\*)\*([^*\n]+)\*(?!\*)/g, "$1");
+  cleaned = cleaned.replace(
+    /\\left/g,
+    ""
+  );
 
-  // Remove underscore italics
-  cleaned = cleaned.replace(/(?<!_)_([^_\n]+)_(?!_)/g, "$1");
+  cleaned = cleaned.replace(
+    /\\right/g,
+    ""
+  );
 
-  // Convert Markdown bullets to clean bullets
-  cleaned = cleaned.replace(/^\s*[-*+]\s+/gm, "• ");
 
-  // Clean excessive separators
-  cleaned = cleaned.replace(/^\s*[-_=]{3,}\s*$/gm, "");
+  /* --------------------------------
+     LATEX SPACING
+  -------------------------------- */
 
-  // Remove excessive blank lines
-  cleaned = cleaned.replace(/\n{3,}/g, "\n\n");
+  cleaned = cleaned.replace(
+    /\\[,;:!]/g,
+    " "
+  );
 
-  // Clean spaces around arrows
-  cleaned = cleaned.replace(/\s+→\s+/g, " → ");
 
-  // Clean spaces before punctuation
-  cleaned = cleaned.replace(/\s+([,.;!?])/g, "$1");
+  /* --------------------------------
+     COMMON LATEX ESCAPES
+  -------------------------------- */
 
-  return cleaned.trim();
+  cleaned = cleaned.replace(
+    /\\%/g,
+    "%"
+  );
+
+  cleaned = cleaned.replace(
+    /\\#/g,
+    "#"
+  );
+
+  cleaned = cleaned.replace(
+    /\\&/g,
+    "&"
+  );
+
+  cleaned = cleaned.replace(
+    /\\_/g,
+    "_"
+  );
+
+
+  /* --------------------------------
+     REMAINING LATEX COMMANDS
+  -------------------------------- */
+
+  cleaned = cleaned.replace(
+    /\\([a-zA-Z]+)\b/g,
+    "$1"
+  );
+
+
+  /* --------------------------------
+     MARKDOWN HEADINGS
+  -------------------------------- */
+
+  cleaned = cleaned.replace(
+    /^\s{0,3}#{1,6}\s+/gm,
+    ""
+  );
+
+
+  /* --------------------------------
+     MARKDOWN QUOTES
+  -------------------------------- */
+
+  cleaned = cleaned.replace(
+    /^\s{0,3}>\s?/gm,
+    ""
+  );
+
+
+  /* --------------------------------
+     BOLD
+  -------------------------------- */
+
+  cleaned = cleaned.replace(
+    /\*\*(.*?)\*\*/gs,
+    "$1"
+  );
+
+  cleaned = cleaned.replace(
+    /__(.*?)__/gs,
+    "$1"
+  );
+
+
+  /* --------------------------------
+     ITALICS
+  -------------------------------- */
+
+  cleaned = cleaned.replace(
+    /(?<!\*)\*([^*\n]+)\*(?!\*)/g,
+    "$1"
+  );
+
+  cleaned = cleaned.replace(
+    /(?<!_)_([^_\n]+)_(?!_)/g,
+    "$1"
+  );
+
+
+  /* =================================
+     MARKDOWN TABLE CONVERSION
+  ================================= */
+
+  const lines =
+    cleaned.split("\n");
+
+  const output = [];
+
+  let tableRows = [];
+  let insideTable = false;
+
+
+  function isTableRow(line){
+
+    const trimmed =
+      line.trim();
+
+    return (
+      trimmed.includes("|") &&
+      trimmed.split("|").length >= 3
+    );
+  }
+
+
+  function isSeparatorRow(line){
+
+    const cells =
+      line
+        .trim()
+        .replace(/^\|/,"")
+        .replace(/\|$/,"")
+        .split("|");
+
+    if(cells.length < 2){
+      return false;
+    }
+
+    return cells.every(
+      cell =>
+        /^:?-{3,}:?$/.test(
+          cell.trim()
+        )
+    );
+  }
+
+
+  function parseTableRow(line){
+
+    return line
+      .trim()
+      .replace(/^\|/,"")
+      .replace(/\|$/,"")
+      .split("|")
+      .map(cell =>
+        cell
+          .trim()
+          .replace(/\*\*/g,"")
+          .replace(/__/g,"")
+      );
+  }
+
+
+  function convertTable(rows){
+
+    if(rows.length < 2){
+      return rows;
+    }
+
+    const header =
+      rows[0];
+
+    const dataRows =
+      rows.slice(1);
+
+    const converted = [];
+
+
+    dataRows.forEach(row => {
+
+      if(!row.some(Boolean)){
+        return;
+      }
+
+      if(header.length === row.length){
+
+        const title =
+          row[0] ||
+          "Item";
+
+        converted.push(
+          `\n${title}`
+        );
+
+        for(
+          let i = 1;
+          i < header.length;
+          i++
+        ){
+
+          if(
+            header[i] &&
+            row[i]
+          ){
+
+            converted.push(
+              `• ${header[i]}: ${row[i]}`
+            );
+          }
+        }
+
+      }else{
+
+        converted.push(
+          "• " +
+          row.filter(Boolean).join(" — ")
+        );
+      }
+    });
+
+    return converted;
+  }
+
+
+  function flushTable(){
+
+    if(
+      tableRows.length === 0
+    ){
+      return;
+    }
+
+    const converted =
+      convertTable(tableRows);
+
+    converted.forEach(
+      line => output.push(line)
+    );
+
+    tableRows = [];
+    insideTable = false;
+  }
+
+
+  for(
+    let i = 0;
+    i < lines.length;
+    i++
+  ){
+
+    const line =
+      lines[i];
+
+    const trimmed =
+      line.trim();
+
+
+    if(isTableRow(line)){
+
+      if(isSeparatorRow(line)){
+
+        insideTable = true;
+        continue;
+      }
+
+      tableRows.push(
+        parseTableRow(line)
+      );
+
+      insideTable = true;
+      continue;
+    }
+
+
+    if(insideTable){
+
+      flushTable();
+    }
+
+
+    output.push(line);
+  }
+
+
+  flushTable();
+
+  cleaned =
+    output.join("\n");
+
+
+  /* --------------------------------
+     MARKDOWN BULLETS
+  -------------------------------- */
+
+  cleaned = cleaned.replace(
+    /^\s*[-*+]\s+/gm,
+    "• "
+  );
+
+
+  /* --------------------------------
+     NUMBERED LISTS
+  -------------------------------- */
+
+  cleaned = cleaned.replace(
+    /^\s*(\d+)\.\s+/gm,
+    "$1. "
+  );
+
+
+  /* --------------------------------
+     TABLE SEPARATORS
+  -------------------------------- */
+
+  cleaned = cleaned.replace(
+    /^\s*\|?\s*:?-{3,}:?\s*(?:\|\s*:?-{3,}:?\s*)+\|?\s*$/gm,
+    ""
+  );
+
+
+  /* --------------------------------
+     LEFTOVER TABLE PIPES
+  -------------------------------- */
+
+  cleaned = cleaned.replace(
+    /^\s*\|+\s*$/gm,
+    ""
+  );
+
+
+  /* --------------------------------
+     HORIZONTAL RULES
+  -------------------------------- */
+
+  cleaned = cleaned.replace(
+    /^\s*[-_=]{3,}\s*$/gm,
+    ""
+  );
+
+
+  /* --------------------------------
+     CLEAN SPACING
+  -------------------------------- */
+
+  cleaned = cleaned.replace(
+    /\n{3,}/g,
+    "\n\n"
+  );
+
+  cleaned = cleaned.replace(
+    /[ \t]{2,}/g,
+    " "
+  );
+
+
+  /* --------------------------------
+     ARROW SPACING
+  -------------------------------- */
+
+  cleaned = cleaned.replace(
+    /\s+→\s+/g,
+    " → "
+  );
+
+
+  /* --------------------------------
+     PUNCTUATION SPACING
+  -------------------------------- */
+
+  cleaned = cleaned.replace(
+    /\s+([,.;!?])/g,
+    "$1"
+  );
+
+
+  /* --------------------------------
+     FINAL CLEANUP
+  -------------------------------- */
+
+  cleaned = cleaned
+    .replace(/\n +/g,"\n")
+    .replace(/ +\n/g,"\n")
+    .trim();
+
+
+  return cleaned;
 }
 
 
-/* =========================
-   SHOW ANSWER
-========================= */
+/* ================================
+   DISPLAY ANSWER
+================================ */
 
 function showAnswer(
   title,
@@ -966,17 +1467,10 @@ function showAnswer(
     title;
 
 
-  if(isError){
-
-    textEl.textContent =
-      text;
-
-  }else{
-
-    textEl.textContent =
-      cleanAIResponse(text);
-
-  }
+  textEl.textContent =
+    isError
+      ? text
+      : cleanAIResponse(text);
 
 
   box.scrollIntoView({
@@ -986,9 +1480,9 @@ function showAnswer(
 }
 
 
-/* =========================
+/* ================================
    ASK AI
-========================= */
+================================ */
 
 async function askAI(){
 
@@ -1029,47 +1523,38 @@ async function askAI(){
 
   try{
 
-    /* Make sure user is logged in */
-
     const {
-      data:sessionData,
-      error:sessionError
+      data:sessionData
     } =
-      await supabaseClient.auth.getSession();
+      await supabaseClient
+        .auth
+        .getSession();
 
 
-    if(sessionError){
-
-      throw new Error(
-        sessionError.message
-      );
-
-    }
-
-
-    if(!sessionData.session){
+    if(
+      !sessionData.session
+    ){
 
       throw new Error(
         "You are not signed in. Please log in again."
       );
-
     }
 
-
-    /* Call Supabase Edge Function */
 
     const {
       data,
       error
     } =
-      await supabaseClient.functions.invoke(
-        "ask-ai",
-        {
-          body:{
-            question:question
+      await supabaseClient
+        .functions
+        .invoke(
+          "ask-ai",
+          {
+            body:{
+              question
+            }
           }
-        }
-      );
+        );
 
 
     if(error){
@@ -1078,42 +1563,28 @@ async function askAI(){
         error.message ||
         "AI request failed.";
 
-
       if(data?.error){
 
         message =
           data.error;
-
       }
-
 
       throw new Error(
         message
       );
-
     }
 
 
-    if(!data){
+    if(
+      !data?.answer
+    ){
 
       throw new Error(
-        "The AI returned no data."
-      );
-
-    }
-
-
-    if(!data.answer){
-
-      throw new Error(
-        data.error ||
+        data?.error ||
         "The AI returned no answer."
       );
-
     }
 
-
-    /* Display cleaned answer */
 
     showAnswer(
       "DIVYAM.AI",
@@ -1147,14 +1618,13 @@ async function askAI(){
 
     button.textContent =
       "Ask AI →";
-
   }
 }
 
 
-/* =========================
+/* ================================
    COMING SOON
-========================= */
+================================ */
 
 function comingSoon(tool){
 
@@ -1164,13 +1634,12 @@ function comingSoon(tool){
     " is coming soon!\n\n" +
     "We're building this feature for DIVYAM.AI."
   );
-
 }
 
 
-/* =========================
+/* ================================
    ENTER KEY
-========================= */
+================================ */
 
 document
   .getElementById(
@@ -1188,16 +1657,14 @@ document
         event.preventDefault();
 
         askAI();
-
       }
-
     }
   );
 
 
-/* =========================
+/* ================================
    START
-========================= */
+================================ */
 
 checkUser();
 
@@ -1205,3 +1672,4 @@ checkUser();
 
 </body>
 </html>
+````

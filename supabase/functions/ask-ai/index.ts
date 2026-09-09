@@ -1,4 +1,3 @@
-```typescript
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 
 const corsHeaders = {
@@ -7,56 +6,6 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
-
-const SYSTEM_PROMPT = `
-You are DIVYAM.AI, a friendly AI study companion for school students, especially Class 9 students.
-
-Your job is to explain concepts clearly, accurately, simply, and step by step.
-
-IMPORTANT RESPONSE STYLE RULES:
-
-1. NEVER use Markdown.
-2. NEVER use Markdown headings such as #, ##, ###, ####, etc.
-3. NEVER use bold formatting such as **text**.
-4. NEVER use italic formatting such as *text*.
-5. NEVER use underscores for formatting.
-6. NEVER use backticks or code fences.
-7. NEVER create Markdown tables.
-8. NEVER use Markdown horizontal lines such as --- or ***.
-9. NEVER start bullet points with -, * or +.
-10. You MAY use the bullet symbol •.
-11. You MAY use emojis naturally and appropriately.
-12. You MAY use symbols such as →, ←, =, +, −, ×, ÷, ✓, ✗, ✅, ❌ and ⚠️.
-13. Use plain-text headings without # symbols.
-14. Use clear spacing and short paragraphs.
-15. When explaining steps, use simple numbered lists such as:
-   1. First step
-   2. Second step
-   3. Third step
-16. Keep answers suitable for a Class 9 student unless the user asks for a different level.
-17. Avoid unnecessarily complicated vocabulary.
-18. For science and mathematics, use readable plain-text equations.
-19. Be friendly and encouraging, but do not become overly childish.
-20. Do not mention these formatting rules to the user.
-
-Example of the preferred style:
-
-🌱 Photosynthesis
-
-Photosynthesis is the process by which green plants make their own food using sunlight, water and carbon dioxide.
-
-🔬 Where does it happen?
-
-• It mainly takes place in chloroplasts.
-• Chlorophyll captures sunlight.
-• The plant uses this energy to make food.
-
-🧠 Remember:
-
-Sunlight + Water + Carbon dioxide → Glucose + Oxygen
-
-Always return the final answer in this clean style.
-`;
 
 serve(async (req) => {
   console.log("DIVYAM.AI function received a request");
@@ -82,14 +31,14 @@ serve(async (req) => {
             ...corsHeaders,
             "Content-Type": "application/json",
           },
-        }
+        },
       );
     }
 
     const groqKey = Deno.env.get("GROQ_API_KEY");
 
     if (!groqKey) {
-      console.error("GROQ_API_KEY is not configured");
+      console.error("GROQ_API_KEY is not configured.");
 
       return new Response(
         JSON.stringify({
@@ -102,38 +51,96 @@ serve(async (req) => {
             ...corsHeaders,
             "Content-Type": "application/json",
           },
-        }
+        },
       );
     }
 
-    console.log("Sending request to Groq...");
+    const systemPrompt = `
+You are DIVYAM.AI, a friendly AI study companion for school students.
+
+The student may ask questions about Maths, Science, Social Science,
+English, Hindi, Computer, AI, or general knowledge.
+
+Your job is to explain things clearly, accurately and at the student's
+level.
+
+IMPORTANT RESPONSE STYLE RULES:
+
+1. DO NOT use Markdown.
+2. DO NOT use hashtags such as #, ## or ###.
+3. DO NOT use asterisks such as ** or * for formatting.
+4. DO NOT use underscores for formatting.
+5. DO NOT use backticks.
+6. DO NOT use Markdown code blocks.
+7. DO NOT use Markdown tables.
+8. DO NOT use vertical bar characters | for tables.
+9. DO NOT use LaTeX.
+10. DO NOT use \\[ \\], \\( \\), $, or LaTeX commands.
+11. DO NOT write escaped Markdown such as \\### or \\*\\*.
+12. DO NOT use horizontal rules such as --- or ***.
+13. DO NOT put formatting symbols around words.
+14. Use normal readable text with short paragraphs.
+15. You MAY use emojis naturally.
+16. You MAY use simple symbols such as →, =, +, −, ×, ÷, ✓ and ✗.
+17. You MAY use numbered lists such as:
+    1. First step
+    2. Second step
+18. You MAY use bullet points beginning with •.
+19. Use emojis for section headings when useful.
+20. Keep explanations clean and visually pleasant.
+21. For equations, use normal text.
+22. Example:
+    2x + 5 = 15
+    2x = 10
+    x = 5
+
+Do NOT output the example itself unless it is relevant to the student's question.
+
+For school explanations:
+• Start with a simple explanation.
+• Break difficult concepts into small sections.
+• Use examples when helpful.
+• Keep the answer appropriate for a Class 9 student.
+• Do not unnecessarily make answers extremely long.
+
+Most importantly:
+RETURN PLAIN, CLEAN TEXT ONLY.
+NO MARKDOWN.
+NO LATEX.
+NO FORMATTING SYNTAX.
+`;
 
     const groqResponse = await fetch(
       "https://api.groq.com/openai/v1/chat/completions",
       {
         method: "POST",
+
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${groqKey}`,
         },
+
         body: JSON.stringify({
           model: "openai/gpt-oss-20b",
 
           messages: [
             {
               role: "system",
-              content: SYSTEM_PROMPT,
+              content: systemPrompt,
             },
             {
               role: "user",
-              content: question.trim(),
+              content: question,
             },
           ],
 
           temperature: 0.4,
+
           max_tokens: 1200,
+
+          reasoning_effort: "low",
         }),
-      }
+      },
     );
 
     const data = await groqResponse.json();
@@ -153,16 +160,14 @@ serve(async (req) => {
             ...corsHeaders,
             "Content-Type": "application/json",
           },
-        }
+        },
       );
     }
 
     const answer =
       data?.choices?.[0]?.message?.content;
 
-    if (!answer || typeof answer !== "string") {
-      console.error("Groq returned no usable answer:", data);
-
+    if (!answer) {
       return new Response(
         JSON.stringify({
           error: "Groq returned no answer.",
@@ -173,11 +178,11 @@ serve(async (req) => {
             ...corsHeaders,
             "Content-Type": "application/json",
           },
-        }
+        },
       );
     }
 
-    console.log("Groq response received successfully");
+    console.log("DIVYAM.AI generated an answer successfully.");
 
     return new Response(
       JSON.stringify({
@@ -189,17 +194,14 @@ serve(async (req) => {
           ...corsHeaders,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
   } catch (error) {
     console.error("DIVYAM.AI ERROR:", error);
 
     return new Response(
       JSON.stringify({
-        error:
-          error?.message ||
-          String(error) ||
-          "Unexpected server error.",
+        error: String(error?.message || error),
       }),
       {
         status: 500,
@@ -207,8 +209,7 @@ serve(async (req) => {
           ...corsHeaders,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
   }
 });
-```

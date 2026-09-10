@@ -12,7 +12,7 @@
 *{
   box-sizing:border-box;
   margin:0;
-  padding:0
+  padding:0;
 }
 
 body{
@@ -23,14 +23,16 @@ body{
     radial-gradient(circle at 10% 0%,rgba(59,130,246,.18),transparent 32%),
     radial-gradient(circle at 90% 100%,rgba(124,58,237,.16),transparent 35%),
     #07111f;
-  overflow-x:hidden
+  overflow-x:hidden;
 }
 
 .app{
-  min-height:100vh
+  min-height:100vh;
 }
 
-/* SIDEBAR */
+/* =========================
+   SIDEBAR
+========================= */
 
 .sidebar{
   position:fixed;
@@ -45,12 +47,12 @@ body{
   transition:.25s;
   display:flex;
   flex-direction:column;
-  box-shadow:20px 0 70px rgba(0,0,0,.2)
+  box-shadow:20px 0 70px rgba(0,0,0,.2);
 }
 
 .sidebar.collapsed{
   width:0;
-  transform:translateX(-100%)
+  transform:translateX(-100%);
 }
 
 .side-head{
@@ -59,17 +61,17 @@ body{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  border-bottom:1px solid rgba(147,197,253,.1)
+  border-bottom:1px solid rgba(147,197,253,.1);
 }
 
 .side-title{
   font-weight:800;
   font-size:19px;
-  white-space:nowrap
+  white-space:nowrap;
 }
 
 .side-title span{
-  color:#818cf8
+  color:#818cf8;
 }
 
 .new-chat{
@@ -84,7 +86,15 @@ body{
   );
   color:#eaf2ff;
   font-weight:bold;
-  cursor:pointer
+  cursor:pointer;
+}
+
+.new-chat:hover{
+  background:linear-gradient(
+    90deg,
+    rgba(37,99,235,.32),
+    rgba(124,58,237,.3)
+  );
 }
 
 .history-title{
@@ -92,22 +102,22 @@ body{
   color:#687e98;
   font-size:11px;
   text-transform:uppercase;
-  letter-spacing:1.2px
+  letter-spacing:1.2px;
 }
 
 .history{
   overflow-y:auto;
   padding:0 10px 20px;
-  flex:1
+  flex:1;
 }
 
 .history::-webkit-scrollbar{
-  width:5px
+  width:5px;
 }
 
 .history::-webkit-scrollbar-thumb{
   background:rgba(96,165,250,.2);
-  border-radius:8px
+  border-radius:8px;
 }
 
 .history-item{
@@ -120,28 +130,30 @@ body{
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
-  border:1px solid transparent
+  border:1px solid transparent;
 }
 
 .history-item:hover{
   background:rgba(59,130,246,.1);
-  border-color:rgba(96,165,250,.1)
+  border-color:rgba(96,165,250,.1);
 }
 
 .history-item.active{
   background:rgba(59,130,246,.14);
   border-color:rgba(96,165,250,.18);
-  color:#fff
+  color:#fff;
 }
 
 .empty-history{
   padding:15px 10px;
   color:#61758d;
   font-size:12px;
-  line-height:1.6
+  line-height:1.6;
 }
 
-/* SIDEBAR BUTTON */
+/* =========================
+   SIDEBAR TOGGLE
+========================= */
 
 .sidebar-toggle{
   position:fixed;
@@ -156,25 +168,33 @@ body{
   color:#dbeafe;
   cursor:pointer;
   box-shadow:0 10px 30px rgba(0,0,0,.25);
-  transition:.25s
+  transition:.25s;
 }
 
 .sidebar.collapsed~.sidebar-toggle{
-  left:18px
+  left:18px;
 }
 
-/* MAIN */
+.sidebar-toggle:hover{
+  background:rgba(30,58,95,.9);
+}
+
+/* =========================
+   MAIN
+========================= */
 
 .main{
   margin-left:285px;
-  transition:.25s
+  transition:.25s;
 }
 
 .sidebar.collapsed~.main{
-  margin-left:0
+  margin-left:0;
 }
 
-/* NAV */
+/* =========================
+   NAVBAR
+========================= */
 
 nav{
   height:74px;
@@ -187,12 +207,12 @@ nav{
   z-index:100;
   background:rgba(7,17,31,.78);
   backdrop-filter:blur(22px);
-  border-bottom:1px solid rgba(147,197,253,.1)
+  border-bottom:1px solid rgba(147,197,253,.1);
 }
 
 .logo{
   font-size:24px;
-  font-weight:800
+  font-weight:800;
 }
 
 .logo span{
@@ -203,18 +223,18 @@ nav{
     #a78bfa
   );
   -webkit-background-clip:text;
-  color:transparent
+  color:transparent;
 }
 
 .nav-right{
   display:flex;
   align-items:center;
-  gap:14px
+  gap:14px;
 }
 
 .user-name{
   color:#aebbd0;
-  font-size:14px
+  font-size:14px;
 }
 
 .clear-chat{
@@ -223,13 +243,19 @@ nav{
   border:1px solid rgba(147,197,253,.14);
   background:rgba(30,58,95,.35);
   color:#cbd5e1;
-  cursor:pointer
+  cursor:pointer;
 }
 
-/* PROFILE */
+.clear-chat:hover{
+  background:rgba(30,58,95,.6);
+}
+
+/* =========================
+   PROFILE
+========================= */
 
 .profile-wrap{
-  position:relative
+  position:relative;
 }
 
 .profile-button{
@@ -244,29 +270,35 @@ nav{
   );
   color:#fff;
   font-weight:800;
-  cursor:pointer
+  cursor:pointer;
+  transition:.2s;
+}
+
+.profile-button:hover{
+  transform:scale(1.05);
+  border-color:rgba(147,197,253,.55);
 }
 
 .profile-menu{
   position:absolute;
   top:54px;
   right:0;
-  width:290px;
+  width:310px;
   padding:18px;
   border-radius:20px;
-  background:rgba(8,23,40,.97);
+  background:rgba(8,23,40,.98);
   border:1px solid rgba(147,197,253,.16);
   box-shadow:0 25px 70px rgba(0,0,0,.45);
   opacity:0;
   visibility:hidden;
   transform:translateY(-8px);
-  transition:.2s
+  transition:.2s;
 }
 
 .profile-menu.open{
   opacity:1;
   visibility:visible;
-  transform:translateY(0)
+  transform:translateY(0);
 }
 
 .profile-head{
@@ -274,12 +306,13 @@ nav{
   gap:12px;
   align-items:center;
   padding-bottom:15px;
-  border-bottom:1px solid rgba(147,197,253,.1)
+  border-bottom:1px solid rgba(147,197,253,.1);
 }
 
 .profile-mini{
   width:48px;
   height:48px;
+  min-width:48px;
   border-radius:50%;
   display:flex;
   align-items:center;
@@ -289,25 +322,26 @@ nav{
     #2563eb,
     #7c3aed
   );
-  font-weight:800
+  font-weight:800;
 }
 
 .profile-head strong{
   display:block;
-  font-size:15px
+  font-size:15px;
 }
 
 .profile-head small{
   display:block;
   color:#7f96b4;
   font-size:11px;
-  margin-top:4px
+  margin-top:4px;
+  word-break:break-all;
 }
 
 .profile-item{
   padding:11px 2px;
   color:#aebbd0;
-  font-size:12px
+  font-size:12px;
 }
 
 .profile-item span{
@@ -316,25 +350,18 @@ nav{
   font-size:10px;
   text-transform:uppercase;
   letter-spacing:1px;
-  margin-bottom:3px
+  margin-bottom:3px;
 }
 
-.profile-actions{
-  display:flex;
-  gap:9px
+.profile-item b{
+  color:#e2e8f0;
+  font-weight:600;
+  word-break:break-word;
 }
 
-.profile-actions button{
-  flex:1;
-  padding:10px;
-  border-radius:10px;
-  border:1px solid rgba(147,197,253,.14);
-  background:rgba(30,58,95,.4);
-  color:#dbeafe;
-  font-weight:bold;
-  cursor:pointer
-}
-  .edit-username-button{
+/* EDIT USERNAME */
+
+.edit-username-button{
   width:100%;
   padding:10px 12px;
   margin:2px 0 10px;
@@ -353,19 +380,109 @@ nav{
   border-color:rgba(96,165,250,.3);
 }
 
-/* DASHBOARD */
+.username-editor{
+  display:none;
+  padding:12px;
+  margin:2px 0 12px;
+  border-radius:13px;
+  background:rgba(2,9,18,.55);
+  border:1px solid rgba(96,165,250,.14);
+}
+
+.username-editor.open{
+  display:block;
+}
+
+.username-editor-label{
+  color:#71859e;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-bottom:7px;
+}
+
+.username-editor input{
+  width:100%;
+  padding:10px 11px;
+  border-radius:9px;
+  border:1px solid rgba(147,197,253,.15);
+  outline:none;
+  background:rgba(8,23,40,.9);
+  color:#fff;
+  font-size:12px;
+}
+
+.username-editor input:focus{
+  border-color:rgba(96,165,250,.45);
+}
+
+.username-editor-actions{
+  display:flex;
+  gap:8px;
+  margin-top:9px;
+}
+
+.username-editor-actions button{
+  flex:1;
+  padding:9px;
+  border-radius:9px;
+  border:1px solid rgba(147,197,253,.14);
+  cursor:pointer;
+  font-weight:bold;
+  font-size:11px;
+}
+
+.save-username{
+  background:linear-gradient(
+    90deg,
+    #2563eb,
+    #4f46e5
+  );
+  color:#fff;
+}
+
+.cancel-username{
+  background:rgba(30,58,95,.4);
+  color:#cbd5e1;
+}
+
+.profile-actions{
+  display:flex;
+  gap:9px;
+}
+
+.profile-actions button{
+  flex:1;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid rgba(147,197,253,.14);
+  background:rgba(30,58,95,.4);
+  color:#dbeafe;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.profile-actions button:hover{
+  background:rgba(30,58,95,.65);
+}
+
+/* =========================
+   DASHBOARD
+========================= */
 
 .dashboard{
   width:100%;
   max-width:none;
   margin:0;
-  padding:55px 2% 100px
+  padding:55px 2% 100px;
 }
 
-/* WELCOME */
+/* =========================
+   WELCOME
+========================= */
 
 .welcome{
-  margin-bottom:42px
+  margin-bottom:42px;
 }
 
 .welcome-label{
@@ -373,14 +490,14 @@ nav{
   font-size:13px;
   font-weight:600;
   letter-spacing:1.5px;
-  margin-bottom:12px
+  margin-bottom:12px;
 }
 
 .welcome h1{
   font-size:clamp(38px,6vw,60px);
   line-height:1.05;
   letter-spacing:-2.5px;
-  margin-bottom:14px
+  margin-bottom:14px;
 }
 
 .gradient{
@@ -391,15 +508,17 @@ nav{
     #a78bfa
   );
   -webkit-background-clip:text;
-  color:transparent
+  color:transparent;
 }
 
 .welcome p{
   color:#8ea2bb;
-  font-size:16px
+  font-size:16px;
 }
 
-/* AI CARD */
+/* =========================
+   AI CARD
+========================= */
 
 .ai-card{
   width:100%;
@@ -413,14 +532,14 @@ nav{
     rgba(15,35,60,.7)
   );
   border:1px solid rgba(96,165,250,.2);
-  box-shadow:0 25px 80px rgba(0,0,0,.28)
+  box-shadow:0 25px 80px rgba(0,0,0,.28);
 }
 
 .ai-top{
   display:flex;
   align-items:center;
   gap:18px;
-  margin-bottom:26px
+  margin-bottom:26px;
 }
 
 .ai-icon{
@@ -436,20 +555,22 @@ nav{
     rgba(59,130,246,.28),
     rgba(124,58,237,.28)
   );
-  border:1px solid rgba(147,197,253,.18)
+  border:1px solid rgba(147,197,253,.18);
 }
 
 .ai-title h2{
   font-size:25px;
-  margin-bottom:5px
+  margin-bottom:5px;
 }
 
 .ai-title p{
   color:#91a4bd;
-  font-size:13px
+  font-size:13px;
 }
 
-/* INPUT */
+/* =========================
+   INPUT
+========================= */
 
 .question-box{
   display:flex;
@@ -457,7 +578,7 @@ nav{
   padding:8px;
   border-radius:15px;
   background:rgba(4,14,28,.55);
-  border:1px solid rgba(147,197,253,.12)
+  border:1px solid rgba(147,197,253,.12);
 }
 
 .question-box input{
@@ -468,7 +589,7 @@ nav{
   background:transparent;
   color:#fff;
   padding:13px;
-  font-size:14px
+  font-size:14px;
 }
 
 .ask-button{
@@ -483,34 +604,38 @@ nav{
     #2563eb,
     #4f46e5,
     #7c3aed
-  )
+  );
 }
 
 .ask-button:disabled{
   opacity:.6;
-  cursor:not-allowed
+  cursor:not-allowed;
 }
 
-/* CHAT HEADER */
+/* =========================
+   CHAT HEADER
+========================= */
 
 .chat-header{
   display:flex;
   justify-content:space-between;
   align-items:center;
   margin-top:20px;
-  margin-bottom:10px
+  margin-bottom:10px;
 }
 
 .chat-header h3{
-  font-size:16px
+  font-size:16px;
 }
 
 .chat-header span{
   color:#71859e;
-  font-size:12px
+  font-size:12px;
 }
 
-/* INNER CHAT */
+/* =========================
+   INNER CHAT
+========================= */
 
 .chat-history{
   width:100%;
@@ -525,19 +650,21 @@ nav{
   border-radius:18px;
   background:rgba(2,9,18,.82);
   border:1px solid rgba(147,197,253,.10);
-  box-shadow:inset 0 0 35px rgba(0,0,0,.18)
+  box-shadow:inset 0 0 35px rgba(0,0,0,.18);
 }
 
 .chat-history::-webkit-scrollbar{
-  width:7px
+  width:7px;
 }
 
 .chat-history::-webkit-scrollbar-thumb{
   background:rgba(96,165,250,.22);
-  border-radius:10px
+  border-radius:10px;
 }
 
-/* EMPTY */
+/* =========================
+   EMPTY CHAT
+========================= */
 
 .empty-chat{
   text-align:center;
@@ -546,25 +673,29 @@ nav{
   background:rgba(4,14,28,.35);
   border:1px dashed rgba(147,197,253,.12);
   color:#71859e;
-  line-height:1.7
+  line-height:1.7;
 }
 
-/* CHAT */
+/* =========================
+   CHAT MESSAGE
+========================= */
 
 .chat-message{
   display:flex;
   flex-direction:column;
   width:100%;
-  gap:18px
+  gap:18px;
 }
 
-/* USER RIGHT */
+/* =========================
+   USER — COMPLETELY RIGHT
+========================= */
 
 .user-message{
   width:100%;
   display:flex;
   flex-direction:column;
-  align-items:flex-end
+  align-items:flex-end;
 }
 
 .user-label{
@@ -572,7 +703,8 @@ nav{
   font-size:11px;
   font-weight:bold;
   margin-right:5px;
-  margin-bottom:4px
+  margin-bottom:4px;
+  text-align:right;
 }
 
 .chat-question{
@@ -591,17 +723,19 @@ nav{
   line-height:1.6;
   font-size:14px;
   text-align:left;
-  box-shadow:0 8px 25px rgba(0,0,0,.12)
+  box-shadow:0 8px 25px rgba(0,0,0,.12);
 }
 
-/* AI LEFT */
+/* =========================
+   AI — COMPLETELY LEFT
+========================= */
 
 .ai-message{
   align-self:stretch;
   width:100%;
   display:flex;
   flex-direction:column;
-  align-items:flex-start
+  align-items:flex-start;
 }
 
 .ai-label{
@@ -609,7 +743,8 @@ nav{
   font-size:11px;
   font-weight:bold;
   margin-left:5px;
-  margin-bottom:4px
+  margin-bottom:4px;
+  text-align:left;
 }
 
 .chat-answer{
@@ -627,41 +762,43 @@ nav{
   word-break:break-word;
   font-size:14px;
   text-align:left;
-  box-shadow:0 8px 30px rgba(0,0,0,.15)
+  box-shadow:0 8px 30px rgba(0,0,0,.15);
 }
 
 .chat-time{
   color:#5d7189;
   font-size:10px;
-  margin-top:8px
+  margin-top:8px;
 }
 
 .thinking{
   align-self:flex-start;
   width:100%;
-  max-width:100%
+  max-width:100%;
 }
 
-/* STUDY TOOLS */
+/* =========================
+   STUDY TOOLS
+========================= */
 
 .section-heading{
-  margin:45px 0 20px
+  margin:45px 0 20px;
 }
 
 .section-heading h2{
   font-size:24px;
-  margin-bottom:6px
+  margin-bottom:6px;
 }
 
 .section-heading p{
   color:#71859e;
-  font-size:14px
+  font-size:14px;
 }
 
 .tools{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:20px
+  gap:20px;
 }
 
 .tool{
@@ -675,135 +812,138 @@ nav{
   );
   border:1px solid rgba(147,197,253,.1);
   cursor:pointer;
-  transition:.3s
+  transition:.3s;
 }
 
 .tool:hover{
   transform:translateY(-7px);
-  border-color:rgba(96,165,250,.3)
+  border-color:rgba(96,165,250,.3);
 }
 
 .tool-icon{
   font-size:35px;
-  margin-bottom:22px
+  margin-bottom:22px;
 }
 
 .tool h3{
   font-size:20px;
-  margin-bottom:10px
+  margin-bottom:10px;
 }
 
 .tool p{
   color:#8195ad;
   font-size:14px;
   line-height:1.65;
-  margin-bottom:18px
+  margin-bottom:18px;
 }
 
 .tool-link{
   color:#93b4ff;
   font-size:13px;
-  font-weight:bold
+  font-weight:bold;
 }
 
-/* FOOTER */
+/* =========================
+   FOOTER
+========================= */
 
 footer{
   text-align:center;
   padding:35px;
   border-top:1px solid rgba(147,197,253,.08);
   color:#52667e;
-  font-size:12px
+  font-size:12px;
 }
 
-/* MOBILE */
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:800px){
 
   .sidebar{
-    width:285px
+    width:285px;
   }
 
   .main{
-    margin-left:0
+    margin-left:0;
   }
 
   .sidebar-toggle{
-    left:18px
+    left:18px;
   }
 
   .sidebar:not(.collapsed)~.sidebar-toggle{
-    left:300px
+    left:300px;
   }
 
   nav{
-    padding:0 18px
+    padding:0 18px;
   }
 
   .user-name{
-    display:none
+    display:none;
   }
 
   .dashboard{
     width:100%;
-    padding:35px 12px 70px
+    padding:35px 12px 70px;
   }
 
   .ai-card{
     width:100%;
-    padding:25px 14px 14px
+    padding:25px 14px 14px;
   }
 
   .ai-top{
-    gap:12px
+    gap:12px;
   }
 
   .ai-icon{
     width:52px;
     height:52px;
-    font-size:25px
+    font-size:25px;
   }
 
   .ai-title h2{
-    font-size:21px
+    font-size:21px;
   }
 
   .question-box{
-    flex-direction:column
+    flex-direction:column;
   }
 
   .ask-button{
-    width:100%
+    width:100%;
   }
 
   .chat-history{
     width:100%;
     min-height:450px;
-    padding:20px 12px
+    padding:20px 12px;
   }
 
   .chat-question{
-    max-width:88%
+    max-width:88%;
   }
 
   .chat-answer{
-    max-width:100%
+    max-width:100%;
   }
 
   .tools{
-    grid-template-columns:1fr
+    grid-template-columns:1fr;
   }
 
   .profile-menu{
     right:-5px;
-    width:min(290px,calc(100vw - 30px))
+    width:min(310px,calc(100vw - 30px));
   }
 
   .clear-chat{
-    display:none
+    display:none;
   }
 }
-
 </style>
 </head>
 
@@ -811,16 +951,16 @@ footer{
 
 <div class="app">
 
-<!-- SIDEBAR -->
+<!-- =========================
+     SIDEBAR
+========================= -->
 
 <aside class="sidebar" id="sidebar">
 
   <div class="side-head">
-
     <div class="side-title">
       💬 DIVYAM<span>.AI</span>
     </div>
-
   </div>
 
   <button class="new-chat" onclick="newChat()">
@@ -835,7 +975,6 @@ footer{
 
 </aside>
 
-
 <button
   class="sidebar-toggle"
   onclick="toggleSidebar()"
@@ -844,10 +983,11 @@ footer{
   ☰
 </button>
 
-
 <div class="main">
 
-<!-- NAVBAR -->
+<!-- =========================
+     NAVBAR
+========================= -->
 
 <nav>
 
@@ -867,6 +1007,8 @@ footer{
     >
       🧹 Clear
     </button>
+
+    <!-- PROFILE -->
 
     <div class="profile-wrap">
 
@@ -906,6 +1048,8 @@ footer{
 
         </div>
 
+        <!-- USERNAME -->
+
         <div class="profile-item">
 
           <span>
@@ -917,9 +1061,56 @@ footer{
           </b>
 
         </div>
-        <button class="edit-username-button" onclick="editUsername()">
-  ✏️ Edit Username
+
+        <button
+          class="edit-username-button"
+          id="editUsernameButton"
+          onclick="openUsernameEditor()"
+        >
+          ✏️ Edit Username
         </button>
+
+        <!-- INLINE USERNAME EDITOR -->
+
+        <div
+          class="username-editor"
+          id="usernameEditor"
+        >
+
+          <div class="username-editor-label">
+            Change username
+          </div>
+
+          <input
+            type="text"
+            id="usernameInput"
+            maxlength="30"
+            autocomplete="off"
+            placeholder="Enter new username"
+          >
+
+          <div class="username-editor-actions">
+
+            <button
+              class="save-username"
+              id="saveUsernameButton"
+              onclick="saveUsername()"
+            >
+              💾 Save
+            </button>
+
+            <button
+              class="cancel-username"
+              onclick="closeUsernameEditor()"
+            >
+              Cancel
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- EMAIL -->
 
         <div class="profile-item">
 
@@ -932,6 +1123,8 @@ footer{
           </b>
 
         </div>
+
+        <!-- ACTIONS -->
 
         <div class="profile-actions">
 
@@ -955,8 +1148,9 @@ footer{
 
 </nav>
 
-
-<!-- DASHBOARD -->
+<!-- =========================
+     DASHBOARD
+========================= -->
 
 <main class="dashboard">
 
@@ -984,8 +1178,9 @@ footer{
 
   </section>
 
-
-  <!-- AI CHAT CARD -->
+  <!-- =========================
+       AI CHAT CARD
+  ========================= -->
 
   <section class="ai-card">
 
@@ -1009,6 +1204,7 @@ footer{
 
     </div>
 
+    <!-- INPUT -->
 
     <div class="question-box">
 
@@ -1029,6 +1225,7 @@ footer{
 
     </div>
 
+    <!-- CHAT HEADER -->
 
     <div class="chat-header">
 
@@ -1042,6 +1239,7 @@ footer{
 
     </div>
 
+    <!-- CHAT -->
 
     <div
       class="chat-history"
@@ -1050,8 +1248,9 @@ footer{
 
   </section>
 
-
-  <!-- STUDY TOOLS -->
+  <!-- =========================
+       STUDY TOOLS
+  ========================= -->
 
   <div class="section-heading">
 
@@ -1065,7 +1264,6 @@ footer{
     </p>
 
   </div>
-
 
   <section class="tools">
 
@@ -1093,7 +1291,6 @@ footer{
 
     </div>
 
-
     <div
       class="tool"
       onclick="comingSoon('AI Notes')"
@@ -1117,7 +1314,6 @@ footer{
       </div>
 
     </div>
-
 
     <div
       class="tool"
@@ -1148,8 +1344,9 @@ footer{
 
 </main>
 
-
-<!-- FOOTER -->
+<!-- =========================
+     FOOTER
+========================= -->
 
 <footer>
 
@@ -1165,8 +1362,11 @@ footer{
 </div>
 </div>
 
-
 <script>
+
+/* =========================
+   SUPABASE
+========================= */
 
 const SUPABASE_URL =
   "https://teosakxikuswuhtbkmuv.supabase.co";
@@ -1180,11 +1380,20 @@ const supabaseClient =
     SUPABASE_KEY
   );
 
+
+/* =========================
+   GLOBAL STATE
+========================= */
+
 let userId="guest";
 let storageKey="divyam_sessions_guest";
 let sessions=[];
 let activeId=null;
 
+
+/* =========================
+   INITIALS
+========================= */
 
 function getInitials(name){
 
@@ -1199,6 +1408,10 @@ function getInitials(name){
 }
 
 
+/* =========================
+   SIDEBAR
+========================= */
+
 function toggleSidebar(){
 
   document
@@ -1208,6 +1421,10 @@ function toggleSidebar(){
 
 }
 
+
+/* =========================
+   PROFILE MENU
+========================= */
 
 function toggleProfile(e){
 
@@ -1221,18 +1438,18 @@ function toggleProfile(e){
 }
 
 
+/* Close profile menu when clicking outside */
+
 document.addEventListener(
   "click",
   e=>{
 
-    const w =
-      document.querySelector(
-        ".profile-wrap"
-      );
+    const wrap =
+      document.querySelector(".profile-wrap");
 
     if(
-      w &&
-      !w.contains(e.target)
+      wrap &&
+      !wrap.contains(e.target)
     ){
 
       document
@@ -1246,6 +1463,237 @@ document.addEventListener(
 );
 
 
+/* =========================
+   USERNAME EDITOR
+========================= */
+
+function openUsernameEditor(){
+
+  const editor =
+    document.getElementById(
+      "usernameEditor"
+    );
+
+  const input =
+    document.getElementById(
+      "usernameInput"
+    );
+
+  const currentUsername =
+    document
+      .getElementById(
+        "profileUsername"
+      )
+      .textContent
+      .trim();
+
+  input.value=currentUsername;
+
+  editor.classList.add("open");
+
+  document
+    .getElementById(
+      "editUsernameButton"
+    )
+    .style.display="none";
+
+  setTimeout(()=>{
+    input.focus();
+    input.select();
+  },50);
+
+}
+
+
+function closeUsernameEditor(){
+
+  document
+    .getElementById(
+      "usernameEditor"
+    )
+    .classList
+    .remove("open");
+
+  document
+    .getElementById(
+      "editUsernameButton"
+    )
+    .style.display="block";
+
+}
+
+
+/* =========================
+   SAVE USERNAME
+========================= */
+
+async function saveUsername(){
+
+  const input =
+    document.getElementById(
+      "usernameInput"
+    );
+
+  const button =
+    document.getElementById(
+      "saveUsernameButton"
+    );
+
+  const username =
+    input.value.trim();
+
+
+  if(!username){
+
+    alert(
+      "⚠️ Username cannot be empty."
+    );
+
+    input.focus();
+
+    return;
+
+  }
+
+
+  if(username.length<3){
+
+    alert(
+      "⚠️ Username must contain at least 3 characters."
+    );
+
+    input.focus();
+
+    return;
+
+  }
+
+
+  if(username.length>30){
+
+    alert(
+      "⚠️ Username cannot be longer than 30 characters."
+    );
+
+    input.focus();
+
+    return;
+
+  }
+
+
+  button.disabled=true;
+
+  button.textContent=
+    "Saving...";
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .auth
+        .updateUser({
+          data:{
+            full_name:username
+          }
+        });
+
+
+    if(error){
+
+      throw error;
+
+    }
+
+
+    /* Update interface */
+
+    document
+      .getElementById(
+        "profileUsername"
+      )
+      .textContent=username;
+
+
+    document
+      .getElementById(
+        "profileName"
+      )
+      .textContent=username;
+
+
+    document
+      .getElementById(
+        "welcomeName"
+      )
+      .textContent=username;
+
+
+    /* Update initials */
+
+    const initials =
+      getInitials(username);
+
+
+    document
+      .getElementById(
+        "profileButton"
+      )
+      .textContent=initials;
+
+
+    document
+      .getElementById(
+        "profileMini"
+      )
+      .textContent=initials;
+
+
+    closeUsernameEditor();
+
+
+    alert(
+      "✅ Username updated successfully!"
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "Username update error:",
+      error
+    );
+
+
+    alert(
+      "❌ Could not update username.\n\n"+
+      (
+        error.message ||
+        "Please try again."
+      )
+    );
+
+
+  }finally{
+
+    button.disabled=false;
+
+    button.textContent=
+      "💾 Save";
+
+  }
+
+}
+
+
+/* =========================
+   LOAD SESSIONS
+========================= */
+
 function loadSessions(){
 
   try{
@@ -1256,6 +1704,7 @@ function loadSessions(){
           storageKey
         ) || "[]"
       );
+
 
     if(
       !Array.isArray(sessions)
@@ -1271,10 +1720,15 @@ function loadSessions(){
 
   }
 
+
   renderHistory();
 
 }
 
+
+/* =========================
+   SAVE SESSIONS
+========================= */
 
 function saveSessions(){
 
@@ -1288,10 +1742,15 @@ function saveSessions(){
 }
 
 
+/* =========================
+   NEW CHAT
+========================= */
+
 function newChat(){
 
   const id =
     Date.now().toString();
+
 
   sessions.push({
 
@@ -1306,7 +1765,9 @@ function newChat(){
 
   });
 
+
   activeId=id;
+
 
   saveSessions();
 
@@ -1314,14 +1775,25 @@ function newChat(){
 
   renderChat();
 
-  document
-    .getElementById(
+
+  const input =
+    document.getElementById(
       "questionInput"
-    )
-    .focus();
+    );
+
+
+  if(input){
+
+    input.focus();
+
+  }
 
 }
 
+
+/* =========================
+   CURRENT CHAT
+========================= */
 
 function current(){
 
@@ -1332,12 +1804,17 @@ function current(){
 }
 
 
+/* =========================
+   HISTORY
+========================= */
+
 function renderHistory(){
 
   const list =
     document.getElementById(
       "historyList"
     );
+
 
   if(!sessions.length){
 
@@ -1354,7 +1831,9 @@ function renderHistory(){
 
   }
 
+
   list.innerHTML="";
+
 
   [...sessions]
     .reverse()
@@ -1365,7 +1844,8 @@ function renderHistory(){
           "div"
         );
 
-      item.className =
+
+      item.className=
         "history-item"+
         (
           s.id===activeId
@@ -1373,16 +1853,19 @@ function renderHistory(){
             : ""
         );
 
-      item.textContent =
+
+      item.textContent=
         "💬 "+
         (
           s.title ||
           "New Chat"
         );
 
-      item.title =
+
+      item.title=
         s.title ||
         "New Chat";
+
 
       item.onclick=()=>{
 
@@ -1394,12 +1877,17 @@ function renderHistory(){
 
       };
 
+
       list.appendChild(item);
 
     });
 
 }
 
+
+/* =========================
+   CLEAN AI RESPONSE
+========================= */
 
 function cleanAIResponse(text){
 
@@ -1410,6 +1898,7 @@ function cleanAIResponse(text){
     return "";
 
   }
+
 
   let x =
     text.replace(
@@ -1425,6 +1914,7 @@ function cleanAIResponse(text){
             ""
           )
     );
+
 
   x =
     x
@@ -1453,6 +1943,7 @@ function cleanAIResponse(text){
         "• "
       );
 
+
   x =
     x.replace(
       /^\s*\|(.+)\|\s*$/gm,
@@ -1466,6 +1957,7 @@ function cleanAIResponse(text){
             )
             .filter(Boolean);
 
+
         return c.length
           ? "• "+c.join(" — ")
           : "";
@@ -1473,10 +1965,15 @@ function cleanAIResponse(text){
       }
     );
 
+
   return x.trim();
 
 }
 
+
+/* =========================
+   RENDER CHAT
+========================= */
 
 function renderChat(){
 
@@ -1485,12 +1982,15 @@ function renderChat(){
       "chatHistory"
     );
 
+
   const count =
     document.getElementById(
       "chatCount"
     );
 
+
   const s=current();
+
 
   box.innerHTML="";
 
@@ -1525,8 +2025,10 @@ function renderChat(){
       </div>
       `;
 
+
     count.textContent=
       "0 messages";
+
 
     return;
 
@@ -1550,16 +2052,20 @@ function renderChat(){
         "div"
       );
 
+
     wrap.className=
       "chat-message";
 
 
-    /* USER */
+    /* =====================
+       USER MESSAGE
+    ===================== */
 
     const userContainer =
       document.createElement(
         "div"
       );
+
 
     userContainer.className=
       "user-message";
@@ -1570,8 +2076,10 @@ function renderChat(){
         "div"
       );
 
+
     userLabel.className=
       "user-label";
+
 
     userLabel.textContent=
       "Your message 🧑‍🎓";
@@ -1582,8 +2090,10 @@ function renderChat(){
         "div"
       );
 
+
     question.className=
       "chat-question";
+
 
     question.textContent=
       m.question;
@@ -1593,17 +2103,21 @@ function renderChat(){
       userLabel
     );
 
+
     userContainer.appendChild(
       question
     );
 
 
-    /* AI */
+    /* =====================
+       AI MESSAGE
+    ===================== */
 
     const aiContainer =
       document.createElement(
         "div"
       );
+
 
     aiContainer.className=
       "ai-message";
@@ -1614,8 +2128,10 @@ function renderChat(){
         "div"
       );
 
+
     aiLabel.className=
       "ai-label";
+
 
     aiLabel.textContent=
       "🤖 DIVYAM.AI";
@@ -1626,6 +2142,7 @@ function renderChat(){
         "div"
       );
 
+
     answer.className=
       "chat-answer";
 
@@ -1634,6 +2151,7 @@ function renderChat(){
       document.createElement(
         "div"
       );
+
 
     answerText.textContent=
       cleanAIResponse(
@@ -1646,8 +2164,10 @@ function renderChat(){
         "div"
       );
 
+
     time.className=
       "chat-time";
+
 
     time.textContent=
       "🕒 "+
@@ -1666,6 +2186,7 @@ function renderChat(){
       answerText
     );
 
+
     answer.appendChild(
       time
     );
@@ -1675,18 +2196,25 @@ function renderChat(){
       aiLabel
     );
 
+
     aiContainer.appendChild(
       answer
     );
 
 
+    /* =====================
+       ADD TO CHAT
+    ===================== */
+
     wrap.appendChild(
       userContainer
     );
 
+
     wrap.appendChild(
       aiContainer
     );
+
 
     box.appendChild(
       wrap
@@ -1701,9 +2229,14 @@ function renderChat(){
 }
 
 
+/* =========================
+   CLEAR CHAT
+========================= */
+
 function clearCurrentChat(){
 
   const s=current();
+
 
   if(
     !s ||
@@ -1713,6 +2246,7 @@ function clearCurrentChat(){
     return;
 
   }
+
 
   if(
     !confirm(
@@ -1724,9 +2258,11 @@ function clearCurrentChat(){
 
   }
 
+
   s.messages=[];
 
   s.title="New Chat";
+
 
   saveSessions();
 
@@ -1737,6 +2273,10 @@ function clearCurrentChat(){
 }
 
 
+/* =========================
+   ASK AI
+========================= */
+
 async function askAI(){
 
   const input =
@@ -1744,10 +2284,12 @@ async function askAI(){
       "questionInput"
     );
 
+
   const button =
     document.getElementById(
       "askButton"
     );
+
 
   const question =
     input.value.trim();
@@ -1784,6 +2326,7 @@ async function askAI(){
 
   button.disabled=true;
 
+
   button.textContent=
     "Thinking... 🤔";
 
@@ -1794,13 +2337,17 @@ async function askAI(){
     );
 
 
+  /* Temporary AI thinking message */
+
   const thinking =
     document.createElement(
       "div"
     );
 
+
   thinking.className=
     "chat-answer thinking";
+
 
   thinking.textContent=
     "🤖 Thinking... 🧠✨";
@@ -1809,6 +2356,7 @@ async function askAI(){
   box.appendChild(
     thinking
   );
+
 
   box.scrollTop=
     box.scrollHeight;
@@ -1870,6 +2418,8 @@ async function askAI(){
     }
 
 
+    /* Save message */
+
     s.messages.push({
 
       question,
@@ -1888,6 +2438,7 @@ async function askAI(){
 
     renderChat();
 
+
     input.value="";
 
 
@@ -1895,13 +2446,16 @@ async function askAI(){
 
     thinking.remove();
 
+
     const err =
       document.createElement(
         "div"
       );
 
+
     err.className=
       "chat-answer";
+
 
     err.textContent=
       "❌ DIVYAM.AI ERROR\n\n"+
@@ -1910,7 +2464,11 @@ async function askAI(){
         "Could not connect to DIVYAM.AI."
       );
 
-    box.appendChild(err);
+
+    box.appendChild(
+      err
+    );
+
 
   }finally{
 
@@ -1922,81 +2480,11 @@ async function askAI(){
   }
 
 }
-  async function editUsername(){
 
-  const currentUsername =
-    document.getElementById('profileUsername').textContent.trim();
 
-  const newUsername = prompt(
-    '✏️ Enter your new username:',
-    currentUsername
-  );
-
-  if(newUsername === null){
-    return;
-  }
-
-  const username = newUsername.trim();
-
-  if(!username){
-    alert('⚠️ Username cannot be empty.');
-    return;
-  }
-
-  if(username.length < 3){
-    alert('⚠️ Username must contain at least 3 characters.');
-    return;
-  }
-
-  if(username.length > 30){
-    alert('⚠️ Username cannot be longer than 30 characters.');
-    return;
-  }
-
-  try{
-
-    const { data, error } =
-      await supabaseClient.auth.updateUser({
-        data:{
-          full_name: username
-        }
-      });
-
-    if(error){
-      throw error;
-    }
-
-    /* Update username everywhere immediately */
-
-    document.getElementById('profileUsername').textContent = username;
-
-    document.getElementById('profileName').textContent = username;
-
-    document.getElementById('welcomeName').textContent = username;
-
-    /* Update profile initials */
-
-    const initials = getInitials(username);
-
-    document.getElementById('profileButton').textContent = initials;
-
-    document.getElementById('profileMini').textContent = initials;
-
-    alert('✅ Username updated successfully!');
-
-  }catch(error){
-
-    console.error(error);
-
-    alert(
-      '❌ Could not update username.\n\n' +
-      (error.message || 'Please try again.')
-    );
-
-  }
-
-}
-
+/* =========================
+   LOGOUT
+========================= */
 
 async function logout(){
 
@@ -2004,14 +2492,21 @@ async function logout(){
     .auth
     .signOut();
 
+
   sessionStorage.removeItem(
     "divyam_dashboard_session"
   );
 
-  location.href="auth.html";
+
+  location.href=
+    "auth.html";
 
 }
 
+
+/* =========================
+   CHECK USER
+========================= */
 
 async function checkUser(){
 
@@ -2029,16 +2524,21 @@ async function checkUser(){
     !data.user
   ){
 
-    location.href="auth.html";
+    location.href=
+      "auth.html";
 
     return;
 
   }
 
 
-  const u=data.user;
+  const u=
+    data.user;
 
-  userId=u.id;
+
+  userId=
+    u.id;
+
 
   storageKey=
     "divyam_sessions_"+u.id;
@@ -2050,20 +2550,28 @@ async function checkUser(){
     "Student";
 
 
+  /* Welcome */
+
   document
     .getElementById(
       "welcomeName"
     )
-    .textContent=name;
+    .textContent=
+    name;
 
+
+  /* Navbar */
 
   document
     .getElementById(
       "userName"
     )
     .textContent=
-    u.email || name;
+      u.email ||
+      name;
 
+
+  /* Initials */
 
   const initials=
     getInitials(name);
@@ -2073,28 +2581,34 @@ async function checkUser(){
     .getElementById(
       "profileButton"
     )
-    .textContent=initials;
+    .textContent=
+    initials;
 
 
   document
     .getElementById(
       "profileMini"
     )
-    .textContent=initials;
+    .textContent=
+    initials;
 
+
+  /* Profile */
 
   document
     .getElementById(
       "profileName"
     )
-    .textContent=name;
+    .textContent=
+    name;
 
 
   document
     .getElementById(
       "profileUsername"
     )
-    .textContent=name;
+    .textContent=
+    name;
 
 
   document
@@ -2102,8 +2616,8 @@ async function checkUser(){
       "profileEmail"
     )
     .textContent=
-    u.email ||
-    "Not available";
+      u.email ||
+      "Not available";
 
 
   document
@@ -2111,12 +2625,19 @@ async function checkUser(){
       "profileRegisteredEmail"
     )
     .textContent=
-    u.email ||
-    "Not available";
+      u.email ||
+      "Not available";
 
+
+  /* Load chats */
 
   loadSessions();
 
+
+  /*
+     Start a fresh chat when the
+     dashboard login session begins.
+  */
 
   if(
     !sessionStorage.getItem(
@@ -2129,7 +2650,9 @@ async function checkUser(){
       "1"
     );
 
+
     newChat();
+
 
   }else{
 
@@ -2137,12 +2660,14 @@ async function checkUser(){
 
       newChat();
 
+
     }else{
 
       activeId=
         sessions[
           sessions.length-1
         ].id;
+
 
       renderHistory();
 
@@ -2155,6 +2680,10 @@ async function checkUser(){
 }
 
 
+/* =========================
+   COMING SOON
+========================= */
+
 function comingSoon(feature){
 
   alert(
@@ -2166,6 +2695,10 @@ function comingSoon(feature){
 
 }
 
+
+/* =========================
+   ENTER TO ASK
+========================= */
 
 document
   .getElementById(
@@ -2186,6 +2719,10 @@ document
     }
   );
 
+
+/* =========================
+   START DASHBOARD
+========================= */
 
 checkUser();
 

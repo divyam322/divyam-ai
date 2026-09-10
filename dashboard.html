@@ -336,9 +336,10 @@ nav{
 /* ================= DASHBOARD ================= */
 
 .dashboard{
-  max-width:1200px;
-  margin:auto;
-  padding:65px 25px 100px
+  width:100%;
+  max-width:none;
+  margin:0;
+  padding:55px 3% 100px;
 }
 
 .welcome{
@@ -379,17 +380,22 @@ nav{
 /* ================= AI CARD ================= */
 
 .ai-card{
+  width:100%;
   padding:40px;
   border-radius:28px;
   margin-bottom:45px;
+
   background:linear-gradient(
     135deg,
     rgba(30,64,175,.22),
     rgba(67,56,202,.14),
     rgba(15,35,60,.7)
   );
+
   border:1px solid rgba(96,165,250,.2);
-  box-shadow:0 25px 80px rgba(0,0,0,.28)
+
+  box-shadow:
+    0 25px 80px rgba(0,0,0,.28);
 }
 
 .ai-top{
@@ -465,6 +471,7 @@ nav{
 /* ================= CHAT ================= */
 
 .chat-history{
+  width:100%;
   display:flex;
   flex-direction:column;
   gap:24px;
@@ -798,8 +805,14 @@ footer{
   }
 
   .dashboard{
-    padding:45px 18px 70px
-  }
+  width:100%;
+  padding:35px 12px 70px;
+}
+
+.ai-card{
+  width:100%;
+  padding:25px 18px;
+}
 
   .ai-card{
     padding:25px

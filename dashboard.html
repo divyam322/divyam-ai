@@ -1,398 +1,604 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
 <title>DIVYAM.AI — Dashboard</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
 *{
   box-sizing:border-box;
   margin:0;
-  padding:0
+  padding:0;
 }
 
 body{
   font-family:Arial,Helvetica,sans-serif;
   min-height:100vh;
   color:#f4f7ff;
+
   background:
-    radial-gradient(circle at 10% 0%,rgba(59,130,246,.18),transparent 32%),
-    radial-gradient(circle at 90% 100%,rgba(124,58,237,.16),transparent 35%),
+    radial-gradient(
+      circle at 10% 0%,
+      rgba(59,130,246,.18),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 90% 100%,
+      rgba(124,58,237,.16),
+      transparent 35%
+    ),
     #07111f;
-  overflow-x:hidden
+
+  overflow-x:hidden;
 }
 
 .app{
-  min-height:100vh
+  min-height:100vh;
 }
 
-/* ================= SIDEBAR ================= */
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
 
 .sidebar{
   position:fixed;
   left:0;
   top:0;
   bottom:0;
+
   width:285px;
+
   background:rgba(6,18,33,.96);
-  border-right:1px solid rgba(147,197,253,.12);
+
+  border-right:
+    1px solid rgba(147,197,253,.12);
+
   z-index:300;
+
   transform:translateX(0);
+
   transition:.25s;
+
   display:flex;
   flex-direction:column;
-  box-shadow:20px 0 70px rgba(0,0,0,.2)
+
+  box-shadow:
+    20px 0 70px rgba(0,0,0,.2);
 }
 
 .sidebar.collapsed{
   width:0;
-  transform:translateX(-100%)
+  transform:translateX(-100%);
 }
 
 .side-head{
   height:74px;
+
   padding:0 18px;
+
   display:flex;
   align-items:center;
   justify-content:space-between;
-  border-bottom:1px solid rgba(147,197,253,.1)
+
+  border-bottom:
+    1px solid rgba(147,197,253,.1);
 }
 
 .side-title{
   font-weight:800;
   font-size:19px;
-  white-space:nowrap
+  white-space:nowrap;
 }
 
 .side-title span{
-  color:#818cf8
+  color:#818cf8;
 }
 
 .new-chat{
   margin:16px;
+
   padding:12px;
+
   border-radius:12px;
-  border:1px solid rgba(96,165,250,.2);
-  background:linear-gradient(
-    90deg,
-    rgba(37,99,235,.22),
-    rgba(124,58,237,.2)
-  );
+
+  border:
+    1px solid rgba(96,165,250,.2);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(37,99,235,.22),
+      rgba(124,58,237,.2)
+    );
+
   color:#eaf2ff;
+
   font-weight:bold;
-  cursor:pointer
+
+  cursor:pointer;
 }
 
 .history-title{
   padding:0 18px 10px;
+
   color:#687e98;
+
   font-size:11px;
+
   text-transform:uppercase;
-  letter-spacing:1.2px
+
+  letter-spacing:1.2px;
 }
 
 .history{
   overflow-y:auto;
+
   padding:0 10px 20px;
-  flex:1
+
+  flex:1;
 }
 
 .history::-webkit-scrollbar{
-  width:5px
+  width:5px;
 }
 
 .history::-webkit-scrollbar-thumb{
   background:rgba(96,165,250,.2);
-  border-radius:8px
+  border-radius:8px;
 }
 
 .history-item{
   padding:12px;
+
   border-radius:11px;
+
   margin-bottom:5px;
+
   cursor:pointer;
+
   color:#aebbd0;
+
   font-size:13px;
+
   white-space:nowrap;
+
   overflow:hidden;
+
   text-overflow:ellipsis;
-  border:1px solid transparent
+
+  border:1px solid transparent;
 }
 
 .history-item:hover{
   background:rgba(59,130,246,.1);
-  border-color:rgba(96,165,250,.1)
+
+  border-color:
+    rgba(96,165,250,.1);
 }
 
 .history-item.active{
-  background:rgba(59,130,246,.14);
-  border-color:rgba(96,165,250,.18);
-  color:#fff
+  background:
+    rgba(59,130,246,.14);
+
+  border-color:
+    rgba(96,165,250,.18);
+
+  color:#fff;
 }
 
 .empty-history{
   padding:15px 10px;
+
   color:#61758d;
+
   font-size:12px;
-  line-height:1.6
+
+  line-height:1.6;
 }
 
-/* ================= SIDEBAR BUTTON ================= */
+
+/* =========================================================
+   SIDEBAR TOGGLE
+========================================================= */
 
 .sidebar-toggle{
   position:fixed;
+
   left:300px;
   top:88px;
+
   z-index:250;
+
   width:40px;
   height:40px;
+
   border-radius:12px;
-  border:1px solid rgba(147,197,253,.16);
-  background:rgba(8,23,40,.9);
+
+  border:
+    1px solid rgba(147,197,253,.16);
+
+  background:
+    rgba(8,23,40,.9);
+
   color:#dbeafe;
+
   cursor:pointer;
-  box-shadow:0 10px 30px rgba(0,0,0,.25);
-  transition:.25s
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.25);
+
+  transition:.25s;
 }
 
-.sidebar.collapsed~.sidebar-toggle{
-  left:18px
+.sidebar.collapsed ~ .sidebar-toggle{
+  left:18px;
 }
 
-/* ================= MAIN ================= */
+
+/* =========================================================
+   MAIN
+========================================================= */
 
 .main{
   margin-left:285px;
-  transition:.25s
+
+  transition:.25s;
 }
 
-.sidebar.collapsed~.main{
-  margin-left:0
+.sidebar.collapsed ~ .main{
+  margin-left:0;
 }
 
-/* ================= NAV ================= */
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
 
 nav{
   height:74px;
+
   display:flex;
+
   align-items:center;
+
   justify-content:space-between;
-  padding:0 6%;
+
+  padding:0 3%;
+
   position:sticky;
+
   top:0;
+
   z-index:100;
-  background:rgba(7,17,31,.78);
+
+  background:
+    rgba(7,17,31,.78);
+
   backdrop-filter:blur(22px);
-  border-bottom:1px solid rgba(147,197,253,.1)
+
+  border-bottom:
+    1px solid rgba(147,197,253,.1);
 }
 
 .logo{
   font-size:24px;
-  font-weight:800
+  font-weight:800;
 }
 
 .logo span{
-  background:linear-gradient(
-    90deg,
-    #60a5fa,
-    #818cf8,
-    #a78bfa
-  );
+  background:
+    linear-gradient(
+      90deg,
+      #60a5fa,
+      #818cf8,
+      #a78bfa
+    );
+
   -webkit-background-clip:text;
-  color:transparent
+
+  color:transparent;
 }
 
 .nav-right{
   display:flex;
+
   align-items:center;
-  gap:14px
+
+  gap:14px;
 }
 
 .user-name{
   color:#aebbd0;
-  font-size:14px
+  font-size:14px;
 }
 
 .clear-chat{
   padding:9px 14px;
+
   border-radius:10px;
-  border:1px solid rgba(147,197,253,.14);
-  background:rgba(30,58,95,.35);
+
+  border:
+    1px solid rgba(147,197,253,.14);
+
+  background:
+    rgba(30,58,95,.35);
+
   color:#cbd5e1;
-  cursor:pointer
+
+  cursor:pointer;
 }
 
-/* ================= PROFILE ================= */
+
+/* =========================================================
+   PROFILE
+========================================================= */
 
 .profile-wrap{
-  position:relative
+  position:relative;
 }
 
 .profile-button{
   width:42px;
   height:42px;
+
   border-radius:50%;
-  border:2px solid rgba(147,197,253,.28);
-  background:linear-gradient(
-    135deg,
-    #2563eb,
-    #7c3aed
-  );
+
+  border:
+    2px solid rgba(147,197,253,.28);
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #7c3aed
+    );
+
   color:#fff;
+
   font-weight:800;
-  cursor:pointer
+
+  cursor:pointer;
 }
 
 .profile-menu{
   position:absolute;
+
   top:54px;
+
   right:0;
+
   width:290px;
+
   padding:18px;
+
   border-radius:20px;
-  background:rgba(8,23,40,.97);
-  border:1px solid rgba(147,197,253,.16);
-  box-shadow:0 25px 70px rgba(0,0,0,.45);
+
+  background:
+    rgba(8,23,40,.97);
+
+  border:
+    1px solid rgba(147,197,253,.16);
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.45);
+
   opacity:0;
+
   visibility:hidden;
+
   transform:translateY(-8px);
-  transition:.2s
+
+  transition:.2s;
 }
 
 .profile-menu.open{
   opacity:1;
+
   visibility:visible;
-  transform:translateY(0)
+
+  transform:translateY(0);
 }
 
 .profile-head{
   display:flex;
+
   gap:12px;
+
   align-items:center;
+
   padding-bottom:15px;
-  border-bottom:1px solid rgba(147,197,253,.1)
+
+  border-bottom:
+    1px solid rgba(147,197,253,.1);
 }
 
 .profile-mini{
   width:48px;
   height:48px;
+
   border-radius:50%;
+
   display:flex;
+
   align-items:center;
+
   justify-content:center;
-  background:linear-gradient(
-    135deg,
-    #2563eb,
-    #7c3aed
-  );
-  font-weight:800
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #7c3aed
+    );
+
+  font-weight:800;
 }
 
 .profile-head strong{
   display:block;
-  font-size:15px
+  font-size:15px;
 }
 
 .profile-head small{
   display:block;
+
   color:#7f96b4;
+
   font-size:11px;
-  margin-top:4px
+
+  margin-top:4px;
 }
 
 .profile-item{
   padding:11px 2px;
+
   color:#aebbd0;
-  font-size:12px
+
+  font-size:12px;
 }
 
 .profile-item span{
   display:block;
+
   color:#647991;
+
   font-size:10px;
+
   text-transform:uppercase;
+
   letter-spacing:1px;
-  margin-bottom:3px
+
+  margin-bottom:3px;
 }
 
 .profile-actions{
   display:flex;
-  gap:9px
+
+  gap:9px;
 }
 
 .profile-actions button{
   flex:1;
+
   padding:10px;
+
   border-radius:10px;
-  border:1px solid rgba(147,197,253,.14);
-  background:rgba(30,58,95,.4);
+
+  border:
+    1px solid rgba(147,197,253,.14);
+
+  background:
+    rgba(30,58,95,.4);
+
   color:#dbeafe;
+
   font-weight:bold;
-  cursor:pointer
+
+  cursor:pointer;
 }
 
-/* ================= DASHBOARD ================= */
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
 
 .dashboard{
   width:100%;
+
   max-width:none;
+
   margin:0;
-  padding:55px 3% 100px;
+
+  padding:55px 2% 100px;
 }
 
+
+/* =========================================================
+   WELCOME
+========================================================= */
+
 .welcome{
-  margin-bottom:42px
+  margin-bottom:42px;
 }
 
 .welcome-label{
   color:#7f96b4;
+
   font-size:13px;
+
   font-weight:600;
+
   letter-spacing:1.5px;
-  margin-bottom:12px
+
+  margin-bottom:12px;
 }
 
 .welcome h1{
   font-size:clamp(38px,6vw,60px);
+
   line-height:1.05;
+
   letter-spacing:-2.5px;
-  margin-bottom:14px
+
+  margin-bottom:14px;
 }
 
 .gradient{
-  background:linear-gradient(
-    90deg,
-    #60a5fa,
-    #818cf8,
-    #a78bfa
-  );
+  background:
+    linear-gradient(
+      90deg,
+      #60a5fa,
+      #818cf8,
+      #a78bfa
+    );
+
   -webkit-background-clip:text;
-  color:transparent
+
+  color:transparent;
 }
 
 .welcome p{
   color:#8ea2bb;
-  font-size:16px
+  font-size:16px;
 }
 
-/* ================= AI CARD ================= */
+
+/* =========================================================
+   BIG BLUE AI CARD
+========================================================= */
 
 .ai-card{
+
   width:100%;
-  padding:40px;
+
+  padding:30px 22px 22px;
+
   border-radius:28px;
+
   margin-bottom:45px;
 
-  background:linear-gradient(
-    135deg,
-    rgba(30,64,175,.22),
-    rgba(67,56,202,.14),
-    rgba(15,35,60,.7)
-  );
+  background:
+    linear-gradient(
+      135deg,
+      rgba(30,64,175,.22),
+      rgba(67,56,202,.14),
+      rgba(15,35,60,.7)
+    );
 
-  border:1px solid rgba(96,165,250,.2);
+  border:
+    1px solid rgba(96,165,250,.2);
 
   box-shadow:
     0 25px 80px rgba(0,0,0,.28);
@@ -400,490 +606,749 @@ nav{
 
 .ai-top{
   display:flex;
+
   align-items:center;
+
   gap:18px;
-  margin-bottom:26px
+
+  margin-bottom:26px;
 }
 
 .ai-icon{
   width:60px;
   height:60px;
+
   display:flex;
+
   align-items:center;
+
   justify-content:center;
+
   border-radius:18px;
+
   font-size:29px;
-  background:linear-gradient(
-    135deg,
-    rgba(59,130,246,.28),
-    rgba(124,58,237,.28)
-  );
-  border:1px solid rgba(147,197,253,.18)
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(59,130,246,.28),
+      rgba(124,58,237,.28)
+    );
+
+  border:
+    1px solid rgba(147,197,253,.18);
 }
 
 .ai-title h2{
   font-size:25px;
-  margin-bottom:5px
+
+  margin-bottom:5px;
 }
 
 .ai-title p{
   color:#91a4bd;
-  font-size:13px
+
+  font-size:13px;
 }
 
-/* ================= QUESTION INPUT ================= */
+
+/* =========================================================
+   QUESTION INPUT
+========================================================= */
 
 .question-box{
   display:flex;
+
   gap:12px;
+
   padding:8px;
+
   border-radius:15px;
-  background:rgba(4,14,28,.55);
-  border:1px solid rgba(147,197,253,.12)
+
+  background:
+    rgba(4,14,28,.55);
+
+  border:
+    1px solid rgba(147,197,253,.12);
 }
 
 .question-box input{
   flex:1;
+
   min-width:0;
+
   border:none;
+
   outline:none;
+
   background:transparent;
+
   color:#fff;
+
   padding:13px;
-  font-size:14px
+
+  font-size:14px;
 }
 
 .ask-button{
   border:none;
+
   border-radius:11px;
+
   padding:12px 21px;
+
   color:#fff;
+
   font-weight:bold;
+
   cursor:pointer;
-  background:linear-gradient(
-    90deg,
-    #2563eb,
-    #4f46e5,
-    #7c3aed
-  )
+
+  background:
+    linear-gradient(
+      90deg,
+      #2563eb,
+      #4f46e5,
+      #7c3aed
+    );
 }
 
-/* ================= CHAT ================= */
+.ask-button:disabled{
+  opacity:.6;
+
+  cursor:not-allowed;
+}
+
+
+/* =========================================================
+   CHAT HEADER
+========================================================= */
+
+.chat-header{
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  margin-top:20px;
+
+  margin-bottom:10px;
+}
+
+.chat-header h3{
+  font-size:16px;
+}
+
+.chat-header span{
+  color:#71859e;
+
+  font-size:12px;
+}
+
+
+/* =========================================================
+   BIG INNER DARK CHAT BOX
+========================================================= */
 
 .chat-history{
+
   width:100%;
-  display:flex;
-  flex-direction:column;
-  gap:24px;
+
+  max-width:none;
+
+  min-height:500px;
+
   max-height:700px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:24px;
+
   overflow-y:auto;
-  padding:10px 4px;
+
+  margin:0;
+
+  padding:25px 18px;
+
+  border-radius:18px;
+
+  background:
+    rgba(2,9,18,.82);
+
+  border:
+    1px solid rgba(147,197,253,.10);
+
+  box-shadow:
+    inset 0 0 35px rgba(0,0,0,.18);
 }
+
+.chat-history::-webkit-scrollbar{
+  width:7px;
+}
+
+.chat-history::-webkit-scrollbar-thumb{
+  background:
+    rgba(96,165,250,.22);
+
+  border-radius:10px;
+}
+
+
+/* =========================================================
+   EMPTY CHAT
+========================================================= */
+
+.empty-chat{
+  text-align:center;
+
+  padding:35px 20px;
+
+  border-radius:18px;
+
+  background:
+    rgba(4,14,28,.35);
+
+  border:
+    1px dashed rgba(147,197,253,.12);
+
+  color:#71859e;
+
+  line-height:1.7;
+}
+
+
+/* =========================================================
+   MESSAGE CONTAINER
+========================================================= */
 
 .chat-message{
   display:flex;
+
   flex-direction:column;
+
   width:100%;
-  gap:8px;
+
+  gap:18px;
 }
 
-/* USER SIDE */
+
+/* =========================================================
+   USER MESSAGE — COMPLETELY RIGHT
+========================================================= */
 
 .user-message{
+  width:100%;
+
+  display:flex;
+
+  flex-direction:column;
+
   align-items:flex-end;
 }
 
 .user-label{
   color:#93b4ff;
+
   font-size:11px;
+
   font-weight:bold;
+
   margin-right:5px;
+
+  margin-bottom:4px;
 }
 
 .chat-question{
+
   align-self:flex-end;
+
   width:fit-content;
+
   max-width:72%;
+
   padding:14px 19px;
-  border-radius:18px 18px 4px 18px;
-  background:linear-gradient(
-    135deg,
-    rgba(37,99,235,.42),
-    rgba(79,70,229,.38)
-  );
-  border:1px solid rgba(96,165,250,.22);
+
+  border-radius:
+    18px 18px 4px 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(37,99,235,.42),
+      rgba(79,70,229,.38)
+    );
+
+  border:
+    1px solid rgba(96,165,250,.22);
+
   color:#f4f7ff;
+
   line-height:1.6;
+
   font-size:14px;
+
   text-align:left;
-  box-shadow:0 8px 25px rgba(0,0,0,.12);
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.12);
 }
 
-/* AI SIDE */
 
-/* ================= AI SIDE ================= */
+/* =========================================================
+   AI MESSAGE — COMPLETELY LEFT
+========================================================= */
 
 .ai-message{
+
   align-self:stretch;
+
   width:100%;
+
   display:flex;
+
   flex-direction:column;
+
   align-items:flex-start;
 }
 
 .ai-label{
+
   color:#93b4ff;
+
   font-size:11px;
+
   font-weight:bold;
+
   margin-left:5px;
+
+  margin-bottom:4px;
 }
 
 .chat-answer{
+
   align-self:flex-start;
+
   width:100%;
+
   max-width:100%;
+
   padding:20px 22px;
-  border-radius:4px 18px 18px 18px;
-  background:rgba(4,14,28,.62);
-  border:1px solid rgba(96,165,250,.15);
+
+  border-radius:
+    4px 18px 18px 18px;
+
+  background:
+    rgba(4,14,28,.62);
+
+  border:
+    1px solid rgba(96,165,250,.15);
+
   color:#dbeafe;
+
   line-height:1.75;
+
   white-space:pre-wrap;
+
   overflow-wrap:anywhere;
+
   word-break:break-word;
+
   font-size:14px;
+
   text-align:left;
-  box-shadow:0 8px 30px rgba(0,0,0,.15);
+
+  box-shadow:
+    0 8px 30px rgba(0,0,0,.15);
 }
 
 .chat-time{
+
   color:#5d7189;
+
   font-size:10px;
+
   margin-top:8px;
 }
 
-/* THINKING */
-
 .thinking{
+
   align-self:flex-start;
-  max-width:88%;
+
+  width:100%;
+
+  max-width:100%;
 }
 
-/* MOBILE */
 
-@media(max-width:800px){
-
-  .chat-question{
-    max-width:85%;
-  }
-
-  .chat-answer{
-    max-width:94%;
-  }
-
-}
-
-/* ================= MESSAGE ALIGNMENT ================= */
-
-/*
-  Every complete conversation item is full width.
-  User and AI messages are BOTH aligned to the right.
-*/
-
-.chat-message{
-  display:flex;
-  flex-direction:column;
-  align-items:flex-end;
-  gap:8px;
-  width:100%
-}
-
-/* USER MESSAGE */
-
-.chat-question{
-  align-self:flex-end;
-  width:fit-content;
-  max-width:78%;
-  padding:15px 20px;
-  border-radius:18px 18px 4px 18px;
-  background:linear-gradient(
-    135deg,
-    rgba(37,99,235,.35),
-    rgba(79,70,229,.32)
-  );
-  border:1px solid rgba(96,165,250,.18);
-  line-height:1.6;
-  font-size:14px;
-  text-align:left
-}
-
-/* AI MESSAGE */
-
-.chat-answer{
-  align-self:flex-end;
-  width:fit-content;
-  max-width:78%;
-  padding:22px;
-  border-radius:18px 18px 4px 18px;
-  background:rgba(4,14,28,.55);
-  border:1px solid rgba(96,165,250,.15);
-  color:#dbeafe;
-  line-height:1.75;
-  white-space:pre-wrap;
-  word-wrap:break-word;
-  font-size:14px;
-  text-align:left
-}
-
-.chat-label{
-  font-size:11px;
-  font-weight:bold;
-  color:#93b4ff;
-  margin-bottom:8px
-}
-
-.chat-time{
-  color:#5d7189;
-  font-size:10px;
-  margin-top:8px
-}
-
-.thinking{
-  color:#8ea2bb;
-  align-self:flex-end
-}
-
-/* ================= TOOLS ================= */
+/* =========================================================
+   STUDY TOOLS
+========================================================= */
 
 .section-heading{
-  margin:45px 0 20px
+  margin:45px 0 20px;
 }
 
 .section-heading h2{
   font-size:24px;
-  margin-bottom:6px
+
+  margin-bottom:6px;
 }
 
 .section-heading p{
   color:#71859e;
-  font-size:14px
+
+  font-size:14px;
 }
 
 .tools{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:20px;
 }
 
 .tool{
   padding:30px;
+
   min-height:225px;
+
   border-radius:22px;
-  background:linear-gradient(
-    145deg,
-    rgba(20,43,70,.72),
-    rgba(11,28,48,.62)
-  );
-  border:1px solid rgba(147,197,253,.1);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,43,70,.72),
+      rgba(11,28,48,.62)
+    );
+
+  border:
+    1px solid rgba(147,197,253,.1);
+
   cursor:pointer;
-  transition:.3s
+
+  transition:.3s;
 }
 
 .tool:hover{
-  transform:translateY(-7px);
-  border-color:rgba(96,165,250,.3)
+
+  transform:
+    translateY(-7px);
+
+  border-color:
+    rgba(96,165,250,.3);
 }
 
 .tool-icon{
   font-size:35px;
-  margin-bottom:22px
+
+  margin-bottom:22px;
 }
 
 .tool h3{
   font-size:20px;
-  margin-bottom:10px
+
+  margin-bottom:10px;
 }
 
 .tool p{
   color:#8195ad;
+
   font-size:14px;
+
   line-height:1.65;
-  margin-bottom:18px
+
+  margin-bottom:18px;
 }
 
 .tool-link{
   color:#93b4ff;
+
   font-size:13px;
-  font-weight:bold
+
+  font-weight:bold;
 }
 
-/* ================= PROGRESS ================= */
+
+/* =========================================================
+   PROGRESS
+========================================================= */
 
 .progress-card{
+
   padding:30px;
+
   border-radius:22px;
-  background:linear-gradient(
-    145deg,
-    rgba(20,43,70,.65),
-    rgba(10,25,43,.6)
-  );
-  border:1px solid rgba(147,197,253,.1)
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,43,70,.65),
+      rgba(10,25,43,.6)
+    );
+
+  border:
+    1px solid rgba(147,197,253,.1);
 }
 
 .progress-top{
+
   display:flex;
+
   justify-content:space-between;
-  margin-bottom:18px
+
+  margin-bottom:18px;
 }
 
 .progress-number{
+
   color:#93b4ff;
-  font-weight:bold
+
+  font-weight:bold;
 }
 
 .progress-bar{
+
   height:9px;
-  background:rgba(96,165,250,.08);
+
+  background:
+    rgba(96,165,250,.08);
+
   border-radius:20px;
-  overflow:hidden
+
+  overflow:hidden;
 }
 
 .progress-fill{
+
   width:0;
+
   height:100%;
-  background:linear-gradient(
-    90deg,
-    #2563eb,
-    #6366f1,
-    #8b5cf6
-  );
-  transition:width 1s
+
+  background:
+    linear-gradient(
+      90deg,
+      #2563eb,
+      #6366f1,
+      #8b5cf6
+    );
+
+  transition:
+    width 1s;
 }
 
 .progress-text{
+
   color:#61758d;
+
   font-size:12px;
-  margin-top:12px
+
+  margin-top:12px;
 }
 
-/* ================= FOOTER ================= */
+
+/* =========================================================
+   FOOTER
+========================================================= */
 
 footer{
+
   text-align:center;
+
   padding:35px;
-  border-top:1px solid rgba(147,197,253,.08);
+
+  border-top:
+    1px solid rgba(147,197,253,.08);
+
   color:#52667e;
-  font-size:12px
+
+  font-size:12px;
 }
 
-/* ================= MOBILE ================= */
+
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media(max-width:800px){
 
   .sidebar{
-    width:285px
+    width:285px;
   }
 
   .main{
-    margin-left:0
+    margin-left:0;
   }
 
   .sidebar-toggle{
-    left:18px
+    left:18px;
   }
 
-  .sidebar:not(.collapsed)~.sidebar-toggle{
-    left:300px
+  .sidebar:not(.collapsed) ~ .sidebar-toggle{
+    left:300px;
   }
 
   nav{
-    padding:0 18px
+    padding:0 18px;
   }
 
   .user-name{
-    display:none
+    display:none;
   }
 
   .dashboard{
-  width:100%;
-  padding:35px 12px 70px;
-}
+    width:100%;
 
-.ai-card{
-  width:100%;
-  padding:25px 18px;
-}
+    padding:
+      35px 12px 70px;
+  }
 
   .ai-card{
-    padding:25px
+
+    width:100%;
+
+    padding:
+      25px 14px 14px;
+  }
+
+  .ai-top{
+    gap:12px;
+  }
+
+  .ai-icon{
+    width:52px;
+    height:52px;
+    font-size:25px;
+  }
+
+  .ai-title h2{
+    font-size:21px;
   }
 
   .question-box{
-    flex-direction:column
+    flex-direction:column;
   }
 
   .ask-button{
-    width:100%
+    width:100%;
+  }
+
+  .chat-history{
+
+    width:100%;
+
+    min-height:450px;
+
+    padding:
+      20px 12px;
+  }
+
+  .chat-question{
+
+    max-width:88%;
+  }
+
+  .chat-answer{
+
+    max-width:100%;
   }
 
   .tools{
-    grid-template-columns:1fr
+    grid-template-columns:1fr;
   }
 
   .profile-menu{
+
     right:-5px;
-    width:min(290px,calc(100vw - 30px))
+
+    width:
+      min(
+        290px,
+        calc(100vw - 30px)
+      );
   }
 
   .clear-chat{
-    display:none
+    display:none;
   }
 
-  .chat-question,
-  .chat-answer{
-    max-width:92%
-  }
 }
+
 </style>
+
 </head>
 
 <body>
 
 <div class="app">
 
-<!-- ================= SIDEBAR ================= -->
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
 
-<aside class="sidebar" id="sidebar">
+<aside
+  class="sidebar"
+  id="sidebar"
+>
 
   <div class="side-head">
-    <div class="side-title">
-      💬 DIVYAM<span>.AI</span>
-    </div>
+
+```
+<div class="side-title">
+  💬 DIVYAM<span>.AI</span>
+</div>
+```
+
   </div>
 
-  <button class="new-chat" onclick="newChat()">
-    ＋ New Chat ✨
+<button
+class="new-chat"
+onclick="newChat()"
+
+>
+
+```
+＋ New Chat ✨
+```
+
   </button>
 
   <div class="history-title">
     Previous Chats
   </div>
 
-  <div class="history" id="historyList"></div>
+  <div
+    class="history"
+    id="historyList"
+  ></div>
 
 </aside>
 
+<!-- =====================================================
+     SIDEBAR BUTTON
+===================================================== -->
+
 <button
-  class="sidebar-toggle"
-  onclick="toggleSidebar()"
-  aria-label="Toggle chat history"
+class="sidebar-toggle"
+onclick="toggleSidebar()"
+aria-label="Toggle chat history"
+
 >
-  ☰
-</button>
+
+☰ </button>
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
 
 <div class="main">
 
-<!-- ================= NAVBAR ================= -->
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
 
 <nav>
 
@@ -893,102 +1358,131 @@ footer{
 
   <div class="nav-right">
 
-    <div class="user-name" id="userName">
-      Loading...
-    </div>
+```
+<div
+  class="user-name"
+  id="userName"
+>
+  Loading...
+</div>
 
-    <button
-      class="clear-chat"
-      onclick="clearCurrentChat()"
-    >
-      🧹 Clear
-    </button>
 
-    <div class="profile-wrap">
+<button
+  class="clear-chat"
+  onclick="clearCurrentChat()"
+>
+  🧹 Clear
+</button>
 
-      <button
-        class="profile-button"
-        id="profileButton"
-        onclick="toggleProfile(event)"
-      >
-        U
-      </button>
+
+<div class="profile-wrap">
+
+  <button
+    class="profile-button"
+    id="profileButton"
+    onclick="toggleProfile(event)"
+  >
+    U
+  </button>
+
+
+  <div
+    class="profile-menu"
+    id="profileMenu"
+  >
+
+    <div class="profile-head">
 
       <div
-        class="profile-menu"
-        id="profileMenu"
+        class="profile-mini"
+        id="profileMini"
       >
+        U
+      </div>
 
-        <div class="profile-head">
+      <div>
 
-          <div
-            class="profile-mini"
-            id="profileMini"
-          >
-            U
-          </div>
+        <strong
+          id="profileName"
+        >
+          Student
+        </strong>
 
-          <div>
-
-            <strong id="profileName">
-              Student
-            </strong>
-
-            <small id="profileEmail">
-              Loading...
-            </small>
-
-          </div>
-
-        </div>
-
-        <div class="profile-item">
-
-          <span>
-            Username
-          </span>
-
-          <b id="profileUsername">
-            Student
-          </b>
-
-        </div>
-
-        <div class="profile-item">
-
-          <span>
-            Registered email
-          </span>
-
-          <b id="profileRegisteredEmail">
-            Loading...
-          </b>
-
-        </div>
-
-        <div class="profile-actions">
-
-          <button onclick="location.href='profile.html'">
-            View Profile 👤
-          </button>
-
-          <button onclick="logout()">
-            Log Out 🚪
-          </button>
-
-        </div>
+        <small
+          id="profileEmail"
+        >
+          Loading...
+        </small>
 
       </div>
 
     </div>
 
+
+    <div class="profile-item">
+
+      <span>
+        Username
+      </span>
+
+      <b
+        id="profileUsername"
+      >
+        Student
+      </b>
+
+    </div>
+
+
+    <div class="profile-item">
+
+      <span>
+        Registered email
+      </span>
+
+      <b
+        id="profileRegisteredEmail"
+      >
+        Loading...
+      </b>
+
+    </div>
+
+
+    <div class="profile-actions">
+
+      <button
+        onclick="location.href='profile.html'"
+      >
+        View Profile 👤
+      </button>
+
+      <button
+        onclick="logout()"
+      >
+        Log Out 🚪
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+```
+
   </div>
 
 </nav>
 
-<!-- ================= DASHBOARD ================= -->
+<!-- =====================================================
+     DASHBOARD CONTENT
+===================================================== -->
 
 <main class="dashboard">
+
+<!-- =====================================================
+     WELCOME
+===================================================== -->
 
 <section class="welcome">
 
@@ -1014,60 +1508,76 @@ footer{
 
 </section>
 
-<!-- ================= AI CARD ================= -->
+<!-- =====================================================
+     BIG AI CARD
+===================================================== -->
 
 <section class="ai-card">
 
   <div class="ai-top">
 
-    <div class="ai-icon">
-      🤖
-    </div>
+```
+<div class="ai-icon">
+  🤖
+</div>
 
-    <div class="ai-title">
+<div class="ai-title">
 
-      <h2>
-        Ask Divyam AI ✨
-      </h2>
+  <h2>
+    Ask Divyam AI ✨
+  </h2>
 
-      <p>
-        Your personal AI study companion 📚🧠🚀
-      </p>
+  <p>
+    Your personal AI study companion 📚🧠🚀
+  </p>
 
-    </div>
+</div>
+```
 
   </div>
+
+  <!-- QUESTION INPUT -->
 
   <div class="question-box">
 
-    <input
-      id="questionInput"
-      type="text"
-      autocomplete="off"
-      placeholder="Ask me anything about your studies... 🤔💡"
-    >
+```
+<input
+  id="questionInput"
+  type="text"
+  autocomplete="off"
+  placeholder="Ask me anything about your studies... 🤔💡"
+>
 
-    <button
-      class="ask-button"
-      id="askButton"
-      onclick="askAI()"
-    >
-      Ask AI 🚀
-    </button>
+<button
+  class="ask-button"
+  id="askButton"
+  onclick="askAI()"
+>
+  Ask AI 🚀
+</button>
+```
 
   </div>
+
+  <!-- CHAT HEADER -->
 
   <div class="chat-header">
 
-    <h3>
-      💬 Current Conversation
-    </h3>
+```
+<h3>
+  💬 Current Conversation
+</h3>
 
-    <span id="chatCount">
-      0 messages
-    </span>
+<span
+  id="chatCount"
+>
+  0 messages
+</span>
+```
 
   </div>
+
+  <!-- LARGE DARK CHAT BOX -->
 
   <div
     class="chat-history"
@@ -1076,7 +1586,9 @@ footer{
 
 </section>
 
-<!-- ================= STUDY TOOLS ================= -->
+<!-- =====================================================
+     STUDY TOOLS
+===================================================== -->
 
 <div class="section-heading">
 
@@ -1097,22 +1609,24 @@ footer{
     onclick="comingSoon('Doubt Solver')"
   >
 
-    <div class="tool-icon">
-      🤖
-    </div>
+```
+<div class="tool-icon">
+  🤖
+</div>
 
-    <h3>
-      Doubt Solver 💡
-    </h3>
+<h3>
+  Doubt Solver 💡
+</h3>
 
-    <p>
-      Get simple, step-by-step explanations for your questions.
-      🧠📖
-    </p>
+<p>
+  Get simple, step-by-step explanations
+  for your questions. 🧠📖
+</p>
 
-    <div class="tool-link">
-      Solve a doubt →
-    </div>
+<div class="tool-link">
+  Solve a doubt →
+</div>
+```
 
   </div>
 
@@ -1121,22 +1635,24 @@ footer{
     onclick="comingSoon('AI Notes')"
   >
 
-    <div class="tool-icon">
-      📚
-    </div>
+```
+<div class="tool-icon">
+  📚
+</div>
 
-    <h3>
-      AI Notes 🧠
-    </h3>
+<h3>
+  AI Notes 🧠
+</h3>
 
-    <p>
-      Turn chapters into concise notes and revision material.
-      ✍️📖
-    </p>
+<p>
+  Turn chapters into concise notes
+  and revision material. ✍️📖
+</p>
 
-    <div class="tool-link">
-      Create notes →
-    </div>
+<div class="tool-link">
+  Create notes →
+</div>
+```
 
   </div>
 
@@ -1145,28 +1661,33 @@ footer{
     onclick="comingSoon('Custom Tests')"
   >
 
-    <div class="tool-icon">
-      📝
-    </div>
+```
+<div class="tool-icon">
+  📝
+</div>
 
-    <h3>
-      Custom Tests 🎯
-    </h3>
+<h3>
+  Custom Tests 🎯
+</h3>
 
-    <p>
-      Generate tests based on class, subject, chapters and difficulty.
-      🏆📚
-    </p>
+<p>
+  Generate tests based on class,
+  subject, chapters and difficulty.
+  🏆📚
+</p>
 
-    <div class="tool-link">
-      Create a test →
-    </div>
+<div class="tool-link">
+  Create a test →
+</div>
+```
 
   </div>
 
 </section>
 
-<!-- ================= PROGRESS ================= -->
+<!-- =====================================================
+     PROGRESS
+===================================================== -->
 
 <div class="section-heading">
 
@@ -1184,19 +1705,25 @@ footer{
 
   <div class="progress-top">
 
-    <h3>
-      Learning Progress 📚
-    </h3>
+```
+<h3>
+  Learning Progress 📚
+</h3>
 
-    <div class="progress-number">
-      0%
-    </div>
+<div class="progress-number">
+  0%
+</div>
+```
 
   </div>
 
   <div class="progress-bar">
 
-    <div class="progress-fill"></div>
+```
+<div
+  class="progress-fill"
+></div>
+```
 
   </div>
 
@@ -1208,14 +1735,18 @@ footer{
 
 </main>
 
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
 <footer>
 
-  © 2026 DIVYAM.AI 🤖
+© 2026 DIVYAM.AI 🤖
 
-  <br><br>
+<br><br>
 
-  Your AI-powered study companion
-  📚🧠✨🚀
+Your AI-powered study companion
+📚🧠✨🚀
 
 </footer>
 
@@ -1223,6 +1754,10 @@ footer{
 </div>
 
 <script>
+
+/* =========================================================
+   SUPABASE
+========================================================= */
 
 const SUPABASE_URL =
   "https://teosakxikuswuhtbkmuv.supabase.co";
@@ -1236,74 +1771,95 @@ const supabaseClient =
     SUPABASE_KEY
   );
 
+
+/* =========================================================
+   CHAT STATE
+========================================================= */
+
 let userId = "guest";
-let storageKey = "divyam_sessions_guest";
+
+let storageKey =
+  "divyam_sessions_guest";
+
 let sessions = [];
+
 let activeId = null;
 
 
-/* ================= UTILITIES ================= */
+/* =========================================================
+   INITIALS
+========================================================= */
 
-function getInitials(n){
+function getInitials(name){
 
-  return n
+  return name
     .trim()
     .split(/\s+/)
     .map(x => x[0])
     .slice(0,2)
     .join('')
-    .toUpperCase() || 'U';
+    .toUpperCase()
+    || "U";
 
 }
 
 
-/* ================= SIDEBAR ================= */
+/* =========================================================
+   SIDEBAR
+========================================================= */
 
 function toggleSidebar(){
 
   document
-    .getElementById('sidebar')
+    .getElementById("sidebar")
     .classList
-    .toggle('collapsed');
+    .toggle("collapsed");
 
 }
 
 
-/* ================= PROFILE ================= */
+/* =========================================================
+   PROFILE
+========================================================= */
 
 function toggleProfile(e){
 
   e.stopPropagation();
 
   document
-    .getElementById('profileMenu')
+    .getElementById("profileMenu")
     .classList
-    .toggle('open');
+    .toggle("open");
 
 }
 
 
-document.addEventListener('click',e=>{
+document.addEventListener(
+  "click",
+  e => {
 
-  const w =
-    document.querySelector('.profile-wrap');
+    const wrapper =
+      document.querySelector(".profile-wrap");
 
-  if(
-    w &&
-    !w.contains(e.target)
-  ){
+    if(
+      wrapper &&
+      !wrapper.contains(e.target)
+    ){
 
-    document
-      .getElementById('profileMenu')
-      .classList
-      .remove('open');
+      document
+        .getElementById("profileMenu")
+        .classList
+        .remove("open");
+
+    }
 
   }
+);
 
-});
 
-
-/* ================= CHAT STORAGE ================= */
+/* =========================================================
+   LOAD CHATS
+========================================================= */
 
 function loadSessions(){
 
@@ -1311,16 +1867,21 @@ function loadSessions(){
 
     sessions =
       JSON.parse(
-        localStorage.getItem(storageKey) || '[]'
+        localStorage.getItem(storageKey)
+        || "[]"
       );
 
-    if(!Array.isArray(sessions)){
-      sessions=[];
+    if(
+      !Array.isArray(sessions)
+    ){
+
+      sessions = [];
+
     }
 
   }catch{
 
-    sessions=[];
+    sessions = [];
 
   }
 
@@ -1328,6 +1889,10 @@ function loadSessions(){
 
 }
 
+
+/* =========================================================
+   SAVE CHATS
+========================================================= */
 
 function saveSessions(){
 
@@ -1341,7 +1906,9 @@ function saveSessions(){
 }
 
 
-/* ================= NEW CHAT ================= */
+/* =========================================================
+   NEW CHAT
+========================================================= */
 
 function newChat(){
 
@@ -1352,7 +1919,7 @@ function newChat(){
 
     id:id,
 
-    title:'New Chat',
+    title:"New Chat",
 
     messages:[],
 
@@ -1361,7 +1928,7 @@ function newChat(){
 
   });
 
-  activeId=id;
+  activeId = id;
 
   saveSessions();
 
@@ -1370,13 +1937,15 @@ function newChat(){
   renderChat();
 
   document
-    .getElementById('questionInput')
+    .getElementById("questionInput")
     .focus();
 
 }
 
 
-/* ================= CURRENT CHAT ================= */
+/* =========================================================
+   CURRENT CHAT
+========================================================= */
 
 function current(){
 
@@ -1387,58 +1956,69 @@ function current(){
 }
 
 
-/* ================= CHAT HISTORY ================= */
+/* =========================================================
+   HISTORY
+========================================================= */
 
 function renderHistory(){
 
   const list =
     document.getElementById(
-      'historyList'
+      "historyList"
     );
 
   if(!sessions.length){
 
     list.innerHTML =
-      '<div class="empty-history">'+
-      'No previous chats yet. 💬✨<br>'+
-      'Start a new chat to see it here.'+
-      '</div>';
+      `
+      <div class="empty-history">
+        No previous chats yet. 💬✨
+        <br>
+        Start a new chat to see it here.
+      </div>
+      `;
 
     return;
 
   }
 
-  list.innerHTML='';
+
+  list.innerHTML = "";
+
 
   [...sessions]
     .reverse()
-    .forEach(s=>{
+    .forEach(s => {
 
       const item =
-        document.createElement('div');
+        document.createElement("div");
 
       item.className =
-        'history-item' +
-        (s.id === activeId
-          ? ' active'
-          : '');
+        "history-item" +
+        (
+          s.id === activeId
+            ? " active"
+            : ""
+        );
 
       item.textContent =
-        '💬 ' +
-        (s.title || 'New Chat');
+        "💬 " +
+        (s.title || "New Chat");
 
       item.title =
-        s.title || 'New Chat';
+        s.title || "New Chat";
 
-      item.onclick=()=>{
 
-        activeId=s.id;
+      item.onclick = () => {
+
+        activeId = s.id;
 
         renderHistory();
 
         renderChat();
 
       };
+
 
       list.appendChild(item);
 
@@ -1447,154 +2027,303 @@ function renderHistory(){
 }
 
 
-/* ================= RENDER CHAT ================= */
+/* =========================================================
+   CLEAN AI RESPONSE
+========================================================= */
+
+function cleanAIResponse(text){
+
+  if(
+    typeof text !== "string"
+  ){
+
+    return "";
+
+  }
+
+
+  let x =
+    text.replace(
+      /```[\s\S]*?```/g,
+      m =>
+        m
+          .replace(
+            /```[a-zA-Z0-9_-]*/g,
+            ""
+          )
+          .replace(
+            /```/g,
+            ""
+          )
+    );
+
+
+  x =
+    x
+      .replace(
+        /`([^`]+)`/g,
+        "$1"
+      )
+      .replace(
+        /^\s*#{1,6}\s*/gm,
+        ""
+      )
+      .replace(
+        /^\s*>\s?/gm,
+        ""
+      )
+      .replace(
+        /\*\*(.*?)\*\*/gs,
+        "$1"
+      )
+      .replace(
+        /__(.*?)__/gs,
+        "$1"
+      )
+      .replace(
+        /^\s*[-*+]\s+/gm,
+        "• "
+      );
+
+
+  x =
+    x.replace(
+      /^\s*\|(.+)\|\s*$/gm,
+      (m,r) => {
+
+        const cells =
+          r
+            .split("|")
+            .map(
+              v => v.trim()
+            )
+            .filter(Boolean);
+
+        return cells.length
+          ? "• " + cells.join(" — ")
+          : "";
+
+      }
+    );
+
+
+  return x.trim();
+
+}
+
+
+/* =========================================================
+   RENDER CHAT
+========================================================= */
 
 function renderChat(){
 
   const box =
-    document.getElementById('chatHistory');
+    document.getElementById(
+      "chatHistory"
+    );
 
-  const c =
-    document.getElementById('chatCount');
+  const count =
+    document.getElementById(
+      "chatCount"
+    );
 
   const s = current();
 
-  box.innerHTML = '';
 
-  if(!s || !s.messages.length){
+  box.innerHTML = "";
+
+
+  if(
+    !s ||
+    !s.messages.length
+  ){
 
     box.innerHTML =
-      '<div class="empty-chat">'+
-      '🤖✨ <strong>New conversation</strong>'+
-      '<br><br>'+
-      'This chat is empty. Ask DIVYAM.AI anything you want to learn. 📚🧠'+
-      '<br>'+
-      'Your older chats are safely listed in the left sidebar. 💾'+
-      '</div>';
+      `
+      <div class="empty-chat">
+        🤖✨
+        <strong>New conversation</strong>
 
-    c.textContent = '0 messages';
+        <br><br>
+
+        This chat is empty.
+        Ask DIVYAM.AI anything you want to learn.
+        📚🧠
+
+        <br>
+
+        Your older chats are safely listed
+        in the left sidebar. 💾
+      </div>
+      `;
+
+    count.textContent =
+      "0 messages";
 
     return;
+
   }
 
-  c.textContent =
+
+  count.textContent =
     s.messages.length +
     (
       s.messages.length === 1
-        ? ' message'
-        : ' messages'
+        ? " message"
+        : " messages"
     ) +
-    ' 💾';
+    " 💾";
 
 
-  s.messages.forEach(m => {
-
-    const wrap =
-      document.createElement('div');
-
-    wrap.className = 'chat-message';
+  s.messages.forEach(
+    m => {
 
 
-    /* ================= USER ================= */
+      /* ===============================================
+         COMPLETE MESSAGE
+      =============================================== */
 
-    const userContainer =
-      document.createElement('div');
+      const wrap =
+        document.createElement("div");
 
-    userContainer.className =
-      'user-message';
-
-
-    const userLabel =
-      document.createElement('div');
-
-    userLabel.className =
-      'user-label';
-
-    userLabel.textContent =
-      'Your message 🧑‍🎓';
+      wrap.className =
+        "chat-message";
 
 
-    const q =
-      document.createElement('div');
+      /* ===============================================
+         USER
+      =============================================== */
 
-    q.className =
-      'chat-question';
+      const userContainer =
+        document.createElement("div");
 
-    q.textContent =
-      m.question;
-
-
-    userContainer.appendChild(userLabel);
-    userContainer.appendChild(q);
+      userContainer.className =
+        "user-message";
 
 
-    /* ================= AI ================= */
+      const userLabel =
+        document.createElement("div");
 
-    const aiContainer =
-      document.createElement('div');
+      userLabel.className =
+        "user-label";
 
-    aiContainer.className =
-      'ai-message';
-
-
-    const aiLabel =
-      document.createElement('div');
-
-    aiLabel.className =
-      'ai-label';
-
-    aiLabel.textContent =
-      '🤖 DIVYAM.AI';
+      userLabel.textContent =
+        "Your message 🧑‍🎓";
 
 
-    const a =
-      document.createElement('div');
+      const question =
+        document.createElement("div");
 
-    a.className =
-      'chat-answer';
+      question.className =
+        "chat-question";
 
-
-    const text =
-      document.createElement('div');
-
-    text.textContent =
-      cleanAIResponse(m.answer);
+      question.textContent =
+        m.question;
 
 
-    const time =
-      document.createElement('div');
+      userContainer.appendChild(
+        userLabel
+      );
 
-    time.className =
-      'chat-time';
-
-    time.textContent =
-      '🕒 ' +
-      new Date(
-        m.timestamp
-      ).toLocaleTimeString(
-        [],
-        {
-          hour:'2-digit',
-          minute:'2-digit'
-        }
+      userContainer.appendChild(
+        question
       );
 
 
-    a.appendChild(text);
-    a.appendChild(time);
+      /* ===============================================
+         AI
+      =============================================== */
 
-    aiContainer.appendChild(aiLabel);
-    aiContainer.appendChild(a);
+      const aiContainer =
+        document.createElement("div");
+
+      aiContainer.className =
+        "ai-message";
 
 
-    /* ================= COMPLETE MESSAGE ================= */
+      const aiLabel =
+        document.createElement("div");
 
-    wrap.appendChild(userContainer);
-    wrap.appendChild(aiContainer);
+      aiLabel.className =
+        "ai-label";
 
-    box.appendChild(wrap);
+      aiLabel.textContent =
+        "🤖 DIVYAM.AI";
 
-  });
+
+      const answer =
+        document.createElement("div");
+
+      answer.className =
+        "chat-answer";
+
+
+      const answerText =
+        document.createElement("div");
+
+      answerText.textContent =
+        cleanAIResponse(
+          m.answer
+        );
+
+
+      const time =
+        document.createElement("div");
+
+      time.className =
+        "chat-time";
+
+      time.textContent =
+        "🕒 " +
+        new Date(
+          m.timestamp
+        ).toLocaleTimeString(
+          [],
+          {
+            hour:"2-digit",
+            minute:"2-digit"
+          }
+        );
+
+
+      answer.appendChild(
+        answerText
+      );
+
+      answer.appendChild(
+        time
+      );
+
+
+      aiContainer.appendChild(
+        aiLabel
+      );
+
+      aiContainer.appendChild(
+        answer
+      );
+
+
+      /* ===============================================
+         ADD TO CHAT
+      =============================================== */
+
+      wrap.appendChild(
+        userContainer
+      );
+
+      wrap.appendChild(
+        aiContainer
+      );
+
+
+      box.appendChild(
+        wrap
+      );
+
+    }
+  );
 
 
   box.scrollTop =
@@ -1603,26 +2332,39 @@ function renderChat(){
 }
 
 
-/* ================= CLEAR ================= */
+/* =========================================================
+   CLEAR CURRENT CHAT
+========================================================= */
 
 function clearCurrentChat(){
 
-  const s=current();
+  const s = current();
 
   if(
     !s ||
     !s.messages.length
-  ) return;
+  ){
+
+    return;
+
+  }
+
 
   if(
     !confirm(
-      '🧹 Clear this conversation?'
+      "🧹 Clear this conversation?"
     )
-  ) return;
+  ){
 
-  s.messages=[];
+    return;
 
-  s.title='New Chat';
+  }
+
+
+  s.messages = [];
+
+  s.title =
+    "New Chat";
 
   saveSessions();
 
@@ -1633,104 +2375,41 @@ function clearCurrentChat(){
 }
 
 
-/* ================= CLEAN AI RESPONSE ================= */
-
-function cleanAIResponse(text){
-
-  if(
-    typeof text !== 'string'
-  ) return '';
-
-  let x =
-    text.replace(
-      /```[\s\S]*?```/g,
-      m =>
-        m
-          .replace(
-            /```[a-zA-Z0-9_-]*/g,
-            ''
-          )
-          .replace(
-            /```/g,
-            ''
-          )
-    );
-
-  x =
-    x.replace(
-      /`([^`]+)`/g,
-      '$1'
-    )
-    .replace(
-      /^\s*#{1,6}\s*/gm,
-      ''
-    )
-    .replace(
-      /^\s*>\s?/gm,
-      ''
-    )
-    .replace(
-      /\*\*(.*?)\*\*/gs,
-      '$1'
-    )
-    .replace(
-      /__(.*?)__/gs,
-      '$1'
-    )
-    .replace(
-      /^\s*[-*+]\s+/gm,
-      '• '
-    );
-
-  x =
-    x.replace(
-      /^\s*\|(.+)\|\s*$/gm,
-      (m,r)=>{
-
-        const c =
-          r
-            .split('|')
-            .map(v=>v.trim())
-            .filter(Boolean);
-
-        return c.length
-          ? '• ' + c.join(' — ')
-          : '';
-
-      }
-    );
-
-  return x.trim();
-
-}
-
-
-/* ================= ASK AI ================= */
+/* =========================================================
+   ASK AI
+========================================================= */
 
 async function askAI(){
 
-  let input =
+  const input =
     document.getElementById(
-      'questionInput'
+      "questionInput"
     );
 
-  let button =
+  const button =
     document.getElementById(
-      'askButton'
+      "askButton"
     );
 
-  let question =
+  const question =
     input.value.trim();
 
-  if(!question) return;
 
+  if(!question){
 
-  if(!current()){
-    newChat();
+    return;
+
   }
 
 
-  const s=current();
+  if(!current()){
+
+    newChat();
+
+  }
+
+
+  const s = current();
 
 
   if(
@@ -1739,36 +2418,38 @@ async function askAI(){
 
     s.title =
       question.length > 42
-        ? question.slice(0,42)+'…'
+        ? question.slice(0,42) + "…"
         : question;
 
   }
 
 
-  button.disabled=true;
+  button.disabled = true;
 
   button.textContent =
-    'Thinking... 🤔';
+    "Thinking... 🤔";
 
 
   const box =
     document.getElementById(
-      'chatHistory'
+      "chatHistory"
     );
 
 
-  const t =
-    document.createElement(
-      'div'
-    );
+  const thinking =
+    document.createElement("div");
 
-  t.className =
-    'chat-answer thinking';
+  thinking.className =
+    "chat-answer thinking";
 
-  t.textContent =
-    '🤖 Thinking... 🧠✨';
+  thinking.textContent =
+    "🤖 Thinking... 🧠✨";
 
-  box.appendChild(t);
+
+  box.appendChild(
+    thinking
+  );
+
 
   box.scrollTop =
     box.scrollHeight;
@@ -1777,17 +2458,19 @@ async function askAI(){
   try{
 
     const {
-      data:sd
+      data:sessionData
     } =
       await supabaseClient
         .auth
         .getSession();
 
 
-    if(!sd.session){
+    if(
+      !sessionData.session
+    ){
 
       throw new Error(
-        'You are not signed in. Please log in again. 🔐'
+        "You are not signed in. Please log in again. 🔐"
       );
 
     }
@@ -1800,7 +2483,7 @@ async function askAI(){
       await supabaseClient
         .functions
         .invoke(
-          'ask-ai',
+          "ask-ai",
           {
             body:{
               question
@@ -1814,17 +2497,19 @@ async function askAI(){
       throw new Error(
         data?.error ||
         error.message ||
-        'AI request failed. ❌'
+        "AI request failed. ❌"
       );
 
     }
 
 
-    if(!data?.answer){
+    if(
+      !data?.answer
+    ){
 
       throw new Error(
         data?.error ||
-        'The AI returned no answer. 🤖❌'
+        "The AI returned no answer. 🤖❌"
       );
 
     }
@@ -1848,43 +2533,49 @@ async function askAI(){
 
     renderChat();
 
-    input.value='';
+
+    input.value = "";
 
 
   }catch(e){
 
-    t.remove();
+    thinking.remove();
 
-    const err =
-      document.createElement(
-        'div'
-      );
 
-    err.className =
-      'chat-answer';
+    const errorBox =
+      document.createElement("div");
 
-    err.textContent =
-      '❌ DIVYAM.AI ERROR\n\n' +
+    errorBox.className =
+      "chat-answer";
+
+
+    errorBox.textContent =
+      "❌ DIVYAM.AI ERROR\n\n" +
       (
         e.message ||
-        'Could not connect to DIVYAM.AI.'
+        "Could not connect to DIVYAM.AI."
       );
 
-    box.appendChild(err);
+
+    box.appendChild(
+      errorBox
+    );
 
   }finally{
 
-    button.disabled=false;
+    button.disabled = false;
 
     button.textContent =
-      'Ask AI 🚀';
+      "Ask AI 🚀";
 
   }
 
 }
 
 
-/* ================= LOGOUT ================= */
+/* =========================================================
+   LOGOUT
+========================================================= */
 
 async function logout(){
 
@@ -1893,15 +2584,18 @@ async function logout(){
     .signOut();
 
   sessionStorage.removeItem(
-    'divyam_dashboard_session'
+    "divyam_dashboard_session"
   );
 
-  location.href='auth.html';
+  location.href =
+    "auth.html";
 
 }
 
 
-/* ================= CHECK USER ================= */
+/* =========================================================
+   CHECK USER
+========================================================= */
 
 async function checkUser(){
 
@@ -1919,94 +2613,131 @@ async function checkUser(){
     !data.user
   ){
 
-    location.href='auth.html';
+    location.href =
+      "auth.html";
 
     return;
 
   }
 
 
-  const u=data.user;
+  const u =
+    data.user;
 
 
-  userId=u.id;
+  userId =
+    u.id;
 
 
   storageKey =
-    'divyam_sessions_' +
+    "divyam_sessions_" +
     u.id;
 
 
   const name =
     u.user_metadata?.full_name ||
-    u.email?.split('@')[0] ||
-    'Student';
+    u.email?.split("@")[0] ||
+    "Student";
 
 
-  document.getElementById(
-    'welcomeName'
-  ).textContent=name;
+  /* ===============================================
+     NAVBAR
+  =============================================== */
+
+  document
+    .getElementById(
+      "welcomeName"
+    )
+    .textContent =
+    name;
 
 
-  document.getElementById(
-    'userName'
-  ).textContent =
+  document
+    .getElementById(
+      "userName"
+    )
+    .textContent =
     u.email || name;
 
 
-  document.getElementById(
-    'profileButton'
-  ).textContent =
+  /* ===============================================
+     PROFILE
+  =============================================== */
+
+  const initials =
     getInitials(name);
 
 
-  document.getElementById(
-    'profileMini'
-  ).textContent =
-    getInitials(name);
+  document
+    .getElementById(
+      "profileButton"
+    )
+    .textContent =
+    initials;
 
 
-  document.getElementById(
-    'profileName'
-  ).textContent=name;
+  document
+    .getElementById(
+      "profileMini"
+    )
+    .textContent =
+    initials;
 
 
-  document.getElementById(
-    'profileUsername'
-  ).textContent=name;
+  document
+    .getElementById(
+      "profileName"
+    )
+    .textContent =
+    name;
 
 
-  document.getElementById(
-    'profileEmail'
-  ).textContent =
+  document
+    .getElementById(
+      "profileUsername"
+    )
+    .textContent =
+    name;
+
+
+  document
+    .getElementById(
+      "profileEmail"
+    )
+    .textContent =
     u.email ||
-    'Not available';
+    "Not available";
 
 
-  document.getElementById(
-    'profileRegisteredEmail'
-  ).textContent =
+  document
+    .getElementById(
+      "profileRegisteredEmail"
+    )
+    .textContent =
     u.email ||
-    'Not available';
+    "Not available";
 
+
+  /* ===============================================
+     LOAD CHAT HISTORY
+  =============================================== */
 
   loadSessions();
 
 
-  /*
-    Every login starts a fresh chat.
-    Previous chats remain saved in the sidebar.
-  */
+  /* ===============================================
+     NEW LOGIN = NEW CHAT
+  =============================================== */
 
   if(
     !sessionStorage.getItem(
-      'divyam_dashboard_session'
+      "divyam_dashboard_session"
     )
   ){
 
     sessionStorage.setItem(
-      'divyam_dashboard_session',
-      '1'
+      "divyam_dashboard_session",
+      "1"
     );
 
     newChat();
@@ -2035,32 +2766,36 @@ async function checkUser(){
 }
 
 
-/* ================= COMING SOON ================= */
+/* =========================================================
+   COMING SOON
+========================================================= */
 
-function comingSoon(x){
+function comingSoon(feature){
 
   alert(
-    '🚀 ' +
-    x +
-    ' is coming soon!\n\n' +
-    'We are building this feature for DIVYAM.AI. 🤖📚✨'
+    "🚀 " +
+    feature +
+    " is coming soon!\n\n" +
+    "We are building this feature for DIVYAM.AI. 🤖📚✨"
   );
 
 }
 
 
-/* ================= ENTER TO ASK ================= */
+/* =========================================================
+   ENTER KEY
+========================================================= */
 
 document
   .getElementById(
-    'questionInput'
+    "questionInput"
   )
   .addEventListener(
-    'keydown',
-    e=>{
+    "keydown",
+    e => {
 
       if(
-        e.key === 'Enter'
+        e.key === "Enter"
       ){
 
         e.preventDefault();
@@ -2073,7 +2808,9 @@ document
   );
 
 
-/* ================= START ================= */
+/* =========================================================
+   START
+========================================================= */
 
 checkUser();
 

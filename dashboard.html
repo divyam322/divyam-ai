@@ -1,4 +1,3 @@
-````html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,45 +8,125 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
+/* =========================================================
+   DIVYAM.AI — GLOBAL THEME VARIABLES
+========================================================= */
+
+:root{
+  --accent-1:#2563eb;
+  --accent-2:#4f46e5;
+  --accent-3:#7c3aed;
+
+  --accent-soft:rgba(59,130,246,.18);
+  --accent-border:rgba(96,165,250,.20);
+
+  --bg:#07111f;
+  --bg-2:#061221;
+  --panel:rgba(6,18,33,.96);
+  --dark-panel:rgba(4,14,28,.82);
+
+  --text:#f4f7ff;
+  --muted:#8ea2bb;
+  --border:rgba(147,197,253,.12);
+
+  --glow:0.25;
+
+  --chat-gap:24px;
+  --chat-padding:25px 18px;
+
+  --font-family:Arial,Helvetica,sans-serif;
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
 *{
   box-sizing:border-box;
   margin:0;
   padding:0;
 }
 
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  min-height:100vh;
-  color:#f4f7ff;
-  background:
-    radial-gradient(circle at 10% 0%,rgba(59,130,246,.18),transparent 32%),
-    radial-gradient(circle at 90% 100%,rgba(124,58,237,.16),transparent 35%),
-    #07111f;
-  overflow-x:hidden;
+html{
+  scroll-behavior:smooth;
 }
+
+body{
+  font-family:var(--font-family);
+  min-height:100vh;
+  color:var(--text);
+
+  background:
+    radial-gradient(
+      circle at 10% 0%,
+      var(--accent-soft),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 90% 100%,
+      rgba(124,58,237,.16),
+      transparent 35%
+    ),
+    var(--bg);
+
+  overflow-x:hidden;
+
+  transition:
+    background .35s ease,
+    color .25s ease,
+    font-family .2s ease;
+}
+
+button,
+input{
+  font-family:inherit;
+}
+
+button{
+  -webkit-tap-highlight-color:transparent;
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
 
 .app{
   min-height:100vh;
 }
 
-/* =========================
+
+/* =========================================================
    SIDEBAR
-========================= */
+========================================================= */
 
 .sidebar{
   position:fixed;
   left:0;
   top:0;
   bottom:0;
+
   width:285px;
-  background:rgba(6,18,33,.96);
-  border-right:1px solid rgba(147,197,253,.12);
+
+  background:var(--panel);
+
+  border-right:1px solid var(--border);
+
   z-index:300;
+
   transform:translateX(0);
-  transition:.25s;
+
+  transition:
+    .25s ease,
+    background .3s ease;
+
   display:flex;
   flex-direction:column;
-  box-shadow:20px 0 70px rgba(0,0,0,.2);
+
+  box-shadow:
+    20px 0 70px rgba(0,0,0,.2);
 }
 
 .sidebar.collapsed{
@@ -57,11 +136,14 @@ body{
 
 .side-head{
   height:74px;
+
   padding:0 18px;
+
   display:flex;
   align-items:center;
   justify-content:space-between;
-  border-bottom:1px solid rgba(147,197,253,.1);
+
+  border-bottom:1px solid var(--border);
 }
 
 .side-title{
@@ -71,43 +153,60 @@ body{
 }
 
 .side-title span{
-  color:#818cf8;
+  color:var(--accent-3);
 }
 
 .new-chat{
   margin:16px;
   padding:12px;
+
   border-radius:12px;
-  border:1px solid rgba(96,165,250,.2);
-  background:linear-gradient(
-    90deg,
-    rgba(37,99,235,.22),
-    rgba(124,58,237,.2)
-  );
+
+  border:1px solid var(--accent-border);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(37,99,235,.22),
+      rgba(124,58,237,.2)
+    );
+
   color:#eaf2ff;
+
   font-weight:bold;
   cursor:pointer;
+
+  transition:.2s;
 }
 
 .new-chat:hover{
-  background:linear-gradient(
-    90deg,
-    rgba(37,99,235,.32),
-    rgba(124,58,237,.3)
-  );
+  transform:translateY(-1px);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(37,99,235,.32),
+      rgba(124,58,237,.3)
+    );
 }
 
 .history-title{
   padding:0 18px 10px;
+
   color:#687e98;
+
   font-size:11px;
+
   text-transform:uppercase;
+
   letter-spacing:1.2px;
 }
 
 .history{
   overflow-y:auto;
+
   padding:0 10px 20px;
+
   flex:1;
 }
 
@@ -117,57 +216,90 @@ body{
 
 .history::-webkit-scrollbar-thumb{
   background:rgba(96,165,250,.2);
+
   border-radius:8px;
 }
 
 .history-item{
   padding:12px;
+
   border-radius:11px;
+
   margin-bottom:5px;
+
   cursor:pointer;
+
   color:#aebbd0;
+
   font-size:13px;
+
   white-space:nowrap;
+
   overflow:hidden;
+
   text-overflow:ellipsis;
+
   border:1px solid transparent;
+
+  transition:.2s;
 }
 
 .history-item:hover{
   background:rgba(59,130,246,.1);
-  border-color:rgba(96,165,250,.1);
+
+  border-color:
+    rgba(96,165,250,.1);
 }
 
 .history-item.active{
-  background:rgba(59,130,246,.14);
-  border-color:rgba(96,165,250,.18);
+  background:
+    rgba(59,130,246,.14);
+
+  border-color:
+    rgba(96,165,250,.18);
+
   color:#fff;
 }
 
 .empty-history{
   padding:15px 10px;
+
   color:#61758d;
+
   font-size:12px;
+
   line-height:1.6;
 }
 
-/* =========================
+
+/* =========================================================
    SIDEBAR TOGGLE
-========================= */
+========================================================= */
 
 .sidebar-toggle{
   position:fixed;
+
   left:300px;
   top:88px;
+
   z-index:250;
+
   width:40px;
   height:40px;
+
   border-radius:12px;
-  border:1px solid rgba(147,197,253,.16);
+
+  border:1px solid var(--border);
+
   background:rgba(8,23,40,.9);
+
   color:#dbeafe;
+
   cursor:pointer;
-  box-shadow:0 10px 30px rgba(0,0,0,.25);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.25);
+
   transition:.25s;
 }
 
@@ -176,15 +308,17 @@ body{
 }
 
 .sidebar-toggle:hover{
-  background:rgba(30,58,95,.9);
+  transform:scale(1.05);
 }
 
-/* =========================
+
+/* =========================================================
    MAIN
-========================= */
+========================================================= */
 
 .main{
   margin-left:285px;
+
   transition:.25s;
 }
 
@@ -192,22 +326,31 @@ body{
   margin-left:0;
 }
 
-/* =========================
+
+/* =========================================================
    NAVBAR
-========================= */
+========================================================= */
 
 nav{
   height:74px;
+
   display:flex;
   align-items:center;
   justify-content:space-between;
+
   padding:0 3%;
+
   position:sticky;
   top:0;
+
   z-index:100;
+
   background:rgba(7,17,31,.78);
+
   backdrop-filter:blur(22px);
-  border-bottom:1px solid rgba(147,197,253,.1);
+
+  border-bottom:
+    1px solid var(--border);
 }
 
 .logo{
@@ -216,19 +359,23 @@ nav{
 }
 
 .logo span{
-  background:linear-gradient(
-    90deg,
-    #60a5fa,
-    #818cf8,
-    #a78bfa
-  );
+  background:
+    linear-gradient(
+      90deg,
+      var(--accent-1),
+      var(--accent-2),
+      var(--accent-3)
+    );
+
   -webkit-background-clip:text;
+
   color:transparent;
 }
 
 .nav-right{
   display:flex;
   align-items:center;
+
   gap:14px;
 }
 
@@ -239,20 +386,28 @@ nav{
 
 .clear-chat{
   padding:9px 14px;
+
   border-radius:10px;
-  border:1px solid rgba(147,197,253,.14);
+
+  border:1px solid var(--border);
+
   background:rgba(30,58,95,.35);
+
   color:#cbd5e1;
+
   cursor:pointer;
+
+  transition:.2s;
 }
 
 .clear-chat:hover{
-  background:rgba(30,58,95,.6);
+  background:rgba(30,58,95,.55);
 }
 
-/* =========================
+
+/* =========================================================
    PROFILE
-========================= */
+========================================================= */
 
 .profile-wrap{
   position:relative;
@@ -261,67 +416,103 @@ nav{
 .profile-button{
   width:42px;
   height:42px;
+
   border-radius:50%;
+
   border:2px solid rgba(147,197,253,.28);
-  background:linear-gradient(
-    135deg,
-    #2563eb,
-    #7c3aed
-  );
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--accent-1),
+      var(--accent-3)
+    );
+
   color:#fff;
+
   font-weight:800;
+
   cursor:pointer;
-  transition:.2s;
+
+  transition:.25s;
 }
 
 .profile-button:hover{
-  transform:scale(1.05);
-  border-color:rgba(147,197,253,.55);
+  transform:scale(1.06);
+
+  box-shadow:
+    0 0 20px
+    rgba(96,165,250,var(--glow));
 }
 
 .profile-menu{
   position:absolute;
+
   top:54px;
   right:0;
-  width:310px;
+
+  width:300px;
+
   padding:18px;
+
   border-radius:20px;
-  background:rgba(8,23,40,.98);
-  border:1px solid rgba(147,197,253,.16);
-  box-shadow:0 25px 70px rgba(0,0,0,.45);
+
+  background:rgba(8,23,40,.97);
+
+  border:
+    1px solid var(--border);
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.45);
+
   opacity:0;
+
   visibility:hidden;
+
   transform:translateY(-8px);
+
   transition:.2s;
 }
 
 .profile-menu.open{
   opacity:1;
+
   visibility:visible;
+
   transform:translateY(0);
 }
 
 .profile-head{
   display:flex;
+
   gap:12px;
+
   align-items:center;
+
   padding-bottom:15px;
-  border-bottom:1px solid rgba(147,197,253,.1);
+
+  border-bottom:
+    1px solid var(--border);
 }
 
 .profile-mini{
   width:48px;
   height:48px;
-  min-width:48px;
+
   border-radius:50%;
+
   display:flex;
+
   align-items:center;
   justify-content:center;
-  background:linear-gradient(
-    135deg,
-    #2563eb,
-    #7c3aed
-  );
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--accent-1),
+      var(--accent-3)
+    );
+
   font-weight:800;
 }
 
@@ -332,154 +523,168 @@ nav{
 
 .profile-head small{
   display:block;
+
   color:#7f96b4;
+
   font-size:11px;
+
   margin-top:4px;
-  word-break:break-all;
 }
 
 .profile-item{
   padding:11px 2px;
+
   color:#aebbd0;
+
   font-size:12px;
 }
 
 .profile-item span{
   display:block;
+
   color:#647991;
+
   font-size:10px;
+
   text-transform:uppercase;
+
   letter-spacing:1px;
+
   margin-bottom:3px;
 }
 
-.profile-item b{
-  color:#e2e8f0;
-  font-weight:600;
-  word-break:break-word;
-}
-
-/* EDIT USERNAME */
-
 .edit-username-button{
   width:100%;
+
   padding:10px 12px;
+
   margin:2px 0 10px;
+
   border-radius:10px;
-  border:1px solid rgba(147,197,253,.14);
-  background:rgba(37,99,235,.12);
+
+  border:
+    1px solid var(--border);
+
+  background:
+    rgba(37,99,235,.12);
+
   color:#93b4ff;
+
   font-weight:bold;
+
   cursor:pointer;
+
   transition:.2s;
+
   text-align:left;
 }
 
 .edit-username-button:hover{
-  background:rgba(37,99,235,.22);
-  border-color:rgba(96,165,250,.3);
+  background:
+    rgba(37,99,235,.22);
+
+  border-color:
+    rgba(96,165,250,.3);
 }
 
-.username-editor{
-  display:none;
-  padding:12px;
-  margin:2px 0 12px;
-  border-radius:13px;
-  background:rgba(2,9,18,.55);
-  border:1px solid rgba(96,165,250,.14);
-}
 
-.username-editor.open{
-  display:block;
-}
+/* =========================================================
+   CUSTOMIZE BUTTON
+========================================================= */
 
-.username-editor-label{
-  color:#71859e;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-  margin-bottom:7px;
-}
-
-.username-editor input{
+.customize-button{
   width:100%;
-  padding:10px 11px;
-  border-radius:9px;
-  border:1px solid rgba(147,197,253,.15);
-  outline:none;
-  background:rgba(8,23,40,.9);
-  color:#fff;
-  font-size:12px;
-}
 
-.username-editor input:focus{
-  border-color:rgba(96,165,250,.45);
-}
+  padding:11px 12px;
 
-.username-editor-actions{
-  display:flex;
-  gap:8px;
-  margin-top:9px;
-}
+  margin:2px 0 10px;
 
-.username-editor-actions button{
-  flex:1;
-  padding:9px;
-  border-radius:9px;
-  border:1px solid rgba(147,197,253,.14);
-  cursor:pointer;
+  border-radius:10px;
+
+  border:
+    1px solid rgba(139,92,246,.25);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(37,99,235,.13),
+      rgba(124,58,237,.13)
+    );
+
+  color:#c4b5fd;
+
   font-weight:bold;
-  font-size:11px;
+
+  cursor:pointer;
+
+  transition:.2s;
+
+  text-align:left;
 }
 
-.save-username{
-  background:linear-gradient(
-    90deg,
-    #2563eb,
-    #4f46e5
-  );
-  color:#fff;
-}
+.customize-button:hover{
+  background:
+    linear-gradient(
+      90deg,
+      rgba(37,99,235,.22),
+      rgba(124,58,237,.22)
+    );
 
-.cancel-username{
-  background:rgba(30,58,95,.4);
-  color:#cbd5e1;
+  transform:translateY(-1px);
 }
 
 .profile-actions{
   display:flex;
+
   gap:9px;
 }
 
 .profile-actions button{
   flex:1;
+
   padding:10px;
+
   border-radius:10px;
-  border:1px solid rgba(147,197,253,.14);
-  background:rgba(30,58,95,.4);
+
+  border:
+    1px solid var(--border);
+
+  background:
+    rgba(30,58,95,.4);
+
   color:#dbeafe;
+
   font-weight:bold;
+
   cursor:pointer;
+
+  transition:.2s;
 }
 
 .profile-actions button:hover{
-  background:rgba(30,58,95,.65);
+  background:
+    rgba(30,58,95,.6);
 }
 
-/* =========================
+
+/* =========================================================
    DASHBOARD
-========================= */
+========================================================= */
 
 .dashboard{
   width:100%;
+
   max-width:none;
+
   margin:0;
+
   padding:55px 2% 100px;
 }
 
-/* =========================
+
+/* =========================================================
    WELCOME
-========================= */
+========================================================= */
 
 .welcome{
   margin-bottom:42px;
@@ -487,27 +692,38 @@ nav{
 
 .welcome-label{
   color:#7f96b4;
+
   font-size:13px;
+
   font-weight:600;
+
   letter-spacing:1.5px;
+
   margin-bottom:12px;
 }
 
 .welcome h1{
-  font-size:clamp(38px,6vw,60px);
+  font-size:
+    clamp(38px,6vw,60px);
+
   line-height:1.05;
+
   letter-spacing:-2.5px;
+
   margin-bottom:14px;
 }
 
 .gradient{
-  background:linear-gradient(
-    90deg,
-    #60a5fa,
-    #818cf8,
-    #a78bfa
-  );
+  background:
+    linear-gradient(
+      90deg,
+      var(--accent-1),
+      var(--accent-2),
+      var(--accent-3)
+    );
+
   -webkit-background-clip:text;
+
   color:transparent;
 }
 
@@ -516,111 +732,179 @@ nav{
   font-size:16px;
 }
 
-/* =========================
+
+/* =========================================================
    AI CARD
-========================= */
+========================================================= */
 
 .ai-card{
   width:100%;
+
   padding:30px 22px 22px;
+
   border-radius:28px;
+
   margin-bottom:45px;
-  background:linear-gradient(
-    135deg,
-    rgba(30,64,175,.22),
-    rgba(67,56,202,.14),
-    rgba(15,35,60,.7)
-  );
-  border:1px solid rgba(96,165,250,.2);
-  box-shadow:0 25px 80px rgba(0,0,0,.28);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(30,64,175,.22),
+      rgba(67,56,202,.14),
+      rgba(15,35,60,.7)
+    );
+
+  border:
+    1px solid var(--accent-border);
+
+  box-shadow:
+    0 25px 80px
+    rgba(0,0,0,var(--glow));
 }
 
 .ai-top{
   display:flex;
+
   align-items:center;
+
   gap:18px;
+
   margin-bottom:26px;
 }
 
 .ai-icon{
   width:60px;
   height:60px;
+
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   border-radius:18px;
+
   font-size:29px;
-  background:linear-gradient(
-    135deg,
-    rgba(59,130,246,.28),
-    rgba(124,58,237,.28)
-  );
-  border:1px solid rgba(147,197,253,.18);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(59,130,246,.28),
+      rgba(124,58,237,.28)
+    );
+
+  border:
+    1px solid rgba(147,197,253,.18);
 }
 
 .ai-title h2{
   font-size:25px;
+
   margin-bottom:5px;
 }
 
 .ai-title p{
   color:#91a4bd;
+
   font-size:13px;
 }
 
-/* =========================
-   INPUT
-========================= */
+
+/* =========================================================
+   QUESTION INPUT
+========================================================= */
 
 .question-box{
   display:flex;
+
   gap:12px;
+
   padding:8px;
+
   border-radius:15px;
-  background:rgba(4,14,28,.55);
-  border:1px solid rgba(147,197,253,.12);
+
+  background:
+    rgba(4,14,28,.55);
+
+  border:
+    1px solid var(--border);
 }
 
 .question-box input{
   flex:1;
+
   min-width:0;
+
   border:none;
+
   outline:none;
+
   background:transparent;
+
   color:#fff;
+
   padding:13px;
+
   font-size:14px;
+}
+
+.question-box input::placeholder{
+  color:#60758f;
 }
 
 .ask-button{
   border:none;
+
   border-radius:11px;
+
   padding:12px 21px;
+
   color:#fff;
+
   font-weight:bold;
+
   cursor:pointer;
-  background:linear-gradient(
-    90deg,
-    #2563eb,
-    #4f46e5,
-    #7c3aed
-  );
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--accent-1),
+      var(--accent-2),
+      var(--accent-3)
+    );
+
+  transition:.2s;
+}
+
+.ask-button:hover{
+  transform:translateY(-1px);
+
+  box-shadow:
+    0 8px 25px
+    rgba(79,70,229,.25);
 }
 
 .ask-button:disabled{
   opacity:.6;
+
   cursor:not-allowed;
+
+  transform:none;
 }
 
-/* =========================
+
+/* =========================================================
    CHAT HEADER
-========================= */
+========================================================= */
 
 .chat-header{
   display:flex;
+
   justify-content:space-between;
+
   align-items:center;
+
   margin-top:20px;
+
   margin-bottom:10px;
 }
 
@@ -630,27 +914,48 @@ nav{
 
 .chat-header span{
   color:#71859e;
+
   font-size:12px;
 }
 
-/* =========================
+
+/* =========================================================
    INNER CHAT
-========================= */
+========================================================= */
 
 .chat-history{
   width:100%;
+
   min-height:500px;
+
   max-height:700px;
+
   display:flex;
+
   flex-direction:column;
-  gap:24px;
+
+  gap:var(--chat-gap);
+
   overflow-y:auto;
+
   margin:0;
-  padding:25px 18px;
+
+  padding:var(--chat-padding);
+
   border-radius:18px;
-  background:rgba(2,9,18,.82);
-  border:1px solid rgba(147,197,253,.10);
-  box-shadow:inset 0 0 35px rgba(0,0,0,.18);
+
+  background:
+    rgba(2,9,18,.82);
+
+  border:
+    1px solid rgba(147,197,253,.10);
+
+  box-shadow:
+    inset 0 0 35px rgba(0,0,0,.18);
+
+  transition:
+    gap .25s,
+    padding .25s;
 }
 
 .chat-history::-webkit-scrollbar{
@@ -658,128 +963,196 @@ nav{
 }
 
 .chat-history::-webkit-scrollbar-thumb{
-  background:rgba(96,165,250,.22);
+  background:
+    rgba(96,165,250,.22);
+
   border-radius:10px;
 }
 
-/* =========================
+
+/* =========================================================
    EMPTY CHAT
-========================= */
+========================================================= */
 
 .empty-chat{
   text-align:center;
+
   padding:35px 20px;
+
   border-radius:18px;
-  background:rgba(4,14,28,.35);
-  border:1px dashed rgba(147,197,253,.12);
+
+  background:
+    rgba(4,14,28,.35);
+
+  border:
+    1px dashed rgba(147,197,253,.12);
+
   color:#71859e;
+
   line-height:1.7;
 }
 
-/* =========================
+
+/* =========================================================
    CHAT MESSAGE
-========================= */
+========================================================= */
 
 .chat-message{
   display:flex;
+
   flex-direction:column;
+
   width:100%;
+
   gap:18px;
 }
 
-/* =========================
-   USER — COMPLETELY RIGHT
-========================= */
+
+/* =========================================================
+   USER MESSAGE — RIGHT
+========================================================= */
 
 .user-message{
   width:100%;
+
   display:flex;
+
   flex-direction:column;
+
   align-items:flex-end;
 }
 
 .user-label{
   color:#93b4ff;
+
   font-size:11px;
+
   font-weight:bold;
+
   margin-right:5px;
+
   margin-bottom:4px;
-  text-align:right;
 }
 
 .chat-question{
   align-self:flex-end;
+
   width:fit-content;
+
   max-width:72%;
+
   padding:14px 19px;
-  border-radius:18px 18px 4px 18px;
-  background:linear-gradient(
-    135deg,
-    rgba(37,99,235,.42),
-    rgba(79,70,229,.38)
-  );
-  border:1px solid rgba(96,165,250,.22);
+
+  border-radius:
+    18px 18px 4px 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(37,99,235,.42),
+      rgba(79,70,229,.38)
+    );
+
+  border:
+    1px solid rgba(96,165,250,.22);
+
   color:#f4f7ff;
+
   line-height:1.6;
+
   font-size:14px;
+
   text-align:left;
-  box-shadow:0 8px 25px rgba(0,0,0,.12);
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.12);
 }
 
-/* =========================
-   AI — COMPLETELY LEFT
-========================= */
+
+/* =========================================================
+   AI MESSAGE — COMPLETELY LEFT
+========================================================= */
 
 .ai-message{
   align-self:stretch;
+
   width:100%;
+
   display:flex;
+
   flex-direction:column;
+
   align-items:flex-start;
 }
 
 .ai-label{
   color:#93b4ff;
+
   font-size:11px;
+
   font-weight:bold;
+
   margin-left:5px;
+
   margin-bottom:4px;
-  text-align:left;
 }
 
 .chat-answer{
   align-self:flex-start;
+
   width:100%;
+
   max-width:100%;
+
   padding:20px 22px;
-  border-radius:4px 18px 18px 18px;
-  background:rgba(4,14,28,.62);
-  border:1px solid rgba(96,165,250,.15);
+
+  border-radius:
+    4px 18px 18px 18px;
+
+  background:
+    rgba(4,14,28,.62);
+
+  border:
+    1px solid rgba(96,165,250,.15);
+
   color:#dbeafe;
+
   line-height:1.75;
+
   white-space:pre-wrap;
+
   overflow-wrap:anywhere;
+
   word-break:break-word;
+
   font-size:14px;
+
   text-align:left;
-  box-shadow:0 8px 30px rgba(0,0,0,.15);
+
+  box-shadow:
+    0 8px 30px rgba(0,0,0,.15);
 }
 
 .chat-time{
   color:#5d7189;
+
   font-size:10px;
+
   margin-top:8px;
 }
 
 .thinking{
   align-self:flex-start;
+
   width:100%;
+
   max-width:100%;
 }
 
-/* =========================
+
+/* =========================================================
    STUDY TOOLS
-========================= */
+========================================================= */
 
 .section-heading{
   margin:45px 0 20px;
@@ -787,77 +1160,734 @@ nav{
 
 .section-heading h2{
   font-size:24px;
+
   margin-bottom:6px;
 }
 
 .section-heading p{
   color:#71859e;
+
   font-size:14px;
 }
 
 .tools{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+
+  grid-template-columns:
+    repeat(3,1fr);
+
   gap:20px;
 }
 
 .tool{
   padding:30px;
+
   min-height:225px;
+
   border-radius:22px;
-  background:linear-gradient(
-    145deg,
-    rgba(20,43,70,.72),
-    rgba(11,28,48,.62)
-  );
-  border:1px solid rgba(147,197,253,.1);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20,43,70,.72),
+      rgba(11,28,48,.62)
+    );
+
+  border:
+    1px solid var(--border);
+
   cursor:pointer;
+
   transition:.3s;
 }
 
 .tool:hover{
   transform:translateY(-7px);
-  border-color:rgba(96,165,250,.3);
+
+  border-color:
+    rgba(96,165,250,.3);
 }
 
 .tool-icon{
   font-size:35px;
+
   margin-bottom:22px;
 }
 
 .tool h3{
   font-size:20px;
+
   margin-bottom:10px;
 }
 
 .tool p{
   color:#8195ad;
+
   font-size:14px;
+
   line-height:1.65;
+
   margin-bottom:18px;
 }
 
 .tool-link{
   color:#93b4ff;
+
   font-size:13px;
+
   font-weight:bold;
 }
 
-/* =========================
+
+/* =========================================================
    FOOTER
-========================= */
+========================================================= */
 
 footer{
   text-align:center;
+
   padding:35px;
-  border-top:1px solid rgba(147,197,253,.08);
+
+  border-top:
+    1px solid var(--border);
+
   color:#52667e;
+
   font-size:12px;
 }
 
-/* =========================
+
+/* =========================================================
+   CUSTOMIZE OVERLAY
+========================================================= */
+
+.customize-overlay{
+  position:fixed;
+
+  inset:0;
+
+  z-index:1000;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  padding:20px;
+
+  background:
+    rgba(0,0,0,.68);
+
+  backdrop-filter:blur(10px);
+
+  opacity:0;
+
+  visibility:hidden;
+
+  transition:.25s;
+}
+
+.customize-overlay.open{
+  opacity:1;
+
+  visibility:visible;
+}
+
+
+/* =========================================================
+   CUSTOMIZE PANEL
+========================================================= */
+
+.customize-panel{
+  width:min(760px,100%);
+
+  max-height:
+    min(850px,92vh);
+
+  overflow-y:auto;
+
+  border-radius:26px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(9,25,44,.98),
+      rgba(7,18,32,.98)
+    );
+
+  border:
+    1px solid rgba(147,197,253,.18);
+
+  box-shadow:
+    0 35px 120px rgba(0,0,0,.6);
+
+  transform:translateY(20px) scale(.98);
+
+  transition:.25s;
+
+  padding:28px;
+}
+
+.customize-overlay.open
+.customize-panel{
+  transform:
+    translateY(0) scale(1);
+}
+
+.customize-panel::-webkit-scrollbar{
+  width:7px;
+}
+
+.customize-panel::-webkit-scrollbar-thumb{
+  background:
+    rgba(96,165,250,.25);
+
+  border-radius:10px;
+}
+
+
+/* =========================================================
+   CUSTOMIZE HEADER
+========================================================= */
+
+.customize-header{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:15px;
+
+  margin-bottom:25px;
+}
+
+.customize-title{
+  display:flex;
+
+  align-items:center;
+
+  gap:14px;
+}
+
+.customize-title-icon{
+  width:52px;
+  height:52px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  border-radius:16px;
+
+  font-size:25px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(37,99,235,.25),
+      rgba(124,58,237,.25)
+    );
+
+  border:
+    1px solid rgba(147,197,253,.15);
+}
+
+.customize-title h2{
+  font-size:23px;
+
+  margin-bottom:4px;
+}
+
+.customize-title p{
+  color:#7f96b4;
+
+  font-size:12px;
+}
+
+.close-customize{
+  width:40px;
+  height:40px;
+
+  border-radius:12px;
+
+  border:
+    1px solid var(--border);
+
+  background:
+    rgba(30,58,95,.35);
+
+  color:#cbd5e1;
+
+  font-size:20px;
+
+  cursor:pointer;
+
+  transition:.2s;
+}
+
+.close-customize:hover{
+  background:
+    rgba(127,29,29,.35);
+
+  color:#fff;
+}
+
+
+/* =========================================================
+   CUSTOMIZE SECTIONS
+========================================================= */
+
+.customize-section{
+  padding:20px 0;
+
+  border-top:
+    1px solid rgba(147,197,253,.08);
+}
+
+.customize-section:first-of-type{
+  border-top:none;
+}
+
+.customize-section-title{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  margin-bottom:14px;
+}
+
+.customize-section-title h3{
+  font-size:15px;
+}
+
+.customize-section-title span{
+  color:#61758d;
+
+  font-size:11px;
+}
+
+
+/* =========================================================
+   THEME GRID
+========================================================= */
+
+.theme-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap:12px;
+}
+
+.theme-option{
+  position:relative;
+
+  min-height:82px;
+
+  border-radius:15px;
+
+  border:
+    1px solid rgba(147,197,253,.12);
+
+  background:
+    rgba(4,14,28,.65);
+
+  cursor:pointer;
+
+  overflow:hidden;
+
+  transition:.2s;
+
+  padding:10px;
+}
+
+.theme-option:hover{
+  transform:translateY(-2px);
+
+  border-color:
+    rgba(147,197,253,.3);
+}
+
+.theme-option.selected{
+  border:
+    2px solid #93b4ff;
+
+  box-shadow:
+    0 0 20px
+    rgba(96,165,250,.16);
+}
+
+.theme-preview{
+  height:38px;
+
+  border-radius:9px;
+
+  margin-bottom:8px;
+}
+
+.theme-name{
+  font-size:11px;
+
+  color:#cbd5e1;
+
+  font-weight:bold;
+}
+
+
+/* Theme preview colours */
+
+.theme-blue .theme-preview{
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #4f46e5,
+      #7c3aed
+    );
+}
+
+.theme-emerald .theme-preview{
+  background:
+    linear-gradient(
+      135deg,
+      #059669,
+      #0d9488,
+      #14b8a6
+    );
+}
+
+.theme-cyan .theme-preview{
+  background:
+    linear-gradient(
+      135deg,
+      #0891b2,
+      #06b6d4,
+      #3b82f6
+    );
+}
+
+.theme-pink .theme-preview{
+  background:
+    linear-gradient(
+      135deg,
+      #db2777,
+      #ec4899,
+      #a855f7
+    );
+}
+
+.theme-orange .theme-preview{
+  background:
+    linear-gradient(
+      135deg,
+      #ea580c,
+      #f97316,
+      #eab308
+    );
+}
+
+.theme-red .theme-preview{
+  background:
+    linear-gradient(
+      135deg,
+      #dc2626,
+      #e11d48,
+      #be123c
+    );
+}
+
+.theme-violet .theme-preview{
+  background:
+    linear-gradient(
+      135deg,
+      #7c3aed,
+      #8b5cf6,
+      #c026d3
+    );
+}
+
+.theme-mint .theme-preview{
+  background:
+    linear-gradient(
+      135deg,
+      #10b981,
+      #22c55e,
+      #84cc16
+    );
+}
+
+
+/* =========================================================
+   FONT OPTIONS
+========================================================= */
+
+.font-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap:10px;
+}
+
+.font-option{
+  padding:13px 10px;
+
+  border-radius:12px;
+
+  border:
+    1px solid rgba(147,197,253,.12);
+
+  background:
+    rgba(4,14,28,.6);
+
+  color:#cbd5e1;
+
+  cursor:pointer;
+
+  transition:.2s;
+
+  text-align:center;
+
+  font-size:13px;
+}
+
+.font-option:hover{
+  border-color:
+    rgba(147,197,253,.3);
+}
+
+.font-option.selected{
+  border-color:#93b4ff;
+
+  background:
+    rgba(37,99,235,.15);
+
+  color:#fff;
+}
+
+.font-arial{
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.font-inter{
+  font-family:Inter,Arial,sans-serif;
+}
+
+.font-poppins{
+  font-family:Poppins,Arial,sans-serif;
+}
+
+.font-roboto{
+  font-family:Roboto,Arial,sans-serif;
+}
+
+.font-georgia{
+  font-family:Georgia,serif;
+}
+
+.font-trebuchet{
+  font-family:"Trebuchet MS",Arial,sans-serif;
+}
+
+.font-mono{
+  font-family:"Courier New",monospace;
+}
+
+.font-verdana{
+  font-family:Verdana,Arial,sans-serif;
+}
+
+
+/* =========================================================
+   CHAT DENSITY
+========================================================= */
+
+.density-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:10px;
+}
+
+.density-option{
+  padding:14px;
+
+  border-radius:12px;
+
+  border:
+    1px solid rgba(147,197,253,.12);
+
+  background:
+    rgba(4,14,28,.6);
+
+  color:#cbd5e1;
+
+  cursor:pointer;
+
+  transition:.2s;
+
+  text-align:center;
+}
+
+.density-option:hover{
+  border-color:
+    rgba(147,197,253,.3);
+}
+
+.density-option.selected{
+  border-color:#93b4ff;
+
+  background:
+    rgba(37,99,235,.15);
+
+  color:#fff;
+}
+
+.density-option strong{
+  display:block;
+
+  font-size:13px;
+
+  margin-bottom:4px;
+}
+
+.density-option small{
+  color:#71859e;
+
+  font-size:10px;
+}
+
+
+/* =========================================================
+   GLOW
+========================================================= */
+
+.glow-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:10px;
+}
+
+.glow-option{
+  padding:13px;
+
+  border-radius:12px;
+
+  border:
+    1px solid rgba(147,197,253,.12);
+
+  background:
+    rgba(4,14,28,.6);
+
+  color:#cbd5e1;
+
+  cursor:pointer;
+
+  text-align:center;
+
+  transition:.2s;
+}
+
+.glow-option:hover{
+  border-color:
+    rgba(147,197,253,.3);
+}
+
+.glow-option.selected{
+  border-color:#93b4ff;
+
+  background:
+    rgba(37,99,235,.15);
+
+  color:#fff;
+}
+
+
+/* =========================================================
+   CUSTOMIZE FOOTER
+========================================================= */
+
+.customize-footer{
+  display:flex;
+
+  justify-content:space-between;
+
+  gap:12px;
+
+  padding-top:20px;
+
+  border-top:
+    1px solid rgba(147,197,253,.08);
+}
+
+.reset-button,
+.done-button{
+  padding:12px 20px;
+
+  border-radius:12px;
+
+  font-weight:bold;
+
+  cursor:pointer;
+
+  transition:.2s;
+}
+
+.reset-button{
+  border:
+    1px solid rgba(147,197,253,.14);
+
+  background:
+    rgba(30,58,95,.35);
+
+  color:#cbd5e1;
+}
+
+.reset-button:hover{
+  background:
+    rgba(30,58,95,.55);
+}
+
+.done-button{
+  border:none;
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--accent-1),
+      var(--accent-2),
+      var(--accent-3)
+    );
+
+  min-width:110px;
+}
+
+.done-button:hover{
+  transform:translateY(-1px);
+
+  box-shadow:
+    0 8px 25px
+    rgba(79,70,229,.25);
+}
+
+
+/* =========================================================
    MOBILE
-========================= */
+========================================================= */
 
 @media(max-width:800px){
 
@@ -887,12 +1917,16 @@ footer{
 
   .dashboard{
     width:100%;
-    padding:35px 12px 70px;
+
+    padding:
+      35px 12px 70px;
   }
 
   .ai-card{
     width:100%;
-    padding:25px 14px 14px;
+
+    padding:
+      25px 14px 14px;
   }
 
   .ai-top{
@@ -902,6 +1936,7 @@ footer{
   .ai-icon{
     width:52px;
     height:52px;
+
     font-size:25px;
   }
 
@@ -919,8 +1954,11 @@ footer{
 
   .chat-history{
     width:100%;
+
     min-height:450px;
-    padding:20px 12px;
+
+    padding:
+      20px 12px;
   }
 
   .chat-question{
@@ -937,43 +1975,99 @@ footer{
 
   .profile-menu{
     right:-5px;
-    width:min(310px,calc(100vw - 30px));
+
+    width:
+      min(
+        300px,
+        calc(100vw - 30px)
+      );
   }
 
   .clear-chat{
     display:none;
   }
+
+  .customize-overlay{
+    padding:10px;
+  }
+
+  .customize-panel{
+    padding:20px;
+
+    max-height:95vh;
+  }
+
+  .theme-grid{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .font-grid{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .density-grid,
+  .glow-grid{
+    grid-template-columns:1fr;
+  }
+
+  .customize-footer{
+    position:sticky;
+
+    bottom:0;
+
+    background:
+      rgba(7,18,32,.98);
+
+    padding-bottom:2px;
+  }
 }
+
 </style>
 </head>
+
 
 <body>
 
 <div class="app">
 
-<!-- =========================
+
+<!-- =====================================================
      SIDEBAR
-========================= -->
+===================================================== -->
 
 <aside class="sidebar" id="sidebar">
 
   <div class="side-head">
+
     <div class="side-title">
       💬 DIVYAM<span>.AI</span>
     </div>
+
   </div>
 
-  <button class="new-chat" onclick="newChat()">
+
+  <button
+    class="new-chat"
+    onclick="newChat()"
+  >
     ＋ New Chat ✨
   </button>
+
 
   <div class="history-title">
     Previous Chats
   </div>
 
-  <div class="history" id="historyList"></div>
+
+  <div
+    class="history"
+    id="historyList"
+  ></div>
 
 </aside>
+
 
 <button
   class="sidebar-toggle"
@@ -983,11 +2077,13 @@ footer{
   ☰
 </button>
 
+
 <div class="main">
 
-<!-- =========================
+
+<!-- =====================================================
      NAVBAR
-========================= -->
+===================================================== -->
 
 <nav>
 
@@ -995,11 +2091,16 @@ footer{
     DIVYAM<span>.AI</span> 🤖
   </div>
 
+
   <div class="nav-right">
 
-    <div class="user-name" id="userName">
+    <div
+      class="user-name"
+      id="userName"
+    >
       Loading...
     </div>
+
 
     <button
       class="clear-chat"
@@ -1008,7 +2109,6 @@ footer{
       🧹 Clear
     </button>
 
-    <!-- PROFILE -->
 
     <div class="profile-wrap">
 
@@ -1020,10 +2120,14 @@ footer{
         U
       </button>
 
+
       <div
         class="profile-menu"
         id="profileMenu"
       >
+
+
+        <!-- PROFILE HEADER -->
 
         <div class="profile-head">
 
@@ -1034,19 +2138,26 @@ footer{
             U
           </div>
 
+
           <div>
 
-            <strong id="profileName">
+            <strong
+              id="profileName"
+            >
               Student
             </strong>
 
-            <small id="profileEmail">
+
+            <small
+              id="profileEmail"
+            >
               Loading...
             </small>
 
           </div>
 
         </div>
+
 
         <!-- USERNAME -->
 
@@ -1062,53 +2173,14 @@ footer{
 
         </div>
 
+
         <button
           class="edit-username-button"
-          id="editUsernameButton"
-          onclick="openUsernameEditor()"
+          onclick="editUsername()"
         >
           ✏️ Edit Username
         </button>
 
-        <!-- INLINE USERNAME EDITOR -->
-
-        <div
-          class="username-editor"
-          id="usernameEditor"
-        >
-
-          <div class="username-editor-label">
-            Change username
-          </div>
-
-          <input
-            type="text"
-            id="usernameInput"
-            maxlength="30"
-            autocomplete="off"
-            placeholder="Enter new username"
-          >
-
-          <div class="username-editor-actions">
-
-            <button
-              class="save-username"
-              id="saveUsernameButton"
-              onclick="saveUsername()"
-            >
-              💾 Save
-            </button>
-
-            <button
-              class="cancel-username"
-              onclick="closeUsernameEditor()"
-            >
-              Cancel
-            </button>
-
-          </div>
-
-        </div>
 
         <!-- EMAIL -->
 
@@ -1118,13 +2190,26 @@ footer{
             Registered email
           </span>
 
-          <b id="profileRegisteredEmail">
+          <b
+            id="profileRegisteredEmail"
+          >
             Loading...
           </b>
 
         </div>
 
-        <!-- ACTIONS -->
+
+        <!-- CUSTOMIZE -->
+
+        <button
+          class="customize-button"
+          onclick="openCustomize()"
+        >
+          🎨 Customize Dashboard
+        </button>
+
+
+        <!-- PROFILE ACTIONS -->
 
         <div class="profile-actions">
 
@@ -1134,11 +2219,15 @@ footer{
             View Profile 👤
           </button>
 
-          <button onclick="logout()">
+
+          <button
+            onclick="logout()"
+          >
             Log Out 🚪
           </button>
 
         </div>
+
 
       </div>
 
@@ -1148,205 +2237,248 @@ footer{
 
 </nav>
 
-<!-- =========================
+
+<!-- =====================================================
      DASHBOARD
-========================= -->
+===================================================== -->
 
 <main class="dashboard">
 
-  <section class="welcome">
 
-    <div class="welcome-label">
-      YOUR PERSONAL AI STUDY SPACE 🚀📚
+<!-- WELCOME -->
+
+<section class="welcome">
+
+  <div class="welcome-label">
+    YOUR PERSONAL AI STUDY SPACE 🚀📚
+  </div>
+
+
+  <h1>
+
+    Welcome,
+
+    <span
+      class="gradient"
+      id="welcomeName"
+    >
+      Student
+    </span>
+
+    👋
+
+  </h1>
+
+
+  <p>
+    Start a fresh conversation and learn something new today.
+    🧠✨
+  </p>
+
+</section>
+
+
+<!-- =====================================================
+     AI CHAT CARD
+===================================================== -->
+
+<section class="ai-card">
+
+
+  <div class="ai-top">
+
+    <div class="ai-icon">
+      🤖
     </div>
 
-    <h1>
-      Welcome,
-      <span
-        class="gradient"
-        id="welcomeName"
-      >
-        Student
-      </span>
-      👋
-    </h1>
 
-    <p>
-      Start a fresh conversation and learn something new today.
-      🧠✨
-    </p>
+    <div class="ai-title">
 
-  </section>
+      <h2>
+        Ask Divyam AI ✨
+      </h2>
 
-  <!-- =========================
-       AI CHAT CARD
-  ========================= -->
-
-  <section class="ai-card">
-
-    <div class="ai-top">
-
-      <div class="ai-icon">
-        🤖
-      </div>
-
-      <div class="ai-title">
-
-        <h2>
-          Ask Divyam AI ✨
-        </h2>
-
-        <p>
-          Your personal AI study companion 📚🧠🚀
-        </p>
-
-      </div>
+      <p>
+        Your personal AI study companion 📚🧠🚀
+      </p>
 
     </div>
-
-    <!-- INPUT -->
-
-    <div class="question-box">
-
-      <input
-        id="questionInput"
-        type="text"
-        autocomplete="off"
-        placeholder="Ask me anything about your studies... 🤔💡"
-      >
-
-      <button
-        class="ask-button"
-        id="askButton"
-        onclick="askAI()"
-      >
-        Ask AI 🚀
-      </button>
-
-    </div>
-
-    <!-- CHAT HEADER -->
-
-    <div class="chat-header">
-
-      <h3>
-        💬 Current Conversation
-      </h3>
-
-      <span id="chatCount">
-        0 messages
-      </span>
-
-    </div>
-
-    <!-- CHAT -->
-
-    <div
-      class="chat-history"
-      id="chatHistory"
-    ></div>
-
-  </section>
-
-  <!-- =========================
-       STUDY TOOLS
-  ========================= -->
-
-  <div class="section-heading">
-
-    <h2>
-      Study Tools 🧰📚
-    </h2>
-
-    <p>
-      Everything you need to learn smarter.
-      🚀🧠✨
-    </p>
 
   </div>
 
-  <section class="tools">
 
-    <div
-      class="tool"
-      onclick="comingSoon('Doubt Solver')"
+  <!-- INPUT -->
+
+  <div class="question-box">
+
+    <input
+      id="questionInput"
+      type="text"
+      autocomplete="off"
+      placeholder="Ask me anything about your studies... 🤔💡"
     >
 
-      <div class="tool-icon">
-        🤖
-      </div>
 
-      <h3>
-        Doubt Solver 💡
-      </h3>
-
-      <p>
-        Get simple, step-by-step explanations
-        for your questions. 🧠📖
-      </p>
-
-      <div class="tool-link">
-        Solve a doubt →
-      </div>
-
-    </div>
-
-    <div
-      class="tool"
-      onclick="comingSoon('AI Notes')"
+    <button
+      class="ask-button"
+      id="askButton"
+      onclick="askAI()"
     >
+      Ask AI 🚀
+    </button>
 
-      <div class="tool-icon">
-        📚
-      </div>
+  </div>
 
-      <h3>
-        AI Notes 🧠
-      </h3>
 
-      <p>
-        Turn chapters into concise notes
-        and revision material. ✍️📖
-      </p>
+  <!-- CHAT HEADER -->
 
-      <div class="tool-link">
-        Create notes →
-      </div>
+  <div class="chat-header">
 
-    </div>
+    <h3>
+      💬 Current Conversation
+    </h3>
 
-    <div
-      class="tool"
-      onclick="comingSoon('Custom Tests')"
+
+    <span
+      id="chatCount"
     >
+      0 messages
+    </span>
 
-      <div class="tool-icon">
-        📝
-      </div>
+  </div>
 
-      <h3>
-        Custom Tests 🎯
-      </h3>
 
-      <p>
-        Generate tests based on class,
-        subject, chapters and difficulty.
-        🏆📚
-      </p>
+  <!-- CHAT -->
 
-      <div class="tool-link">
-        Create a test →
-      </div>
+  <div
+    class="chat-history"
+    id="chatHistory"
+  ></div>
 
+
+</section>
+
+
+<!-- =====================================================
+     STUDY TOOLS
+===================================================== -->
+
+<div class="section-heading">
+
+  <h2>
+    Study Tools 🧰📚
+  </h2>
+
+  <p>
+    Everything you need to learn smarter.
+    🚀🧠✨
+  </p>
+
+</div>
+
+
+<section class="tools">
+
+
+  <!-- DOUBT SOLVER -->
+
+  <div
+    class="tool"
+    onclick="comingSoon('Doubt Solver')"
+  >
+
+    <div class="tool-icon">
+      🤖
     </div>
 
-  </section>
+
+    <h3>
+      Doubt Solver 💡
+    </h3>
+
+
+    <p>
+      Get simple, step-by-step explanations
+      for your questions. 🧠📖
+    </p>
+
+
+    <div class="tool-link">
+      Solve a doubt →
+    </div>
+
+  </div>
+
+
+  <!-- AI NOTES -->
+
+  <div
+    class="tool"
+    onclick="comingSoon('AI Notes')"
+  >
+
+    <div class="tool-icon">
+      📚
+    </div>
+
+
+    <h3>
+      AI Notes 🧠
+    </h3>
+
+
+    <p>
+      Turn chapters into concise notes
+      and revision material. ✍️📖
+    </p>
+
+
+    <div class="tool-link">
+      Create notes →
+    </div>
+
+  </div>
+
+
+  <!-- CUSTOM TESTS -->
+
+  <div
+    class="tool"
+    onclick="comingSoon('Custom Tests')"
+  >
+
+    <div class="tool-icon">
+      📝
+    </div>
+
+
+    <h3>
+      Custom Tests 🎯
+    </h3>
+
+
+    <p>
+      Generate tests based on class,
+      subject, chapters and difficulty.
+      🏆📚
+    </p>
+
+
+    <div class="tool-link">
+      Create a test →
+    </div>
+
+  </div>
+
+
+</section>
 
 </main>
 
-<!-- =========================
+
+<!-- =====================================================
      FOOTER
-========================= -->
+===================================================== -->
 
 <footer>
 
@@ -1359,14 +2491,451 @@ footer{
 
 </footer>
 
+
 </div>
 </div>
+
+
+<!-- =====================================================
+     CUSTOMIZE MODAL
+===================================================== -->
+
+<div
+  class="customize-overlay"
+  id="customizeOverlay"
+  onclick="closeCustomizeFromOverlay(event)"
+>
+
+
+  <div
+    class="customize-panel"
+    onclick="event.stopPropagation()"
+  >
+
+
+    <!-- HEADER -->
+
+    <div class="customize-header">
+
+      <div class="customize-title">
+
+        <div class="customize-title-icon">
+          🎨
+        </div>
+
+
+        <div>
+
+          <h2>
+            Customize DIVYAM.AI
+          </h2>
+
+          <p>
+            Make your study dashboard yours ✨
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="close-customize"
+        onclick="closeCustomize()"
+        aria-label="Close customization"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <!-- =================================================
+         COLOUR THEMES
+    ================================================= -->
+
+    <section class="customize-section">
+
+      <div class="customize-section-title">
+
+        <h3>
+          🎨 Colour Theme
+        </h3>
+
+        <span>
+          Choose your dashboard colours
+        </span>
+
+      </div>
+
+
+      <div class="theme-grid">
+
+
+        <button
+          class="theme-option theme-blue"
+          data-theme="blue"
+          onclick="setTheme('blue')"
+        >
+          <div class="theme-preview"></div>
+          <div class="theme-name">
+            💙 Blue Aurora
+          </div>
+        </button>
+
+
+        <button
+          class="theme-option theme-emerald"
+          data-theme="emerald"
+          onclick="setTheme('emerald')"
+        >
+          <div class="theme-preview"></div>
+          <div class="theme-name">
+            💚 Emerald
+          </div>
+        </button>
+
+
+        <button
+          class="theme-option theme-cyan"
+          data-theme="cyan"
+          onclick="setTheme('cyan')"
+        >
+          <div class="theme-preview"></div>
+          <div class="theme-name">
+            🩵 Cyan Neon
+          </div>
+        </button>
+
+
+        <button
+          class="theme-option theme-pink"
+          data-theme="pink"
+          onclick="setTheme('pink')"
+        >
+          <div class="theme-preview"></div>
+          <div class="theme-name">
+            💗 Pink Galaxy
+          </div>
+        </button>
+
+
+        <button
+          class="theme-option theme-orange"
+          data-theme="orange"
+          onclick="setTheme('orange')"
+        >
+          <div class="theme-preview"></div>
+          <div class="theme-name">
+            🧡 Sunset
+          </div>
+        </button>
+
+
+        <button
+          class="theme-option theme-red"
+          data-theme="red"
+          onclick="setTheme('red')"
+        >
+          <div class="theme-preview"></div>
+          <div class="theme-name">
+            ❤️ Crimson
+          </div>
+        </button>
+
+
+        <button
+          class="theme-option theme-violet"
+          data-theme="violet"
+          onclick="setTheme('violet')"
+        >
+          <div class="theme-preview"></div>
+          <div class="theme-name">
+            💜 Violet
+          </div>
+        </button>
+
+
+        <button
+          class="theme-option theme-mint"
+          data-theme="mint"
+          onclick="setTheme('mint')"
+        >
+          <div class="theme-preview"></div>
+          <div class="theme-name">
+            🌿 Mint
+          </div>
+        </button>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         FONT
+    ================================================= -->
+
+    <section class="customize-section">
+
+      <div class="customize-section-title">
+
+        <h3>
+          🔤 Font Style
+        </h3>
+
+        <span>
+          Change the dashboard typography
+        </span>
+
+      </div>
+
+
+      <div class="font-grid">
+
+
+        <button
+          class="font-option font-arial"
+          data-font="arial"
+          onclick="setFont('arial')"
+        >
+          Arial
+        </button>
+
+
+        <button
+          class="font-option font-inter"
+          data-font="inter"
+          onclick="setFont('inter')"
+        >
+          Inter
+        </button>
+
+
+        <button
+          class="font-option font-poppins"
+          data-font="poppins"
+          onclick="setFont('poppins')"
+        >
+          Poppins
+        </button>
+
+
+        <button
+          class="font-option font-roboto"
+          data-font="roboto"
+          onclick="setFont('roboto')"
+        >
+          Roboto
+        </button>
+
+
+        <button
+          class="font-option font-georgia"
+          data-font="georgia"
+          onclick="setFont('georgia')"
+        >
+          Georgia
+        </button>
+
+
+        <button
+          class="font-option font-trebuchet"
+          data-font="trebuchet"
+          onclick="setFont('trebuchet')"
+        >
+          Trebuchet
+        </button>
+
+
+        <button
+          class="font-option font-mono"
+          data-font="mono"
+          onclick="setFont('mono')"
+        >
+          Monospace
+        </button>
+
+
+        <button
+          class="font-option font-verdana"
+          data-font="verdana"
+          onclick="setFont('verdana')"
+        >
+          Verdana
+        </button>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         CHAT DENSITY
+    ================================================= -->
+
+    <section class="customize-section">
+
+      <div class="customize-section-title">
+
+        <h3>
+          💬 Chat Spacing
+        </h3>
+
+        <span>
+          Control conversation density
+        </span>
+
+      </div>
+
+
+      <div class="density-grid">
+
+
+        <button
+          class="density-option"
+          data-density="compact"
+          onclick="setDensity('compact')"
+        >
+
+          <strong>
+            Compact
+          </strong>
+
+          <small>
+            More messages
+          </small>
+
+        </button>
+
+
+        <button
+          class="density-option"
+          data-density="comfortable"
+          onclick="setDensity('comfortable')"
+        >
+
+          <strong>
+            Comfortable
+          </strong>
+
+          <small>
+            Recommended
+          </small>
+
+        </button>
+
+
+        <button
+          class="density-option"
+          data-density="spacious"
+          onclick="setDensity('spacious')"
+        >
+
+          <strong>
+            Spacious
+          </strong>
+
+          <small>
+            More breathing room
+          </small>
+
+        </button>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         GLOW
+    ================================================= -->
+
+    <section class="customize-section">
+
+      <div class="customize-section-title">
+
+        <h3>
+          ✨ UI Glow
+        </h3>
+
+        <span>
+          Control visual intensity
+        </span>
+
+      </div>
+
+
+      <div class="glow-grid">
+
+
+        <button
+          class="glow-option"
+          data-glow="low"
+          onclick="setGlow('low')"
+        >
+          🌙 Low
+        </button>
+
+
+        <button
+          class="glow-option"
+          data-glow="medium"
+          onclick="setGlow('medium')"
+        >
+          ✨ Medium
+        </button>
+
+
+        <button
+          class="glow-option"
+          data-glow="high"
+          onclick="setGlow('high')"
+        >
+          ⚡ High
+        </button>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <div class="customize-footer">
+
+      <button
+        class="reset-button"
+        onclick="resetCustomization()"
+      >
+        🔄 Reset Default
+      </button>
+
+
+      <button
+        class="done-button"
+        onclick="closeCustomize()"
+      >
+        ✓ Done
+      </button>
+
+    </div>
+
+
+  </div>
+
+</div>
+
 
 <script>
 
-/* =========================
+/* =========================================================
    SUPABASE
-========================= */
+========================================================= */
 
 const SUPABASE_URL =
   "https://teosakxikuswuhtbkmuv.supabase.co";
@@ -1381,79 +2950,626 @@ const supabaseClient =
   );
 
 
-/* =========================
-   GLOBAL STATE
-========================= */
+/* =========================================================
+   VARIABLES
+========================================================= */
 
 let userId="guest";
-let storageKey="divyam_sessions_guest";
+
+let storageKey=
+  "divyam_sessions_guest";
+
 let sessions=[];
+
 let activeId=null;
 
 
-/* =========================
+/* =========================================================
+   CUSTOMIZATION SETTINGS
+========================================================= */
+
+const customizationKey=
+  "divyam_customization";
+
+
+const defaultCustomization={
+
+  theme:"blue",
+
+  font:"arial",
+
+  density:"comfortable",
+
+  glow:"medium"
+
+};
+
+
+let customization={
+  ...defaultCustomization
+};
+
+
+/* =========================================================
+   THEME DEFINITIONS
+========================================================= */
+
+const themes={
+
+  blue:{
+    accent1:"#2563eb",
+    accent2:"#4f46e5",
+    accent3:"#7c3aed",
+    accentSoft:"rgba(59,130,246,.18)",
+    accentBorder:"rgba(96,165,250,.20)",
+    bg:"#07111f"
+  },
+
+  emerald:{
+    accent1:"#059669",
+    accent2:"#0d9488",
+    accent3:"#14b8a6",
+    accentSoft:"rgba(16,185,129,.18)",
+    accentBorder:"rgba(52,211,153,.20)",
+    bg:"#061914"
+  },
+
+  cyan:{
+    accent1:"#0891b2",
+    accent2:"#06b6d4",
+    accent3:"#3b82f6",
+    accentSoft:"rgba(6,182,212,.18)",
+    accentBorder:"rgba(34,211,238,.20)",
+    bg:"#06151c"
+  },
+
+  pink:{
+    accent1:"#db2777",
+    accent2:"#ec4899",
+    accent3:"#a855f7",
+    accentSoft:"rgba(236,72,153,.17)",
+    accentBorder:"rgba(244,114,182,.20)",
+    bg:"#1a0715"
+  },
+
+  orange:{
+    accent1:"#ea580c",
+    accent2:"#f97316",
+    accent3:"#eab308",
+    accentSoft:"rgba(249,115,22,.18)",
+    accentBorder:"rgba(251,146,60,.20)",
+    bg:"#1b0c04"
+  },
+
+  red:{
+    accent1:"#dc2626",
+    accent2:"#e11d48",
+    accent3:"#be123c",
+    accentSoft:"rgba(225,29,72,.18)",
+    accentBorder:"rgba(251,113,133,.20)",
+    bg:"#190607"
+  },
+
+  violet:{
+    accent1:"#7c3aed",
+    accent2:"#8b5cf6",
+    accent3:"#c026d3",
+    accentSoft:"rgba(139,92,246,.18)",
+    accentBorder:"rgba(167,139,250,.20)",
+    bg:"#100719"
+  },
+
+  mint:{
+    accent1:"#10b981",
+    accent2:"#22c55e",
+    accent3:"#84cc16",
+    accentSoft:"rgba(34,197,94,.18)",
+    accentBorder:"rgba(74,222,128,.20)",
+    bg:"#08170e"
+  }
+
+};
+
+
+/* =========================================================
+   FONT DEFINITIONS
+========================================================= */
+
+const fonts={
+
+  arial:
+    "Arial,Helvetica,sans-serif",
+
+  inter:
+    "Inter,Arial,sans-serif",
+
+  poppins:
+    "Poppins,Arial,sans-serif",
+
+  roboto:
+    "Roboto,Arial,sans-serif",
+
+  georgia:
+    "Georgia,serif",
+
+  trebuchet:
+    '"Trebuchet MS",Arial,sans-serif',
+
+  mono:
+    '"Courier New",monospace',
+
+  verdana:
+    "Verdana,Arial,sans-serif"
+
+};
+
+
+/* =========================================================
+   LOAD CUSTOMIZATION
+========================================================= */
+
+function loadCustomization(){
+
+  try{
+
+    const saved=
+      JSON.parse(
+        localStorage.getItem(
+          customizationKey
+        ) || "null"
+      );
+
+    if(saved){
+
+      customization={
+        ...defaultCustomization,
+        ...saved
+      };
+
+    }
+
+  }catch{
+
+    customization={
+      ...defaultCustomization
+    };
+
+  }
+
+  applyCustomization();
+
+}
+
+
+/* =========================================================
+   SAVE CUSTOMIZATION
+========================================================= */
+
+function saveCustomization(){
+
+  localStorage.setItem(
+    customizationKey,
+    JSON.stringify(
+      customization
+    )
+  );
+
+}
+
+
+/* =========================================================
+   APPLY CUSTOMIZATION
+========================================================= */
+
+function applyCustomization(){
+
+  const root=
+    document.documentElement;
+
+  const theme=
+    themes[
+      customization.theme
+    ] || themes.blue;
+
+  root.style.setProperty(
+    "--accent-1",
+    theme.accent1
+  );
+
+  root.style.setProperty(
+    "--accent-2",
+    theme.accent2
+  );
+
+  root.style.setProperty(
+    "--accent-3",
+    theme.accent3
+  );
+
+  root.style.setProperty(
+    "--accent-soft",
+    theme.accentSoft
+  );
+
+  root.style.setProperty(
+    "--accent-border",
+    theme.accentBorder
+  );
+
+  root.style.setProperty(
+    "--bg",
+    theme.bg
+  );
+
+
+  root.style.setProperty(
+    "--font-family",
+    fonts[
+      customization.font
+    ] || fonts.arial
+  );
+
+
+  const densities={
+
+    compact:{
+      gap:"14px",
+      padding:"18px 14px"
+    },
+
+    comfortable:{
+      gap:"24px",
+      padding:"25px 18px"
+    },
+
+    spacious:{
+      gap:"34px",
+      padding:"32px 22px"
+    }
+
+  };
+
+
+  const density=
+    densities[
+      customization.density
+    ] ||
+    densities.comfortable;
+
+
+  root.style.setProperty(
+    "--chat-gap",
+    density.gap
+  );
+
+  root.style.setProperty(
+    "--chat-padding",
+    density.padding
+  );
+
+
+  const glowValues={
+
+    low:"0.10",
+
+    medium:"0.25",
+
+    high:"0.45"
+
+  };
+
+
+  root.style.setProperty(
+    "--glow",
+    glowValues[
+      customization.glow
+    ] || "0.25"
+  );
+
+
+  updateCustomizeSelection();
+
+}
+
+
+/* =========================================================
+   UPDATE SELECTION UI
+========================================================= */
+
+function updateCustomizeSelection(){
+
+  document
+    .querySelectorAll(
+      ".theme-option"
+    )
+    .forEach(el=>{
+
+      el.classList.toggle(
+        "selected",
+        el.dataset.theme===
+        customization.theme
+      );
+
+    });
+
+
+  document
+    .querySelectorAll(
+      ".font-option"
+    )
+    .forEach(el=>{
+
+      el.classList.toggle(
+        "selected",
+        el.dataset.font===
+        customization.font
+      );
+
+    });
+
+
+  document
+    .querySelectorAll(
+      ".density-option"
+    )
+    .forEach(el=>{
+
+      el.classList.toggle(
+        "selected",
+        el.dataset.density===
+        customization.density
+      );
+
+    });
+
+
+  document
+    .querySelectorAll(
+      ".glow-option"
+    )
+    .forEach(el=>{
+
+      el.classList.toggle(
+        "selected",
+        el.dataset.glow===
+        customization.glow
+      );
+
+    });
+
+}
+
+
+/* =========================================================
+   SET THEME
+========================================================= */
+
+function setTheme(theme){
+
+  if(!themes[theme]){
+    return;
+  }
+
+  customization.theme=
+    theme;
+
+  saveCustomization();
+
+  applyCustomization();
+
+}
+
+
+/* =========================================================
+   SET FONT
+========================================================= */
+
+function setFont(font){
+
+  if(!fonts[font]){
+    return;
+  }
+
+  customization.font=
+    font;
+
+  saveCustomization();
+
+  applyCustomization();
+
+}
+
+
+/* =========================================================
+   SET DENSITY
+========================================================= */
+
+function setDensity(density){
+
+  customization.density=
+    density;
+
+  saveCustomization();
+
+  applyCustomization();
+
+}
+
+
+/* =========================================================
+   SET GLOW
+========================================================= */
+
+function setGlow(glow){
+
+  customization.glow=
+    glow;
+
+  saveCustomization();
+
+  applyCustomization();
+
+}
+
+
+/* =========================================================
+   RESET CUSTOMIZATION
+========================================================= */
+
+function resetCustomization(){
+
+  if(
+    !confirm(
+      "🔄 Reset all dashboard customization to default?"
+    )
+  ){
+
+    return;
+
+  }
+
+  customization={
+    ...defaultCustomization
+  };
+
+  saveCustomization();
+
+  applyCustomization();
+
+}
+
+
+/* =========================================================
+   OPEN CUSTOMIZE
+========================================================= */
+
+function openCustomize(){
+
+  document
+    .getElementById(
+      "profileMenu"
+    )
+    .classList
+    .remove("open");
+
+  document
+    .getElementById(
+      "customizeOverlay"
+    )
+    .classList
+    .add("open");
+
+}
+
+
+/* =========================================================
+   CLOSE CUSTOMIZE
+========================================================= */
+
+function closeCustomize(){
+
+  document
+    .getElementById(
+      "customizeOverlay"
+    )
+    .classList
+    .remove("open");
+
+}
+
+
+/* =========================================================
+   CLOSE WHEN CLICKING OVERLAY
+========================================================= */
+
+function closeCustomizeFromOverlay(e){
+
+  if(
+    e.target===
+    document.getElementById(
+      "customizeOverlay"
+    )
+  ){
+
+    closeCustomize();
+
+  }
+
+}
+
+
+/* =========================================================
    INITIALS
-========================= */
+========================================================= */
 
 function getInitials(name){
 
   return name
     .trim()
     .split(/\s+/)
-    .map(x=>x[0])
+    .map(
+      x=>x[0]
+    )
     .slice(0,2)
     .join("")
-    .toUpperCase() || "U";
+    .toUpperCase()
+    || "U";
 
 }
 
 
-/* =========================
+/* =========================================================
    SIDEBAR
-========================= */
+========================================================= */
 
 function toggleSidebar(){
 
   document
-    .getElementById("sidebar")
+    .getElementById(
+      "sidebar"
+    )
     .classList
     .toggle("collapsed");
 
 }
 
 
-/* =========================
+/* =========================================================
    PROFILE MENU
-========================= */
+========================================================= */
 
 function toggleProfile(e){
 
   e.stopPropagation();
 
   document
-    .getElementById("profileMenu")
+    .getElementById(
+      "profileMenu"
+    )
     .classList
     .toggle("open");
 
 }
 
 
-/* Close profile menu when clicking outside */
-
 document.addEventListener(
   "click",
   e=>{
 
-    const wrap =
-      document.querySelector(".profile-wrap");
+    const w=
+      document.querySelector(
+        ".profile-wrap"
+      );
 
     if(
-      wrap &&
-      !wrap.contains(e.target)
+      w &&
+      !w.contains(e.target)
     ){
 
       document
-        .getElementById("profileMenu")
+        .getElementById(
+          "profileMenu"
+        )
         .classList
         .remove("open");
 
@@ -1463,251 +3579,25 @@ document.addEventListener(
 );
 
 
-/* =========================
-   USERNAME EDITOR
-========================= */
-
-function openUsernameEditor(){
-
-  const editor =
-    document.getElementById(
-      "usernameEditor"
-    );
-
-  const input =
-    document.getElementById(
-      "usernameInput"
-    );
-
-  const currentUsername =
-    document
-      .getElementById(
-        "profileUsername"
-      )
-      .textContent
-      .trim();
-
-  input.value=currentUsername;
-
-  editor.classList.add("open");
-
-  document
-    .getElementById(
-      "editUsernameButton"
-    )
-    .style.display="none";
-
-  setTimeout(()=>{
-    input.focus();
-    input.select();
-  },50);
-
-}
-
-
-function closeUsernameEditor(){
-
-  document
-    .getElementById(
-      "usernameEditor"
-    )
-    .classList
-    .remove("open");
-
-  document
-    .getElementById(
-      "editUsernameButton"
-    )
-    .style.display="block";
-
-}
-
-
-/* =========================
-   SAVE USERNAME
-========================= */
-
-async function saveUsername(){
-
-  const input =
-    document.getElementById(
-      "usernameInput"
-    );
-
-  const button =
-    document.getElementById(
-      "saveUsernameButton"
-    );
-
-  const username =
-    input.value.trim();
-
-
-  if(!username){
-
-    alert(
-      "⚠️ Username cannot be empty."
-    );
-
-    input.focus();
-
-    return;
-
-  }
-
-
-  if(username.length<3){
-
-    alert(
-      "⚠️ Username must contain at least 3 characters."
-    );
-
-    input.focus();
-
-    return;
-
-  }
-
-
-  if(username.length>30){
-
-    alert(
-      "⚠️ Username cannot be longer than 30 characters."
-    );
-
-    input.focus();
-
-    return;
-
-  }
-
-
-  button.disabled=true;
-
-  button.textContent=
-    "Saving...";
-
-
-  try{
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .auth
-        .updateUser({
-          data:{
-            full_name:username
-          }
-        });
-
-
-    if(error){
-
-      throw error;
-
-    }
-
-
-    /* Update interface */
-
-    document
-      .getElementById(
-        "profileUsername"
-      )
-      .textContent=username;
-
-
-    document
-      .getElementById(
-        "profileName"
-      )
-      .textContent=username;
-
-
-    document
-      .getElementById(
-        "welcomeName"
-      )
-      .textContent=username;
-
-
-    /* Update initials */
-
-    const initials =
-      getInitials(username);
-
-
-    document
-      .getElementById(
-        "profileButton"
-      )
-      .textContent=initials;
-
-
-    document
-      .getElementById(
-        "profileMini"
-      )
-      .textContent=initials;
-
-
-    closeUsernameEditor();
-
-
-    alert(
-      "✅ Username updated successfully!"
-    );
-
-
-  }catch(error){
-
-    console.error(
-      "Username update error:",
-      error
-    );
-
-
-    alert(
-      "❌ Could not update username.\n\n"+
-      (
-        error.message ||
-        "Please try again."
-      )
-    );
-
-
-  }finally{
-
-    button.disabled=false;
-
-    button.textContent=
-      "💾 Save";
-
-  }
-
-}
-
-
-/* =========================
-   LOAD SESSIONS
-========================= */
+/* =========================================================
+   LOAD CHAT SESSIONS
+========================================================= */
 
 function loadSessions(){
 
   try{
 
-    sessions =
+    sessions=
       JSON.parse(
         localStorage.getItem(
           storageKey
         ) || "[]"
       );
 
-
     if(
-      !Array.isArray(sessions)
+      !Array.isArray(
+        sessions
+      )
     ){
 
       sessions=[];
@@ -1720,15 +3610,14 @@ function loadSessions(){
 
   }
 
-
   renderHistory();
 
 }
 
 
-/* =========================
+/* =========================================================
    SAVE SESSIONS
-========================= */
+========================================================= */
 
 function saveSessions(){
 
@@ -1742,15 +3631,14 @@ function saveSessions(){
 }
 
 
-/* =========================
+/* =========================================================
    NEW CHAT
-========================= */
+========================================================= */
 
 function newChat(){
 
-  const id =
+  const id=
     Date.now().toString();
-
 
   sessions.push({
 
@@ -1765,9 +3653,7 @@ function newChat(){
 
   });
 
-
   activeId=id;
-
 
   saveSessions();
 
@@ -1775,25 +3661,18 @@ function newChat(){
 
   renderChat();
 
-
-  const input =
-    document.getElementById(
+  document
+    .getElementById(
       "questionInput"
-    );
-
-
-  if(input){
-
-    input.focus();
-
-  }
+    )
+    .focus();
 
 }
 
 
-/* =========================
+/* =========================================================
    CURRENT CHAT
-========================= */
+========================================================= */
 
 function current(){
 
@@ -1804,26 +3683,29 @@ function current(){
 }
 
 
-/* =========================
-   HISTORY
-========================= */
+/* =========================================================
+   RENDER HISTORY
+========================================================= */
 
 function renderHistory(){
 
-  const list =
+  const list=
     document.getElementById(
       "historyList"
     );
-
 
   if(!sessions.length){
 
     list.innerHTML=
       `
       <div class="empty-history">
+
         No previous chats yet. 💬✨
+
         <br>
+
         Start a new chat to see it here.
+
       </div>
       `;
 
@@ -1839,11 +3721,10 @@ function renderHistory(){
     .reverse()
     .forEach(s=>{
 
-      const item =
+      const item=
         document.createElement(
           "div"
         );
-
 
       item.className=
         "history-item"+
@@ -1878,16 +3759,18 @@ function renderHistory(){
       };
 
 
-      list.appendChild(item);
+      list.appendChild(
+        item
+      );
 
     });
 
 }
 
 
-/* =========================
+/* =========================================================
    CLEAN AI RESPONSE
-========================= */
+========================================================= */
 
 function cleanAIResponse(text){
 
@@ -1900,7 +3783,7 @@ function cleanAIResponse(text){
   }
 
 
-  let x =
+  let x=
     text.replace(
       /```[\s\S]*?```/g,
       m=>
@@ -1916,7 +3799,7 @@ function cleanAIResponse(text){
     );
 
 
-  x =
+  x=
     x
       .replace(
         /`([^`]+)`/g,
@@ -1944,12 +3827,12 @@ function cleanAIResponse(text){
       );
 
 
-  x =
+  x=
     x.replace(
       /^\s*\|(.+)\|\s*$/gm,
       (m,r)=>{
 
-        const c =
+        const c=
           r
             .split("|")
             .map(
@@ -1957,9 +3840,9 @@ function cleanAIResponse(text){
             )
             .filter(Boolean);
 
-
         return c.length
-          ? "• "+c.join(" — ")
+          ? "• "+
+            c.join(" — ")
           : "";
 
       }
@@ -1971,23 +3854,21 @@ function cleanAIResponse(text){
 }
 
 
-/* =========================
+/* =========================================================
    RENDER CHAT
-========================= */
+========================================================= */
 
 function renderChat(){
 
-  const box =
+  const box=
     document.getElementById(
       "chatHistory"
     );
 
-
-  const count =
+  const count=
     document.getElementById(
       "chatCount"
     );
-
 
   const s=current();
 
@@ -2005,6 +3886,7 @@ function renderChat(){
       <div class="empty-chat">
 
         🤖✨
+
         <strong>
           New conversation
         </strong>
@@ -2029,13 +3911,12 @@ function renderChat(){
     count.textContent=
       "0 messages";
 
-
     return;
 
   }
 
 
-  count.textContent =
+  count.textContent=
     s.messages.length+
     (
       s.messages.length===1
@@ -2047,53 +3928,45 @@ function renderChat(){
 
   s.messages.forEach(m=>{
 
-    const wrap =
+    const wrap=
       document.createElement(
         "div"
       );
-
 
     wrap.className=
       "chat-message";
 
 
-    /* =====================
-       USER MESSAGE
-    ===================== */
+    /* USER */
 
-    const userContainer =
+    const userContainer=
       document.createElement(
         "div"
       );
-
 
     userContainer.className=
       "user-message";
 
 
-    const userLabel =
+    const userLabel=
       document.createElement(
         "div"
       );
 
-
     userLabel.className=
       "user-label";
-
 
     userLabel.textContent=
       "Your message 🧑‍🎓";
 
 
-    const question =
+    const question=
       document.createElement(
         "div"
       );
 
-
     question.className=
       "chat-question";
-
 
     question.textContent=
       m.question;
@@ -2103,55 +3976,47 @@ function renderChat(){
       userLabel
     );
 
-
     userContainer.appendChild(
       question
     );
 
 
-    /* =====================
-       AI MESSAGE
-    ===================== */
+    /* AI */
 
-    const aiContainer =
+    const aiContainer=
       document.createElement(
         "div"
       );
-
 
     aiContainer.className=
       "ai-message";
 
 
-    const aiLabel =
+    const aiLabel=
       document.createElement(
         "div"
       );
 
-
     aiLabel.className=
       "ai-label";
-
 
     aiLabel.textContent=
       "🤖 DIVYAM.AI";
 
 
-    const answer =
+    const answer=
       document.createElement(
         "div"
       );
-
 
     answer.className=
       "chat-answer";
 
 
-    const answerText =
+    const answerText=
       document.createElement(
         "div"
       );
-
 
     answerText.textContent=
       cleanAIResponse(
@@ -2159,15 +4024,13 @@ function renderChat(){
       );
 
 
-    const time =
+    const time=
       document.createElement(
         "div"
       );
 
-
     time.className=
       "chat-time";
-
 
     time.textContent=
       "🕒 "+
@@ -2186,7 +4049,6 @@ function renderChat(){
       answerText
     );
 
-
     answer.appendChild(
       time
     );
@@ -2196,20 +4058,14 @@ function renderChat(){
       aiLabel
     );
 
-
     aiContainer.appendChild(
       answer
     );
 
 
-    /* =====================
-       ADD TO CHAT
-    ===================== */
-
     wrap.appendChild(
       userContainer
     );
-
 
     wrap.appendChild(
       aiContainer
@@ -2229,9 +4085,9 @@ function renderChat(){
 }
 
 
-/* =========================
+/* =========================================================
    CLEAR CHAT
-========================= */
+========================================================= */
 
 function clearCurrentChat(){
 
@@ -2263,7 +4119,6 @@ function clearCurrentChat(){
 
   s.title="New Chat";
 
-
   saveSessions();
 
   renderHistory();
@@ -2273,25 +4128,25 @@ function clearCurrentChat(){
 }
 
 
-/* =========================
+/* =========================================================
    ASK AI
-========================= */
+========================================================= */
 
 async function askAI(){
 
-  const input =
+  const input=
     document.getElementById(
       "questionInput"
     );
 
 
-  const button =
+  const button=
     document.getElementById(
       "askButton"
     );
 
 
-  const question =
+  const question=
     input.value.trim();
 
 
@@ -2316,7 +4171,7 @@ async function askAI(){
     s.messages.length===0
   ){
 
-    s.title =
+    s.title=
       question.length>42
         ? question.slice(0,42)+"…"
         : question;
@@ -2326,28 +4181,23 @@ async function askAI(){
 
   button.disabled=true;
 
-
   button.textContent=
     "Thinking... 🤔";
 
 
-  const box =
+  const box=
     document.getElementById(
       "chatHistory"
     );
 
 
-  /* Temporary AI thinking message */
-
-  const thinking =
+  const thinking=
     document.createElement(
       "div"
     );
 
-
   thinking.className=
     "chat-answer thinking";
-
 
   thinking.textContent=
     "🤖 Thinking... 🧠✨";
@@ -2357,7 +4207,6 @@ async function askAI(){
     thinking
   );
 
-
   box.scrollTop=
     box.scrollHeight;
 
@@ -2366,7 +4215,7 @@ async function askAI(){
 
     const {
       data:sd
-    } =
+    }=
       await supabaseClient
         .auth
         .getSession();
@@ -2384,7 +4233,7 @@ async function askAI(){
     const {
       data,
       error
-    } =
+    }=
       await supabaseClient
         .functions
         .invoke(
@@ -2418,8 +4267,6 @@ async function askAI(){
     }
 
 
-    /* Save message */
-
     s.messages.push({
 
       question,
@@ -2438,7 +4285,6 @@ async function askAI(){
 
     renderChat();
 
-
     input.value="";
 
 
@@ -2447,11 +4293,10 @@ async function askAI(){
     thinking.remove();
 
 
-    const err =
+    const err=
       document.createElement(
         "div"
       );
-
 
     err.className=
       "chat-answer";
@@ -2469,7 +4314,6 @@ async function askAI(){
       err
     );
 
-
   }finally{
 
     button.disabled=false;
@@ -2482,9 +4326,175 @@ async function askAI(){
 }
 
 
-/* =========================
+/* =========================================================
+   EDIT USERNAME
+========================================================= */
+
+async function editUsername(){
+
+  const currentUsername=
+    document
+      .getElementById(
+        "profileUsername"
+      )
+      .textContent
+      .trim();
+
+
+  const newUsername=
+    prompt(
+      "✏️ Enter your new username:",
+      currentUsername
+    );
+
+
+  if(
+    newUsername===null
+  ){
+
+    return;
+
+  }
+
+
+  const username=
+    newUsername.trim();
+
+
+  if(!username){
+
+    alert(
+      "⚠️ Username cannot be empty."
+    );
+
+    return;
+
+  }
+
+
+  if(
+    username.length<3
+  ){
+
+    alert(
+      "⚠️ Username must contain at least 3 characters."
+    );
+
+    return;
+
+  }
+
+
+  if(
+    username.length>30
+  ){
+
+    alert(
+      "⚠️ Username cannot be longer than 30 characters."
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    const {
+      data,
+      error
+    }=
+      await supabaseClient
+        .auth
+        .updateUser({
+
+          data:{
+            full_name:
+              username
+          }
+
+        });
+
+
+    if(error){
+
+      throw error;
+
+    }
+
+
+    document
+      .getElementById(
+        "profileUsername"
+      )
+      .textContent=
+      username;
+
+
+    document
+      .getElementById(
+        "profileName"
+      )
+      .textContent=
+      username;
+
+
+    document
+      .getElementById(
+        "welcomeName"
+      )
+      .textContent=
+      username;
+
+
+    const initials=
+      getInitials(
+        username
+      );
+
+
+    document
+      .getElementById(
+        "profileButton"
+      )
+      .textContent=
+      initials;
+
+
+    document
+      .getElementById(
+        "profileMini"
+      )
+      .textContent=
+      initials;
+
+
+    alert(
+      "✅ Username updated successfully!"
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+
+    alert(
+      "❌ Could not update username.\n\n"+
+      (
+        error.message ||
+        "Please try again."
+      )
+    );
+
+  }
+
+}
+
+
+/* =========================================================
    LOGOUT
-========================= */
+========================================================= */
 
 async function logout(){
 
@@ -2504,16 +4514,16 @@ async function logout(){
 }
 
 
-/* =========================
+/* =========================================================
    CHECK USER
-========================= */
+========================================================= */
 
 async function checkUser(){
 
   const {
     data,
     error
-  } =
+  }=
     await supabaseClient
       .auth
       .getUser();
@@ -2541,16 +4551,15 @@ async function checkUser(){
 
 
   storageKey=
-    "divyam_sessions_"+u.id;
+    "divyam_sessions_"+
+    u.id;
 
 
-  const name =
+  const name=
     u.user_metadata?.full_name ||
     u.email?.split("@")[0] ||
     "Student";
 
-
-  /* Welcome */
 
   document
     .getElementById(
@@ -2560,18 +4569,14 @@ async function checkUser(){
     name;
 
 
-  /* Navbar */
-
   document
     .getElementById(
       "userName"
     )
     .textContent=
-      u.email ||
-      name;
+    u.email ||
+    name;
 
-
-  /* Initials */
 
   const initials=
     getInitials(name);
@@ -2592,8 +4597,6 @@ async function checkUser(){
     .textContent=
     initials;
 
-
-  /* Profile */
 
   document
     .getElementById(
@@ -2616,8 +4619,8 @@ async function checkUser(){
       "profileEmail"
     )
     .textContent=
-      u.email ||
-      "Not available";
+    u.email ||
+    "Not available";
 
 
   document
@@ -2625,19 +4628,12 @@ async function checkUser(){
       "profileRegisteredEmail"
     )
     .textContent=
-      u.email ||
-      "Not available";
+    u.email ||
+    "Not available";
 
-
-  /* Load chats */
 
   loadSessions();
 
-
-  /*
-     Start a fresh chat when the
-     dashboard login session begins.
-  */
 
   if(
     !sessionStorage.getItem(
@@ -2650,16 +4646,13 @@ async function checkUser(){
       "1"
     );
 
-
     newChat();
-
 
   }else{
 
     if(!sessions.length){
 
       newChat();
-
 
     }else{
 
@@ -2680,9 +4673,9 @@ async function checkUser(){
 }
 
 
-/* =========================
+/* =========================================================
    COMING SOON
-========================= */
+========================================================= */
 
 function comingSoon(feature){
 
@@ -2696,9 +4689,9 @@ function comingSoon(feature){
 }
 
 
-/* =========================
-   ENTER TO ASK
-========================= */
+/* =========================================================
+   ENTER KEY
+========================================================= */
 
 document
   .getElementById(
@@ -2708,7 +4701,9 @@ document
     "keydown",
     e=>{
 
-      if(e.key==="Enter"){
+      if(
+        e.key==="Enter"
+      ){
 
         e.preventDefault();
 
@@ -2720,9 +4715,31 @@ document
   );
 
 
-/* =========================
-   START DASHBOARD
-========================= */
+/* =========================================================
+   ESCAPE KEY — CLOSE CUSTOMIZE
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  e=>{
+
+    if(
+      e.key==="Escape"
+    ){
+
+      closeCustomize();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadCustomization();
 
 checkUser();
 
@@ -2730,4 +4747,3 @@ checkUser();
 
 </body>
 </html>
-````

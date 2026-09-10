@@ -1,45 +1,1974 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>DIVYAM.AI — Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,Helvetica,sans-serif;min-height:100vh;color:#f4f7ff;background:radial-gradient(circle at 10% 0%,rgba(59,130,246,.18),transparent 32%),radial-gradient(circle at 90% 100%,rgba(124,58,237,.16),transparent 35%),#07111f;overflow-x:hidden}.app{min-height:100vh}.sidebar{position:fixed;left:0;top:0;bottom:0;width:285px;background:rgba(6,18,33,.96);border-right:1px solid rgba(147,197,253,.12);z-index:300;transform:translateX(0);transition:.25s;display:flex;flex-direction:column;box-shadow:20px 0 70px rgba(0,0,0,.2)}.sidebar.collapsed{width:0;transform:translateX(-100%)}.side-head{height:74px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(147,197,253,.1)}.side-title{font-weight:800;font-size:19px;white-space:nowrap}.side-title span{color:#818cf8}.new-chat{margin:16px;padding:12px;border-radius:12px;border:1px solid rgba(96,165,250,.2);background:linear-gradient(90deg,rgba(37,99,235,.22),rgba(124,58,237,.2));color:#eaf2ff;font-weight:bold;cursor:pointer}.history-title{padding:0 18px 10px;color:#687e98;font-size:11px;text-transform:uppercase;letter-spacing:1.2px}.history{overflow-y:auto;padding:0 10px 20px;flex:1}.history::-webkit-scrollbar{width:5px}.history::-webkit-scrollbar-thumb{background:rgba(96,165,250,.2);border-radius:8px}.history-item{padding:12px;border-radius:11px;margin-bottom:5px;cursor:pointer;color:#aebbd0;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border:1px solid transparent}.history-item:hover{background:rgba(59,130,246,.1);border-color:rgba(96,165,250,.1)}.history-item.active{background:rgba(59,130,246,.14);border-color:rgba(96,165,250,.18);color:#fff}.empty-history{padding:15px 10px;color:#61758d;font-size:12px;line-height:1.6}.sidebar-toggle{position:fixed;left:300px;top:88px;z-index:250;width:40px;height:40px;border-radius:12px;border:1px solid rgba(147,197,253,.16);background:rgba(8,23,40,.9);color:#dbeafe;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.25);transition:.25s}.sidebar.collapsed~.sidebar-toggle{left:18px}.main{margin-left:285px;transition:.25s}.sidebar.collapsed~.main{margin-left:0}nav{height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 6%;position:sticky;top:0;z-index:100;background:rgba(7,17,31,.78);backdrop-filter:blur(22px);border-bottom:1px solid rgba(147,197,253,.1)}.logo{font-size:24px;font-weight:800}.logo span{background:linear-gradient(90deg,#60a5fa,#818cf8,#a78bfa);-webkit-background-clip:text;color:transparent}.nav-right{display:flex;align-items:center;gap:14px}.user-name{color:#aebbd0;font-size:14px}.clear-chat{padding:9px 14px;border-radius:10px;border:1px solid rgba(147,197,253,.14);background:rgba(30,58,95,.35);color:#cbd5e1;cursor:pointer}.profile-wrap{position:relative}.profile-button{width:42px;height:42px;border-radius:50%;border:2px solid rgba(147,197,253,.28);background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;font-weight:800;cursor:pointer}.profile-menu{position:absolute;top:54px;right:0;width:290px;padding:18px;border-radius:20px;background:rgba(8,23,40,.97);border:1px solid rgba(147,197,253,.16);box-shadow:0 25px 70px rgba(0,0,0,.45);opacity:0;visibility:hidden;transform:translateY(-8px);transition:.2s}.profile-menu.open{opacity:1;visibility:visible;transform:translateY(0)}.profile-head{display:flex;gap:12px;align-items:center;padding-bottom:15px;border-bottom:1px solid rgba(147,197,253,.1)}.profile-mini{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#2563eb,#7c3aed);font-weight:800}.profile-head strong{display:block;font-size:15px}.profile-head small{display:block;color:#7f96b4;font-size:11px;margin-top:4px}.profile-item{padding:11px 2px;color:#aebbd0;font-size:12px}.profile-item span{display:block;color:#647991;font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}.profile-actions{display:flex;gap:9px}.profile-actions button{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(147,197,253,.14);background:rgba(30,58,95,.4);color:#dbeafe;font-weight:bold;cursor:pointer}.dashboard{max-width:1200px;margin:auto;padding:65px 25px 100px}.welcome{margin-bottom:42px}.welcome-label{color:#7f96b4;font-size:13px;font-weight:600;letter-spacing:1.5px;margin-bottom:12px}.welcome h1{font-size:clamp(38px,6vw,60px);line-height:1.05;letter-spacing:-2.5px;margin-bottom:14px}.gradient{background:linear-gradient(90deg,#60a5fa,#818cf8,#a78bfa);-webkit-background-clip:text;color:transparent}.welcome p{color:#8ea2bb;font-size:16px}.ai-card{padding:40px;border-radius:28px;margin-bottom:45px;background:linear-gradient(135deg,rgba(30,64,175,.22),rgba(67,56,202,.14),rgba(15,35,60,.7));border:1px solid rgba(96,165,250,.2);box-shadow:0 25px 80px rgba(0,0,0,.28)}.ai-top{display:flex;align-items:center;gap:18px;margin-bottom:26px}.ai-icon{width:60px;height:60px;display:flex;align-items:center;justify-content:center;border-radius:18px;font-size:29px;background:linear-gradient(135deg,rgba(59,130,246,.28),rgba(124,58,237,.28));border:1px solid rgba(147,197,253,.18)}.ai-title h2{font-size:25px;margin-bottom:5px}.ai-title p{color:#91a4bd;font-size:13px}.question-box{display:flex;gap:12px;padding:8px;border-radius:15px;background:rgba(4,14,28,.55);border:1px solid rgba(147,197,253,.12)}.question-box input{flex:1;min-width:0;border:none;outline:none;background:transparent;color:#fff;padding:13px;font-size:14px}.ask-button{border:none;border-radius:11px;padding:12px 21px;color:#fff;font-weight:bold;cursor:pointer;background:linear-gradient(90deg,#2563eb,#4f46e5,#7c3aed)}.chat-header{display:flex;justify-content:space-between;margin-top:28px;margin-bottom:15px}.chat-header span{color:#71859e;font-size:12px}.chat-history{display:flex;flex-direction:column;gap:18px;max-height:700px;overflow-y:auto}.empty-chat{text-align:center;padding:35px 20px;border-radius:18px;background:rgba(4,14,28,.35);border:1px dashed rgba(147,197,253,.12);color:#71859e;line-height:1.7}.chat-message{display:flex;flex-direction:column;gap:9px}.chat-question{padding:15px 20px;border-radius:18px 18px 4px 18px;background:linear-gradient(135deg,rgba(37,99,235,.35),rgba(79,70,229,.32));border:1px solid rgba(96,165,250,.18);line-height:1.6;font-size:14px}.chat-answer{padding:22px;border-radius:18px 18px 18px 4px;background:rgba(4,14,28,.55);border:1px solid rgba(96,165,250,.15);color:#dbeafe;line-height:1.75;white-space:pre-wrap;word-wrap:break-word;font-size:14px}.chat-label{font-size:11px;font-weight:bold;color:#93b4ff;margin-bottom:8px}.chat-time{color:#5d7189;font-size:10px;margin-top:8px}.thinking{color:#8ea2bb}.section-heading{margin:45px 0 20px}.section-heading h2{font-size:24px;margin-bottom:6px}.section-heading p{color:#71859e;font-size:14px}.tools{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.tool{padding:30px;min-height:225px;border-radius:22px;background:linear-gradient(145deg,rgba(20,43,70,.72),rgba(11,28,48,.62));border:1px solid rgba(147,197,253,.1);cursor:pointer;transition:.3s}.tool:hover{transform:translateY(-7px);border-color:rgba(96,165,250,.3)}.tool-icon{font-size:35px;margin-bottom:22px}.tool h3{font-size:20px;margin-bottom:10px}.tool p{color:#8195ad;font-size:14px;line-height:1.65;margin-bottom:18px}.tool-link{color:#93b4ff;font-size:13px;font-weight:bold}.progress-card{padding:30px;border-radius:22px;background:linear-gradient(145deg,rgba(20,43,70,.65),rgba(10,25,43,.6));border:1px solid rgba(147,197,253,.1)}.progress-top{display:flex;justify-content:space-between;margin-bottom:18px}.progress-number{color:#93b4ff;font-weight:bold}.progress-bar{height:9px;background:rgba(96,165,250,.08);border-radius:20px;overflow:hidden}.progress-fill{width:0;height:100%;background:linear-gradient(90deg,#2563eb,#6366f1,#8b5cf6);transition:width 1s}.progress-text{color:#61758d;font-size:12px;margin-top:12px}footer{text-align:center;padding:35px;border-top:1px solid rgba(147,197,253,.08);color:#52667e;font-size:12px}@media(max-width:800px){.sidebar{width:285px}.main{margin-left:0}.sidebar-toggle{left:18px}.sidebar:not(.collapsed)~.sidebar-toggle{left:300px}nav{padding:0 18px}.user-name{display:none}.dashboard{padding:45px 18px 70px}.ai-card{padding:25px}.question-box{flex-direction:column}.ask-button{width:100%}.tools{grid-template-columns:1fr}.profile-menu{right:-5px;width:min(290px,calc(100vw - 30px))}.clear-chat{display:none}}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  min-height:100vh;
+  color:#f4f7ff;
+  background:
+    radial-gradient(circle at 10% 0%,rgba(59,130,246,.18),transparent 32%),
+    radial-gradient(circle at 90% 100%,rgba(124,58,237,.16),transparent 35%),
+    #07111f;
+  overflow-x:hidden
+}
+
+.app{
+  min-height:100vh
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  width:285px;
+  background:rgba(6,18,33,.96);
+  border-right:1px solid rgba(147,197,253,.12);
+  z-index:300;
+  transform:translateX(0);
+  transition:.25s;
+  display:flex;
+  flex-direction:column;
+  box-shadow:20px 0 70px rgba(0,0,0,.2)
+}
+
+.sidebar.collapsed{
+  width:0;
+  transform:translateX(-100%)
+}
+
+.side-head{
+  height:74px;
+  padding:0 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid rgba(147,197,253,.1)
+}
+
+.side-title{
+  font-weight:800;
+  font-size:19px;
+  white-space:nowrap
+}
+
+.side-title span{
+  color:#818cf8
+}
+
+.new-chat{
+  margin:16px;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid rgba(96,165,250,.2);
+  background:linear-gradient(
+    90deg,
+    rgba(37,99,235,.22),
+    rgba(124,58,237,.2)
+  );
+  color:#eaf2ff;
+  font-weight:bold;
+  cursor:pointer
+}
+
+.history-title{
+  padding:0 18px 10px;
+  color:#687e98;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:1.2px
+}
+
+.history{
+  overflow-y:auto;
+  padding:0 10px 20px;
+  flex:1
+}
+
+.history::-webkit-scrollbar{
+  width:5px
+}
+
+.history::-webkit-scrollbar-thumb{
+  background:rgba(96,165,250,.2);
+  border-radius:8px
+}
+
+.history-item{
+  padding:12px;
+  border-radius:11px;
+  margin-bottom:5px;
+  cursor:pointer;
+  color:#aebbd0;
+  font-size:13px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  border:1px solid transparent
+}
+
+.history-item:hover{
+  background:rgba(59,130,246,.1);
+  border-color:rgba(96,165,250,.1)
+}
+
+.history-item.active{
+  background:rgba(59,130,246,.14);
+  border-color:rgba(96,165,250,.18);
+  color:#fff
+}
+
+.empty-history{
+  padding:15px 10px;
+  color:#61758d;
+  font-size:12px;
+  line-height:1.6
+}
+
+/* ================= SIDEBAR BUTTON ================= */
+
+.sidebar-toggle{
+  position:fixed;
+  left:300px;
+  top:88px;
+  z-index:250;
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  border:1px solid rgba(147,197,253,.16);
+  background:rgba(8,23,40,.9);
+  color:#dbeafe;
+  cursor:pointer;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+  transition:.25s
+}
+
+.sidebar.collapsed~.sidebar-toggle{
+  left:18px
+}
+
+/* ================= MAIN ================= */
+
+.main{
+  margin-left:285px;
+  transition:.25s
+}
+
+.sidebar.collapsed~.main{
+  margin-left:0
+}
+
+/* ================= NAV ================= */
+
+nav{
+  height:74px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 6%;
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(7,17,31,.78);
+  backdrop-filter:blur(22px);
+  border-bottom:1px solid rgba(147,197,253,.1)
+}
+
+.logo{
+  font-size:24px;
+  font-weight:800
+}
+
+.logo span{
+  background:linear-gradient(
+    90deg,
+    #60a5fa,
+    #818cf8,
+    #a78bfa
+  );
+  -webkit-background-clip:text;
+  color:transparent
+}
+
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:14px
+}
+
+.user-name{
+  color:#aebbd0;
+  font-size:14px
+}
+
+.clear-chat{
+  padding:9px 14px;
+  border-radius:10px;
+  border:1px solid rgba(147,197,253,.14);
+  background:rgba(30,58,95,.35);
+  color:#cbd5e1;
+  cursor:pointer
+}
+
+/* ================= PROFILE ================= */
+
+.profile-wrap{
+  position:relative
+}
+
+.profile-button{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  border:2px solid rgba(147,197,253,.28);
+  background:linear-gradient(
+    135deg,
+    #2563eb,
+    #7c3aed
+  );
+  color:#fff;
+  font-weight:800;
+  cursor:pointer
+}
+
+.profile-menu{
+  position:absolute;
+  top:54px;
+  right:0;
+  width:290px;
+  padding:18px;
+  border-radius:20px;
+  background:rgba(8,23,40,.97);
+  border:1px solid rgba(147,197,253,.16);
+  box-shadow:0 25px 70px rgba(0,0,0,.45);
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(-8px);
+  transition:.2s
+}
+
+.profile-menu.open{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0)
+}
+
+.profile-head{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  padding-bottom:15px;
+  border-bottom:1px solid rgba(147,197,253,.1)
+}
+
+.profile-mini{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(
+    135deg,
+    #2563eb,
+    #7c3aed
+  );
+  font-weight:800
+}
+
+.profile-head strong{
+  display:block;
+  font-size:15px
+}
+
+.profile-head small{
+  display:block;
+  color:#7f96b4;
+  font-size:11px;
+  margin-top:4px
+}
+
+.profile-item{
+  padding:11px 2px;
+  color:#aebbd0;
+  font-size:12px
+}
+
+.profile-item span{
+  display:block;
+  color:#647991;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-bottom:3px
+}
+
+.profile-actions{
+  display:flex;
+  gap:9px
+}
+
+.profile-actions button{
+  flex:1;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid rgba(147,197,253,.14);
+  background:rgba(30,58,95,.4);
+  color:#dbeafe;
+  font-weight:bold;
+  cursor:pointer
+}
+
+/* ================= DASHBOARD ================= */
+
+.dashboard{
+  max-width:1200px;
+  margin:auto;
+  padding:65px 25px 100px
+}
+
+.welcome{
+  margin-bottom:42px
+}
+
+.welcome-label{
+  color:#7f96b4;
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:1.5px;
+  margin-bottom:12px
+}
+
+.welcome h1{
+  font-size:clamp(38px,6vw,60px);
+  line-height:1.05;
+  letter-spacing:-2.5px;
+  margin-bottom:14px
+}
+
+.gradient{
+  background:linear-gradient(
+    90deg,
+    #60a5fa,
+    #818cf8,
+    #a78bfa
+  );
+  -webkit-background-clip:text;
+  color:transparent
+}
+
+.welcome p{
+  color:#8ea2bb;
+  font-size:16px
+}
+
+/* ================= AI CARD ================= */
+
+.ai-card{
+  padding:40px;
+  border-radius:28px;
+  margin-bottom:45px;
+  background:linear-gradient(
+    135deg,
+    rgba(30,64,175,.22),
+    rgba(67,56,202,.14),
+    rgba(15,35,60,.7)
+  );
+  border:1px solid rgba(96,165,250,.2);
+  box-shadow:0 25px 80px rgba(0,0,0,.28)
+}
+
+.ai-top{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  margin-bottom:26px
+}
+
+.ai-icon{
+  width:60px;
+  height:60px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:18px;
+  font-size:29px;
+  background:linear-gradient(
+    135deg,
+    rgba(59,130,246,.28),
+    rgba(124,58,237,.28)
+  );
+  border:1px solid rgba(147,197,253,.18)
+}
+
+.ai-title h2{
+  font-size:25px;
+  margin-bottom:5px
+}
+
+.ai-title p{
+  color:#91a4bd;
+  font-size:13px
+}
+
+/* ================= QUESTION INPUT ================= */
+
+.question-box{
+  display:flex;
+  gap:12px;
+  padding:8px;
+  border-radius:15px;
+  background:rgba(4,14,28,.55);
+  border:1px solid rgba(147,197,253,.12)
+}
+
+.question-box input{
+  flex:1;
+  min-width:0;
+  border:none;
+  outline:none;
+  background:transparent;
+  color:#fff;
+  padding:13px;
+  font-size:14px
+}
+
+.ask-button{
+  border:none;
+  border-radius:11px;
+  padding:12px 21px;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  background:linear-gradient(
+    90deg,
+    #2563eb,
+    #4f46e5,
+    #7c3aed
+  )
+}
+
+/* ================= CHAT ================= */
+
+.chat-header{
+  display:flex;
+  justify-content:space-between;
+  margin-top:28px;
+  margin-bottom:15px
+}
+
+.chat-header span{
+  color:#71859e;
+  font-size:12px
+}
+
+.chat-history{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  max-height:700px;
+  overflow-y:auto
+}
+
+.empty-chat{
+  text-align:center;
+  padding:35px 20px;
+  border-radius:18px;
+  background:rgba(4,14,28,.35);
+  border:1px dashed rgba(147,197,253,.12);
+  color:#71859e;
+  line-height:1.7
+}
+
+/* ================= MESSAGE ALIGNMENT ================= */
+
+/*
+  Every complete conversation item is full width.
+  User and AI messages are BOTH aligned to the right.
+*/
+
+.chat-message{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:9px;
+  width:100%
+}
+
+/* USER MESSAGE */
+
+.chat-question{
+  align-self:flex-end;
+  width:fit-content;
+  max-width:78%;
+  padding:15px 20px;
+  border-radius:18px 18px 4px 18px;
+  background:linear-gradient(
+    135deg,
+    rgba(37,99,235,.35),
+    rgba(79,70,229,.32)
+  );
+  border:1px solid rgba(96,165,250,.18);
+  line-height:1.6;
+  font-size:14px;
+  text-align:left
+}
+
+/* AI MESSAGE */
+
+.chat-answer{
+  align-self:flex-end;
+  width:fit-content;
+  max-width:78%;
+  padding:22px;
+  border-radius:18px 18px 4px 18px;
+  background:rgba(4,14,28,.55);
+  border:1px solid rgba(96,165,250,.15);
+  color:#dbeafe;
+  line-height:1.75;
+  white-space:pre-wrap;
+  word-wrap:break-word;
+  font-size:14px;
+  text-align:left
+}
+
+.chat-label{
+  font-size:11px;
+  font-weight:bold;
+  color:#93b4ff;
+  margin-bottom:8px
+}
+
+.chat-time{
+  color:#5d7189;
+  font-size:10px;
+  margin-top:8px
+}
+
+.thinking{
+  color:#8ea2bb;
+  align-self:flex-end
+}
+
+/* ================= TOOLS ================= */
+
+.section-heading{
+  margin:45px 0 20px
+}
+
+.section-heading h2{
+  font-size:24px;
+  margin-bottom:6px
+}
+
+.section-heading p{
+  color:#71859e;
+  font-size:14px
+}
+
+.tools{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px
+}
+
+.tool{
+  padding:30px;
+  min-height:225px;
+  border-radius:22px;
+  background:linear-gradient(
+    145deg,
+    rgba(20,43,70,.72),
+    rgba(11,28,48,.62)
+  );
+  border:1px solid rgba(147,197,253,.1);
+  cursor:pointer;
+  transition:.3s
+}
+
+.tool:hover{
+  transform:translateY(-7px);
+  border-color:rgba(96,165,250,.3)
+}
+
+.tool-icon{
+  font-size:35px;
+  margin-bottom:22px
+}
+
+.tool h3{
+  font-size:20px;
+  margin-bottom:10px
+}
+
+.tool p{
+  color:#8195ad;
+  font-size:14px;
+  line-height:1.65;
+  margin-bottom:18px
+}
+
+.tool-link{
+  color:#93b4ff;
+  font-size:13px;
+  font-weight:bold
+}
+
+/* ================= PROGRESS ================= */
+
+.progress-card{
+  padding:30px;
+  border-radius:22px;
+  background:linear-gradient(
+    145deg,
+    rgba(20,43,70,.65),
+    rgba(10,25,43,.6)
+  );
+  border:1px solid rgba(147,197,253,.1)
+}
+
+.progress-top{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:18px
+}
+
+.progress-number{
+  color:#93b4ff;
+  font-weight:bold
+}
+
+.progress-bar{
+  height:9px;
+  background:rgba(96,165,250,.08);
+  border-radius:20px;
+  overflow:hidden
+}
+
+.progress-fill{
+  width:0;
+  height:100%;
+  background:linear-gradient(
+    90deg,
+    #2563eb,
+    #6366f1,
+    #8b5cf6
+  );
+  transition:width 1s
+}
+
+.progress-text{
+  color:#61758d;
+  font-size:12px;
+  margin-top:12px
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+  text-align:center;
+  padding:35px;
+  border-top:1px solid rgba(147,197,253,.08);
+  color:#52667e;
+  font-size:12px
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:800px){
+
+  .sidebar{
+    width:285px
+  }
+
+  .main{
+    margin-left:0
+  }
+
+  .sidebar-toggle{
+    left:18px
+  }
+
+  .sidebar:not(.collapsed)~.sidebar-toggle{
+    left:300px
+  }
+
+  nav{
+    padding:0 18px
+  }
+
+  .user-name{
+    display:none
+  }
+
+  .dashboard{
+    padding:45px 18px 70px
+  }
+
+  .ai-card{
+    padding:25px
+  }
+
+  .question-box{
+    flex-direction:column
+  }
+
+  .ask-button{
+    width:100%
+  }
+
+  .tools{
+    grid-template-columns:1fr
+  }
+
+  .profile-menu{
+    right:-5px;
+    width:min(290px,calc(100vw - 30px))
+  }
+
+  .clear-chat{
+    display:none
+  }
+
+  .chat-question,
+  .chat-answer{
+    max-width:92%
+  }
+}
 </style>
 </head>
+
 <body>
+
 <div class="app">
-<aside class="sidebar" id="sidebar"><div class="side-head"><div class="side-title">💬 DIVYAM<span>.AI</span></div></div><button class="new-chat" onclick="newChat()">＋ New Chat ✨</button><div class="history-title">Previous Chats</div><div class="history" id="historyList"></div></aside>
-<button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle chat history">☰</button>
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar" id="sidebar">
+
+  <div class="side-head">
+    <div class="side-title">
+      💬 DIVYAM<span>.AI</span>
+    </div>
+  </div>
+
+  <button class="new-chat" onclick="newChat()">
+    ＋ New Chat ✨
+  </button>
+
+  <div class="history-title">
+    Previous Chats
+  </div>
+
+  <div class="history" id="historyList"></div>
+
+</aside>
+
+<button
+  class="sidebar-toggle"
+  onclick="toggleSidebar()"
+  aria-label="Toggle chat history"
+>
+  ☰
+</button>
+
 <div class="main">
-<nav><div class="logo">DIVYAM<span>.AI</span> 🤖</div><div class="nav-right"><div class="user-name" id="userName">Loading...</div><button class="clear-chat" onclick="clearCurrentChat()">🧹 Clear</button><div class="profile-wrap"><button class="profile-button" id="profileButton" onclick="toggleProfile(event)">U</button><div class="profile-menu" id="profileMenu"><div class="profile-head"><div class="profile-mini" id="profileMini">U</div><div><strong id="profileName">Student</strong><small id="profileEmail">Loading...</small></div></div><div class="profile-item"><span>Username</span><b id="profileUsername">Student</b></div><div class="profile-item"><span>Registered email</span><b id="profileRegisteredEmail">Loading...</b></div><div class="profile-actions"><button onclick="location.href='profile.html'">View Profile 👤</button><button onclick="logout()">Log Out 🚪</button></div></div></div></div></nav>
-<main class="dashboard"><section class="welcome"><div class="welcome-label">YOUR PERSONAL AI STUDY SPACE 🚀📚</div><h1>Welcome, <span class="gradient" id="welcomeName">Student</span> 👋</h1><p>Start a fresh conversation and learn something new today. 🧠✨</p></section>
-<section class="ai-card"><div class="ai-top"><div class="ai-icon">🤖</div><div class="ai-title"><h2>Ask Divyam AI ✨</h2><p>Your personal AI study companion 📚🧠🚀</p></div></div><div class="question-box"><input id="questionInput" type="text" autocomplete="off" placeholder="Ask me anything about your studies... 🤔💡"><button class="ask-button" id="askButton" onclick="askAI()">Ask AI 🚀</button></div><div class="chat-header"><h3>💬 Current Conversation</h3><span id="chatCount">0 messages</span></div><div class="chat-history" id="chatHistory"></div></section>
-<div class="section-heading"><h2>Study Tools 🧰📚</h2><p>Everything you need to learn smarter. 🚀🧠✨</p></div><section class="tools"><div class="tool" onclick="comingSoon('Doubt Solver')"><div class="tool-icon">🤖</div><h3>Doubt Solver 💡</h3><p>Get simple, step-by-step explanations for your questions. 🧠📖</p><div class="tool-link">Solve a doubt →</div></div><div class="tool" onclick="comingSoon('AI Notes')"><div class="tool-icon">📚</div><h3>AI Notes 🧠</h3><p>Turn chapters into concise notes and revision material. ✍️📖</p><div class="tool-link">Create notes →</div></div><div class="tool" onclick="comingSoon('Custom Tests')"><div class="tool-icon">📝</div><h3>Custom Tests 🎯</h3><p>Generate tests based on class, subject, chapters and difficulty. 🏆📚</p><div class="tool-link">Create a test →</div></div></section>
-<div class="section-heading"><h2>Your Progress 📈🚀</h2><p>Keep learning and improve every day. 🌟💪</p></div><section class="progress-card"><div class="progress-top"><h3>Learning Progress 📚</h3><div class="progress-number">0%</div></div><div class="progress-bar"><div class="progress-fill"></div></div><div class="progress-text">Your learning journey starts here 🚀✨🌱</div></section></main><footer>© 2026 DIVYAM.AI 🤖<br><br>Your AI-powered study companion 📚🧠✨🚀</footer>
-</div></div>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav>
+
+  <div class="logo">
+    DIVYAM<span>.AI</span> 🤖
+  </div>
+
+  <div class="nav-right">
+
+    <div class="user-name" id="userName">
+      Loading...
+    </div>
+
+    <button
+      class="clear-chat"
+      onclick="clearCurrentChat()"
+    >
+      🧹 Clear
+    </button>
+
+    <div class="profile-wrap">
+
+      <button
+        class="profile-button"
+        id="profileButton"
+        onclick="toggleProfile(event)"
+      >
+        U
+      </button>
+
+      <div
+        class="profile-menu"
+        id="profileMenu"
+      >
+
+        <div class="profile-head">
+
+          <div
+            class="profile-mini"
+            id="profileMini"
+          >
+            U
+          </div>
+
+          <div>
+
+            <strong id="profileName">
+              Student
+            </strong>
+
+            <small id="profileEmail">
+              Loading...
+            </small>
+
+          </div>
+
+        </div>
+
+        <div class="profile-item">
+
+          <span>
+            Username
+          </span>
+
+          <b id="profileUsername">
+            Student
+          </b>
+
+        </div>
+
+        <div class="profile-item">
+
+          <span>
+            Registered email
+          </span>
+
+          <b id="profileRegisteredEmail">
+            Loading...
+          </b>
+
+        </div>
+
+        <div class="profile-actions">
+
+          <button onclick="location.href='profile.html'">
+            View Profile 👤
+          </button>
+
+          <button onclick="logout()">
+            Log Out 🚪
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</nav>
+
+<!-- ================= DASHBOARD ================= -->
+
+<main class="dashboard">
+
+<section class="welcome">
+
+  <div class="welcome-label">
+    YOUR PERSONAL AI STUDY SPACE 🚀📚
+  </div>
+
+  <h1>
+    Welcome,
+    <span
+      class="gradient"
+      id="welcomeName"
+    >
+      Student
+    </span>
+    👋
+  </h1>
+
+  <p>
+    Start a fresh conversation and learn something new today.
+    🧠✨
+  </p>
+
+</section>
+
+<!-- ================= AI CARD ================= -->
+
+<section class="ai-card">
+
+  <div class="ai-top">
+
+    <div class="ai-icon">
+      🤖
+    </div>
+
+    <div class="ai-title">
+
+      <h2>
+        Ask Divyam AI ✨
+      </h2>
+
+      <p>
+        Your personal AI study companion 📚🧠🚀
+      </p>
+
+    </div>
+
+  </div>
+
+  <div class="question-box">
+
+    <input
+      id="questionInput"
+      type="text"
+      autocomplete="off"
+      placeholder="Ask me anything about your studies... 🤔💡"
+    >
+
+    <button
+      class="ask-button"
+      id="askButton"
+      onclick="askAI()"
+    >
+      Ask AI 🚀
+    </button>
+
+  </div>
+
+  <div class="chat-header">
+
+    <h3>
+      💬 Current Conversation
+    </h3>
+
+    <span id="chatCount">
+      0 messages
+    </span>
+
+  </div>
+
+  <div
+    class="chat-history"
+    id="chatHistory"
+  ></div>
+
+</section>
+
+<!-- ================= STUDY TOOLS ================= -->
+
+<div class="section-heading">
+
+  <h2>
+    Study Tools 🧰📚
+  </h2>
+
+  <p>
+    Everything you need to learn smarter. 🚀🧠✨
+  </p>
+
+</div>
+
+<section class="tools">
+
+  <div
+    class="tool"
+    onclick="comingSoon('Doubt Solver')"
+  >
+
+    <div class="tool-icon">
+      🤖
+    </div>
+
+    <h3>
+      Doubt Solver 💡
+    </h3>
+
+    <p>
+      Get simple, step-by-step explanations for your questions.
+      🧠📖
+    </p>
+
+    <div class="tool-link">
+      Solve a doubt →
+    </div>
+
+  </div>
+
+  <div
+    class="tool"
+    onclick="comingSoon('AI Notes')"
+  >
+
+    <div class="tool-icon">
+      📚
+    </div>
+
+    <h3>
+      AI Notes 🧠
+    </h3>
+
+    <p>
+      Turn chapters into concise notes and revision material.
+      ✍️📖
+    </p>
+
+    <div class="tool-link">
+      Create notes →
+    </div>
+
+  </div>
+
+  <div
+    class="tool"
+    onclick="comingSoon('Custom Tests')"
+  >
+
+    <div class="tool-icon">
+      📝
+    </div>
+
+    <h3>
+      Custom Tests 🎯
+    </h3>
+
+    <p>
+      Generate tests based on class, subject, chapters and difficulty.
+      🏆📚
+    </p>
+
+    <div class="tool-link">
+      Create a test →
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ================= PROGRESS ================= -->
+
+<div class="section-heading">
+
+  <h2>
+    Your Progress 📈🚀
+  </h2>
+
+  <p>
+    Keep learning and improve every day. 🌟💪
+  </p>
+
+</div>
+
+<section class="progress-card">
+
+  <div class="progress-top">
+
+    <h3>
+      Learning Progress 📚
+    </h3>
+
+    <div class="progress-number">
+      0%
+    </div>
+
+  </div>
+
+  <div class="progress-bar">
+
+    <div class="progress-fill"></div>
+
+  </div>
+
+  <div class="progress-text">
+    Your learning journey starts here 🚀✨🌱
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+
+  © 2026 DIVYAM.AI 🤖
+
+  <br><br>
+
+  Your AI-powered study companion
+  📚🧠✨🚀
+
+</footer>
+
+</div>
+</div>
+
 <script>
-const SUPABASE_URL="https://teosakxikuswuhtbkmuv.supabase.co";
-const SUPABASE_KEY="sb_publishable_Wh3yh8OShJ2HnvwUhbInlg_0rGRIxOe";
-const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-let userId="guest";let storageKey="divyam_sessions_guest";let sessions=[];let activeId=null;
-function getInitials(n){return n.trim().split(/\s+/).map(x=>x[0]).slice(0,2).join('').toUpperCase()||'U'}
-function toggleSidebar(){document.getElementById('sidebar').classList.toggle('collapsed')}
-function toggleProfile(e){e.stopPropagation();document.getElementById('profileMenu').classList.toggle('open')}
-document.addEventListener('click',e=>{const w=document.querySelector('.profile-wrap');if(w&&!w.contains(e.target))document.getElementById('profileMenu').classList.remove('open')});
-function loadSessions(){try{sessions=JSON.parse(localStorage.getItem(storageKey)||'[]');if(!Array.isArray(sessions))sessions=[]}catch{sessions=[]}renderHistory()}
-function saveSessions(){localStorage.setItem(storageKey,JSON.stringify(sessions.slice(-100)))}
-function newChat(){const id=Date.now().toString();sessions.push({id,title:'New Chat',messages:[],createdAt:new Date().toISOString()});activeId=id;saveSessions();renderHistory();renderChat();document.getElementById('questionInput').focus()}
-function current(){return sessions.find(s=>s.id===activeId)}
-function renderHistory(){const list=document.getElementById('historyList');if(!sessions.length){list.innerHTML='<div class="empty-history">No previous chats yet. 💬✨<br>Start a new chat to see it here.</div>';return}list.innerHTML='';[...sessions].reverse().forEach(s=>{const item=document.createElement('div');item.className='history-item'+(s.id===activeId?' active':'');item.textContent='💬 '+(s.title||'New Chat');item.title=s.title||'New Chat';item.onclick=()=>{activeId=s.id;renderHistory();renderChat()};list.appendChild(item)})}
-function renderChat(){const box=document.getElementById('chatHistory');const c=document.getElementById('chatCount');const s=current();box.innerHTML='';if(!s||!s.messages.length){box.innerHTML='<div class="empty-chat">🤖✨ <strong>New conversation</strong><br><br>This chat is empty. Ask DIVYAM.AI anything you want to learn. 📚🧠<br>Your older chats are safely listed in the left sidebar. 💾</div>';c.textContent='0 messages';return}c.textContent=s.messages.length+(s.messages.length===1?' message':' messages')+' 💾';s.messages.forEach(m=>{const wrap=document.createElement('div');wrap.className='chat-message';const q=document.createElement('div');q.className='chat-question';q.textContent='🧑‍🎓 '+m.question;const a=document.createElement('div');a.className='chat-answer';const label=document.createElement('div');label.className='chat-label';label.textContent='🤖 DIVYAM.AI';const text=document.createElement('div');text.textContent=cleanAIResponse(m.answer);const time=document.createElement('div');time.className='chat-time';time.textContent='🕒 '+new Date(m.timestamp).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});a.append(label,text,time);wrap.append(q,a);box.appendChild(wrap)});box.scrollTop=box.scrollHeight}
-function clearCurrentChat(){const s=current();if(!s||!s.messages.length)return;if(!confirm('🧹 Clear this conversation?'))return;s.messages=[];s.title='New Chat';saveSessions();renderHistory();renderChat()}
-function cleanAIResponse(text){if(typeof text!=='string')return'';let x=text.replace(/```[\s\S]*?```/g,m=>m.replace(/```[a-zA-Z0-9_-]*/g,'').replace(/```/g,''));x=x.replace(/`([^`]+)`/g,'$1').replace(/^\s*#{1,6}\s*/gm,'').replace(/^\s*>\s?/gm,'').replace(/\*\*(.*?)\*\*/gs,'$1').replace(/__(.*?)__/gs,'$1').replace(/^\s*[-*+]\s+/gm,'• ');x=x.replace(/^\s*\|(.+)\|\s*$/gm,(m,r)=>{const c=r.split('|').map(v=>v.trim()).filter(Boolean);return c.length?'• '+c.join(' — '):''});return x.trim()}
-async function askAI(){let input=document.getElementById('questionInput'),button=document.getElementById('askButton'),question=input.value.trim();if(!question)return;if(!current())newChat();const s=current();if(s.messages.length===0)s.title=question.length>42?question.slice(0,42)+'…':question;button.disabled=true;button.textContent='Thinking... 🤔';const box=document.getElementById('chatHistory');const t=document.createElement('div');t.className='chat-answer thinking';t.textContent='🤖 Thinking... 🧠✨';box.appendChild(t);box.scrollTop=box.scrollHeight;try{const{data:sd}=await supabaseClient.auth.getSession();if(!sd.session)throw new Error('You are not signed in. Please log in again. 🔐');const{data,error}=await supabaseClient.functions.invoke('ask-ai',{body:{question}});if(error)throw new Error(data?.error||error.message||'AI request failed. ❌');if(!data?.answer)throw new Error(data?.error||'The AI returned no answer. 🤖❌');s.messages.push({question,answer:data.answer,timestamp:new Date().toISOString()});saveSessions();renderHistory();renderChat();input.value=''}catch(e){t.remove();const err=document.createElement('div');err.className='chat-answer';err.textContent='❌ DIVYAM.AI ERROR\n\n'+(e.message||'Could not connect to DIVYAM.AI.');box.appendChild(err)}finally{button.disabled=false;button.textContent='Ask AI 🚀'}}
-async function logout(){await supabaseClient.auth.signOut();sessionStorage.removeItem('divyam_dashboard_session');location.href='auth.html'}
-async function checkUser(){const{data,error}=await supabaseClient.auth.getUser();if(error||!data.user){location.href='auth.html';return}const u=data.user;userId=u.id;storageKey='divyam_sessions_'+u.id;const name=u.user_metadata?.full_name||u.email?.split('@')[0]||'Student';document.getElementById('welcomeName').textContent=name;document.getElementById('userName').textContent=u.email||name;document.getElementById('profileButton').textContent=getInitials(name);document.getElementById('profileMini').textContent=getInitials(name);document.getElementById('profileName').textContent=name;document.getElementById('profileUsername').textContent=name;document.getElementById('profileEmail').textContent=u.email||'Not available';document.getElementById('profileRegisteredEmail').textContent=u.email||'Not available';loadSessions();if(!sessionStorage.getItem('divyam_dashboard_session')){sessionStorage.setItem('divyam_dashboard_session','1');newChat()}else{if(!sessions.length)newChat();else{activeId=sessions[sessions.length-1].id;renderHistory();renderChat()}}}
-function comingSoon(x){alert('🚀 '+x+' is coming soon!\n\nWe are building this feature for DIVYAM.AI. 🤖📚✨')}
-document.getElementById('questionInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();askAI()}});checkUser();
+
+const SUPABASE_URL =
+  "https://teosakxikuswuhtbkmuv.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_Wh3yh8OShJ2HnvwUhbInlg_0rGRIxOe";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+let userId = "guest";
+let storageKey = "divyam_sessions_guest";
+let sessions = [];
+let activeId = null;
+
+
+/* ================= UTILITIES ================= */
+
+function getInitials(n){
+
+  return n
+    .trim()
+    .split(/\s+/)
+    .map(x => x[0])
+    .slice(0,2)
+    .join('')
+    .toUpperCase() || 'U';
+
+}
+
+
+/* ================= SIDEBAR ================= */
+
+function toggleSidebar(){
+
+  document
+    .getElementById('sidebar')
+    .classList
+    .toggle('collapsed');
+
+}
+
+
+/* ================= PROFILE ================= */
+
+function toggleProfile(e){
+
+  e.stopPropagation();
+
+  document
+    .getElementById('profileMenu')
+    .classList
+    .toggle('open');
+
+}
+
+
+document.addEventListener('click',e=>{
+
+  const w =
+    document.querySelector('.profile-wrap');
+
+  if(
+    w &&
+    !w.contains(e.target)
+  ){
+
+    document
+      .getElementById('profileMenu')
+      .classList
+      .remove('open');
+
+  }
+
+});
+
+
+/* ================= CHAT STORAGE ================= */
+
+function loadSessions(){
+
+  try{
+
+    sessions =
+      JSON.parse(
+        localStorage.getItem(storageKey) || '[]'
+      );
+
+    if(!Array.isArray(sessions)){
+      sessions=[];
+    }
+
+  }catch{
+
+    sessions=[];
+
+  }
+
+  renderHistory();
+
+}
+
+
+function saveSessions(){
+
+  localStorage.setItem(
+    storageKey,
+    JSON.stringify(
+      sessions.slice(-100)
+    )
+  );
+
+}
+
+
+/* ================= NEW CHAT ================= */
+
+function newChat(){
+
+  const id =
+    Date.now().toString();
+
+  sessions.push({
+
+    id:id,
+
+    title:'New Chat',
+
+    messages:[],
+
+    createdAt:
+      new Date().toISOString()
+
+  });
+
+  activeId=id;
+
+  saveSessions();
+
+  renderHistory();
+
+  renderChat();
+
+  document
+    .getElementById('questionInput')
+    .focus();
+
+}
+
+
+/* ================= CURRENT CHAT ================= */
+
+function current(){
+
+  return sessions.find(
+    s => s.id === activeId
+  );
+
+}
+
+
+/* ================= CHAT HISTORY ================= */
+
+function renderHistory(){
+
+  const list =
+    document.getElementById(
+      'historyList'
+    );
+
+  if(!sessions.length){
+
+    list.innerHTML =
+      '<div class="empty-history">'+
+      'No previous chats yet. 💬✨<br>'+
+      'Start a new chat to see it here.'+
+      '</div>';
+
+    return;
+
+  }
+
+  list.innerHTML='';
+
+  [...sessions]
+    .reverse()
+    .forEach(s=>{
+
+      const item =
+        document.createElement('div');
+
+      item.className =
+        'history-item' +
+        (s.id === activeId
+          ? ' active'
+          : '');
+
+      item.textContent =
+        '💬 ' +
+        (s.title || 'New Chat');
+
+      item.title =
+        s.title || 'New Chat';
+
+      item.onclick=()=>{
+
+        activeId=s.id;
+
+        renderHistory();
+
+        renderChat();
+
+      };
+
+      list.appendChild(item);
+
+    });
+
+}
+
+
+/* ================= RENDER CHAT ================= */
+
+function renderChat(){
+
+  const box =
+    document.getElementById(
+      'chatHistory'
+    );
+
+  const c =
+    document.getElementById(
+      'chatCount'
+    );
+
+  const s=current();
+
+  box.innerHTML='';
+
+  if(
+    !s ||
+    !s.messages.length
+  ){
+
+    box.innerHTML =
+      '<div class="empty-chat">'+
+      '🤖✨ <strong>New conversation</strong>'+
+      '<br><br>'+
+      'This chat is empty. Ask DIVYAM.AI anything you want to learn. 📚🧠'+
+      '<br>'+
+      'Your older chats are safely listed in the left sidebar. 💾'+
+      '</div>';
+
+    c.textContent =
+      '0 messages';
+
+    return;
+
+  }
+
+  c.textContent =
+    s.messages.length +
+    (
+      s.messages.length === 1
+        ? ' message'
+        : ' messages'
+    ) +
+    ' 💾';
+
+
+  s.messages.forEach(m=>{
+
+    const wrap =
+      document.createElement('div');
+
+    wrap.className =
+      'chat-message';
+
+
+    /* USER MESSAGE */
+
+    const q =
+      document.createElement('div');
+
+    q.className =
+      'chat-question';
+
+    q.textContent =
+      '🧑‍🎓 ' +
+      m.question;
+
+
+    /* AI MESSAGE */
+
+    const a =
+      document.createElement('div');
+
+    a.className =
+      'chat-answer';
+
+
+    const label =
+      document.createElement('div');
+
+    label.className =
+      'chat-label';
+
+    label.textContent =
+      '🤖 DIVYAM.AI';
+
+
+    const text =
+      document.createElement('div');
+
+    text.textContent =
+      cleanAIResponse(
+        m.answer
+      );
+
+
+    const time =
+      document.createElement('div');
+
+    time.className =
+      'chat-time';
+
+    time.textContent =
+      '🕒 ' +
+      new Date(
+        m.timestamp
+      ).toLocaleTimeString(
+        [],
+        {
+          hour:'2-digit',
+          minute:'2-digit'
+        }
+      );
+
+
+    a.append(
+      label,
+      text,
+      time
+    );
+
+    wrap.append(
+      q,
+      a
+    );
+
+    box.appendChild(
+      wrap
+    );
+
+  });
+
+
+  box.scrollTop =
+    box.scrollHeight;
+
+}
+
+
+/* ================= CLEAR ================= */
+
+function clearCurrentChat(){
+
+  const s=current();
+
+  if(
+    !s ||
+    !s.messages.length
+  ) return;
+
+  if(
+    !confirm(
+      '🧹 Clear this conversation?'
+    )
+  ) return;
+
+  s.messages=[];
+
+  s.title='New Chat';
+
+  saveSessions();
+
+  renderHistory();
+
+  renderChat();
+
+}
+
+
+/* ================= CLEAN AI RESPONSE ================= */
+
+function cleanAIResponse(text){
+
+  if(
+    typeof text !== 'string'
+  ) return '';
+
+  let x =
+    text.replace(
+      /```[\s\S]*?```/g,
+      m =>
+        m
+          .replace(
+            /```[a-zA-Z0-9_-]*/g,
+            ''
+          )
+          .replace(
+            /```/g,
+            ''
+          )
+    );
+
+  x =
+    x.replace(
+      /`([^`]+)`/g,
+      '$1'
+    )
+    .replace(
+      /^\s*#{1,6}\s*/gm,
+      ''
+    )
+    .replace(
+      /^\s*>\s?/gm,
+      ''
+    )
+    .replace(
+      /\*\*(.*?)\*\*/gs,
+      '$1'
+    )
+    .replace(
+      /__(.*?)__/gs,
+      '$1'
+    )
+    .replace(
+      /^\s*[-*+]\s+/gm,
+      '• '
+    );
+
+  x =
+    x.replace(
+      /^\s*\|(.+)\|\s*$/gm,
+      (m,r)=>{
+
+        const c =
+          r
+            .split('|')
+            .map(v=>v.trim())
+            .filter(Boolean);
+
+        return c.length
+          ? '• ' + c.join(' — ')
+          : '';
+
+      }
+    );
+
+  return x.trim();
+
+}
+
+
+/* ================= ASK AI ================= */
+
+async function askAI(){
+
+  let input =
+    document.getElementById(
+      'questionInput'
+    );
+
+  let button =
+    document.getElementById(
+      'askButton'
+    );
+
+  let question =
+    input.value.trim();
+
+  if(!question) return;
+
+
+  if(!current()){
+    newChat();
+  }
+
+
+  const s=current();
+
+
+  if(
+    s.messages.length === 0
+  ){
+
+    s.title =
+      question.length > 42
+        ? question.slice(0,42)+'…'
+        : question;
+
+  }
+
+
+  button.disabled=true;
+
+  button.textContent =
+    'Thinking... 🤔';
+
+
+  const box =
+    document.getElementById(
+      'chatHistory'
+    );
+
+
+  const t =
+    document.createElement(
+      'div'
+    );
+
+  t.className =
+    'chat-answer thinking';
+
+  t.textContent =
+    '🤖 Thinking... 🧠✨';
+
+  box.appendChild(t);
+
+  box.scrollTop =
+    box.scrollHeight;
+
+
+  try{
+
+    const {
+      data:sd
+    } =
+      await supabaseClient
+        .auth
+        .getSession();
+
+
+    if(!sd.session){
+
+      throw new Error(
+        'You are not signed in. Please log in again. 🔐'
+      );
+
+    }
+
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .functions
+        .invoke(
+          'ask-ai',
+          {
+            body:{
+              question
+            }
+          }
+        );
+
+
+    if(error){
+
+      throw new Error(
+        data?.error ||
+        error.message ||
+        'AI request failed. ❌'
+      );
+
+    }
+
+
+    if(!data?.answer){
+
+      throw new Error(
+        data?.error ||
+        'The AI returned no answer. 🤖❌'
+      );
+
+    }
+
+
+    s.messages.push({
+
+      question,
+
+      answer:data.answer,
+
+      timestamp:
+        new Date().toISOString()
+
+    });
+
+
+    saveSessions();
+
+    renderHistory();
+
+    renderChat();
+
+    input.value='';
+
+
+  }catch(e){
+
+    t.remove();
+
+    const err =
+      document.createElement(
+        'div'
+      );
+
+    err.className =
+      'chat-answer';
+
+    err.textContent =
+      '❌ DIVYAM.AI ERROR\n\n' +
+      (
+        e.message ||
+        'Could not connect to DIVYAM.AI.'
+      );
+
+    box.appendChild(err);
+
+  }finally{
+
+    button.disabled=false;
+
+    button.textContent =
+      'Ask AI 🚀';
+
+  }
+
+}
+
+
+/* ================= LOGOUT ================= */
+
+async function logout(){
+
+  await supabaseClient
+    .auth
+    .signOut();
+
+  sessionStorage.removeItem(
+    'divyam_dashboard_session'
+  );
+
+  location.href='auth.html';
+
+}
+
+
+/* ================= CHECK USER ================= */
+
+async function checkUser(){
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .auth
+      .getUser();
+
+
+  if(
+    error ||
+    !data.user
+  ){
+
+    location.href='auth.html';
+
+    return;
+
+  }
+
+
+  const u=data.user;
+
+
+  userId=u.id;
+
+
+  storageKey =
+    'divyam_sessions_' +
+    u.id;
+
+
+  const name =
+    u.user_metadata?.full_name ||
+    u.email?.split('@')[0] ||
+    'Student';
+
+
+  document.getElementById(
+    'welcomeName'
+  ).textContent=name;
+
+
+  document.getElementById(
+    'userName'
+  ).textContent =
+    u.email || name;
+
+
+  document.getElementById(
+    'profileButton'
+  ).textContent =
+    getInitials(name);
+
+
+  document.getElementById(
+    'profileMini'
+  ).textContent =
+    getInitials(name);
+
+
+  document.getElementById(
+    'profileName'
+  ).textContent=name;
+
+
+  document.getElementById(
+    'profileUsername'
+  ).textContent=name;
+
+
+  document.getElementById(
+    'profileEmail'
+  ).textContent =
+    u.email ||
+    'Not available';
+
+
+  document.getElementById(
+    'profileRegisteredEmail'
+  ).textContent =
+    u.email ||
+    'Not available';
+
+
+  loadSessions();
+
+
+  /*
+    Every login starts a fresh chat.
+    Previous chats remain saved in the sidebar.
+  */
+
+  if(
+    !sessionStorage.getItem(
+      'divyam_dashboard_session'
+    )
+  ){
+
+    sessionStorage.setItem(
+      'divyam_dashboard_session',
+      '1'
+    );
+
+    newChat();
+
+  }else{
+
+    if(!sessions.length){
+
+      newChat();
+
+    }else{
+
+      activeId =
+        sessions[
+          sessions.length - 1
+        ].id;
+
+      renderHistory();
+
+      renderChat();
+
+    }
+
+  }
+
+}
+
+
+/* ================= COMING SOON ================= */
+
+function comingSoon(x){
+
+  alert(
+    '🚀 ' +
+    x +
+    ' is coming soon!\n\n' +
+    'We are building this feature for DIVYAM.AI. 🤖📚✨'
+  );
+
+}
+
+
+/* ================= ENTER TO ASK ================= */
+
+document
+  .getElementById(
+    'questionInput'
+  )
+  .addEventListener(
+    'keydown',
+    e=>{
+
+      if(
+        e.key === 'Enter'
+      ){
+
+        e.preventDefault();
+
+        askAI();
+
+      }
+
+    }
+  );
+
+
+/* ================= START ================= */
+
+checkUser();
+
 </script>
-</body></html>
+
+</body>
+</html>

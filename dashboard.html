@@ -334,6 +334,24 @@ nav{
   font-weight:bold;
   cursor:pointer
 }
+  .edit-username-button{
+  width:100%;
+  padding:10px 12px;
+  margin:2px 0 10px;
+  border-radius:10px;
+  border:1px solid rgba(147,197,253,.14);
+  background:rgba(37,99,235,.12);
+  color:#93b4ff;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.2s;
+  text-align:left;
+}
+
+.edit-username-button:hover{
+  background:rgba(37,99,235,.22);
+  border-color:rgba(96,165,250,.3);
+}
 
 /* DASHBOARD */
 
@@ -899,6 +917,9 @@ footer{
           </b>
 
         </div>
+        <button class="edit-username-button" onclick="editUsername()">
+  ✏️ Edit Username
+        </button>
 
         <div class="profile-item">
 
@@ -1897,6 +1918,80 @@ async function askAI(){
 
     button.textContent=
       "Ask AI 🚀";
+
+  }
+
+}
+  async function editUsername(){
+
+  const currentUsername =
+    document.getElementById('profileUsername').textContent.trim();
+
+  const newUsername = prompt(
+    '✏️ Enter your new username:',
+    currentUsername
+  );
+
+  if(newUsername === null){
+    return;
+  }
+
+  const username = newUsername.trim();
+
+  if(!username){
+    alert('⚠️ Username cannot be empty.');
+    return;
+  }
+
+  if(username.length < 3){
+    alert('⚠️ Username must contain at least 3 characters.');
+    return;
+  }
+
+  if(username.length > 30){
+    alert('⚠️ Username cannot be longer than 30 characters.');
+    return;
+  }
+
+  try{
+
+    const { data, error } =
+      await supabaseClient.auth.updateUser({
+        data:{
+          full_name: username
+        }
+      });
+
+    if(error){
+      throw error;
+    }
+
+    /* Update username everywhere immediately */
+
+    document.getElementById('profileUsername').textContent = username;
+
+    document.getElementById('profileName').textContent = username;
+
+    document.getElementById('welcomeName').textContent = username;
+
+    /* Update profile initials */
+
+    const initials = getInitials(username);
+
+    document.getElementById('profileButton').textContent = initials;
+
+    document.getElementById('profileMini').textContent = initials;
+
+    alert('✅ Username updated successfully!');
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      '❌ Could not update username.\n\n' +
+      (error.message || 'Please try again.')
+    );
 
   }
 

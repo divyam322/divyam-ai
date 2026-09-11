@@ -28,25 +28,42 @@ body{min-height:100vh;font-family:Arial,Helvetica,sans-serif;color:var(--text);b
 <div class="footer">DIVYAM.AI • Learn smarter. Practice better. 🚀</div>
 </div>
 <script>
-const FUNCTION_URL='https://teosakxikuswuhtbkmuv.supabase.co/functions/v1/generate-test';
+const SUPABASE_URL='https://teosakxikuswuhtbkmuv.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='YOUR_EXISTING_SUPABASE_PUBLISHABLE_KEY';
+const FUNCTION_URL=`${SUPABASE_URL}/functions/v1/generate-test`;
+let supabaseClient=null;
+
+async function loadSupabase(){
+ if(supabaseClient)return supabaseClient;
+ if(!window.supabase){
+  await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';s.onload=resolve;s.onerror=reject;document.head.appendChild(s)});
+ }
+ supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+ return supabaseClient;
+}
+
 function setupChips(id){document.querySelectorAll('#'+id+' .chip').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('#'+id+' .chip').forEach(x=>x.classList.remove('active'));btn.classList.add('active')}))}
 setupChips('difficulty');setupChips('questionType');
 function selected(id){return document.querySelector('#'+id+' .chip.active')?.dataset.value||'Mixed'}
 function goBack(){if(history.length>1)history.back();else location.href='dashboard.html'}
-function setStatus(message,error=false){const s=document.getElementById('status');s.innerHTML=message;s.className='status show';if(error)s.style.borderColor='rgba(248,113,113,.55)'}
+function setStatus(message,error=false){const s=document.getElementById('status');s.innerHTML=message;s.className='status show';s.style.borderColor=error?'rgba(248,113,113,.55)':'var(--border)'}
+
 async function generateTest(){
- const subject=document.getElementById('subject').value, classLevel=document.getElementById('classLevel').value, topic=document.getElementById('topic').value.trim(), difficulty=selected('difficulty'), questionType=selected('questionType'), count=Number(document.getElementById('count').value), timeLimit=document.getElementById('time').value;
+ const subject=document.getElementById('subject').value,classLevel=document.getElementById('classLevel').value,topic=document.getElementById('topic').value.trim(),difficulty=selected('difficulty'),questionType=selected('questionType'),count=Number(document.getElementById('count').value),timeLimit=document.getElementById('time').value;
  if(!subject||!topic){setStatus('⚠️ Please select a subject and enter a chapter/topic first.',true);return}
  const btn=document.getElementById('generateBtn');btn.disabled=true;btn.textContent='🧠 Generating your test...';setStatus('🧠 DIVYAM.AI is creating a fresh test for you...<br>✨ Checking questions, answers and explanations.');
  try{
-  const response=await fetch(FUNCTION_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({subject,classLevel,topic,difficulty,questionType,count,timeLimit})});
+  const client=await loadSupabase();
+  const {data:{session}}=await client.auth.getSession();
+  if(!session?.access_token){throw new Error('Your login session was not found. Please return to the dashboard, sign in again, and try the test.');}
+  const response=await fetch(FUNCTION_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${session.access_token}`,'apikey':SUPABASE_PUBLISHABLE_KEY},body:JSON.stringify({subject,classLevel,topic,difficulty,questionType,count,timeLimit})});
   const data=await response.json().catch(()=>({}));
   if(!response.ok)throw new Error(data.error||`Server error (${response.status})`);
   if(!data.test?.questions)throw new Error('The AI returned an incomplete test. Please try again.');
   sessionStorage.setItem('divyamai_custom_test',JSON.stringify(data.test));
   setStatus(`✅ Test generated successfully! 🎉<br>📚 ${data.test.questions.length} questions are ready.<br><br>🚀 Opening your test...`);
   setTimeout(()=>{location.href='take-test.html'},700);
- }catch(error){console.error(error);setStatus('❌ '+(error.message||'Something went wrong while generating the test.')+'<br><br>💡 If this is your first test, make sure the Supabase Edge Function has been deployed.',true);btn.disabled=false;btn.textContent='✨ Generate Custom Test'}
+ }catch(error){console.error(error);setStatus('❌ '+(error.message||'Something went wrong while generating the test.')+'<br><br>💡 If you are already signed in, try refreshing the page once and generating again.',true);btn.disabled=false;btn.textContent='✨ Generate Custom Test'}
 }
 </script>
 </body></html>

@@ -1,3 +1,4 @@
+````html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,33 +15,415 @@
 ========================================================= */
 
 :root{
-  --accent-1:#2563eb;
-  --accent-2:#4f46e5;
-  --accent-3:#7c3aed;
+  --bg-main:#07111f;
+  --bg-sidebar:rgba(6,18,33,.96);
+  --bg-nav:rgba(7,17,31,.78);
+  --bg-chat:rgba(2,9,18,.82);
+  --bg-ai:rgba(4,14,28,.62);
+  --bg-card-start:rgba(30,64,175,.22);
+  --bg-card-mid:rgba(67,56,202,.14);
+  --bg-card-end:rgba(15,35,60,.7);
 
-  --accent-soft:rgba(59,130,246,.18);
-  --accent-border:rgba(96,165,250,.20);
+  --primary:#2563eb;
+  --secondary:#4f46e5;
+  --accent:#7c3aed;
 
-  --bg:#07111f;
-  --bg-2:#061221;
-  --panel:rgba(6,18,33,.96);
-  --dark-panel:rgba(4,14,28,.82);
+  --gradient:linear-gradient(
+    90deg,
+    #60a5fa,
+    #818cf8,
+    #a78bfa
+  );
 
-  --text:#f4f7ff;
-  --muted:#8ea2bb;
+  --text-main:#f4f7ff;
+  --text-soft:#aebbd0;
+  --text-muted:#71859e;
+  --text-ai:#dbeafe;
+
   --border:rgba(147,197,253,.12);
+  --border-strong:rgba(96,165,250,.2);
 
-  --glow:0.25;
+  --user-gradient:linear-gradient(
+    135deg,
+    rgba(37,99,235,.42),
+    rgba(79,70,229,.38)
+  );
 
-  --chat-gap:24px;
-  --chat-padding:25px 18px;
+  --button-gradient:linear-gradient(
+    90deg,
+    #2563eb,
+    #4f46e5,
+    #7c3aed
+  );
 
-  --font-family:Arial,Helvetica,sans-serif;
+  --font-main:Arial,Helvetica,sans-serif;
 }
 
 
 /* =========================================================
-   RESET
+   FONT SYSTEM
+========================================================= */
+
+body.font-Arial{
+  --font-main:Arial,Helvetica,sans-serif;
+}
+
+body.font-Inter{
+  --font-main:Inter,Arial,sans-serif;
+}
+
+body.font-Poppins{
+  --font-main:Poppins,Arial,sans-serif;
+}
+
+body.font-Roboto{
+  --font-main:Roboto,Arial,sans-serif;
+}
+
+body.font-Space{
+  --font-main:"Space Grotesk",Arial,sans-serif;
+}
+
+body.font-Georgia{
+  --font-main:Georgia,"Times New Roman",serif;
+}
+
+
+/* =========================================================
+   THEME 1 — MIDNIGHT BLUE
+========================================================= */
+
+body.theme-midnight{
+  --bg-main:#07111f;
+  --bg-sidebar:rgba(6,18,33,.96);
+  --bg-nav:rgba(7,17,31,.78);
+  --bg-chat:rgba(2,9,18,.82);
+  --bg-ai:rgba(4,14,28,.62);
+
+  --primary:#2563eb;
+  --secondary:#4f46e5;
+  --accent:#7c3aed;
+
+  --gradient:linear-gradient(
+    90deg,
+    #60a5fa,
+    #818cf8,
+    #a78bfa
+  );
+
+  --user-gradient:linear-gradient(
+    135deg,
+    rgba(37,99,235,.42),
+    rgba(79,70,229,.38)
+  );
+
+  --button-gradient:linear-gradient(
+    90deg,
+    #2563eb,
+    #4f46e5,
+    #7c3aed
+  );
+}
+
+
+/* =========================================================
+   THEME 2 — PURPLE GALAXY
+========================================================= */
+
+body.theme-purple{
+  --bg-main:#10071f;
+  --bg-sidebar:rgba(19,7,35,.97);
+  --bg-nav:rgba(16,7,31,.82);
+  --bg-chat:rgba(13,4,25,.86);
+  --bg-ai:rgba(24,7,43,.68);
+
+  --primary:#9333ea;
+  --secondary:#7c3aed;
+  --accent:#ec4899;
+
+  --gradient:linear-gradient(
+    90deg,
+    #c084fc,
+    #a855f7,
+    #f472b6
+  );
+
+  --user-gradient:linear-gradient(
+    135deg,
+    rgba(147,51,234,.45),
+    rgba(236,72,153,.38)
+  );
+
+  --button-gradient:linear-gradient(
+    90deg,
+    #7c3aed,
+    #9333ea,
+    #ec4899
+  );
+}
+
+
+/* =========================================================
+   THEME 3 — OCEAN
+========================================================= */
+
+body.theme-ocean{
+  --bg-main:#03191f;
+  --bg-sidebar:rgba(3,24,31,.97);
+  --bg-nav:rgba(3,20,27,.84);
+  --bg-chat:rgba(1,15,21,.88);
+  --bg-ai:rgba(3,29,38,.68);
+
+  --primary:#0891b2;
+  --secondary:#0ea5e9;
+  --accent:#14b8a6;
+
+  --gradient:linear-gradient(
+    90deg,
+    #22d3ee,
+    #38bdf8,
+    #2dd4bf
+  );
+
+  --user-gradient:linear-gradient(
+    135deg,
+    rgba(8,145,178,.45),
+    rgba(20,184,166,.38)
+  );
+
+  --button-gradient:linear-gradient(
+    90deg,
+    #0891b2,
+    #0ea5e9,
+    #14b8a6
+  );
+}
+
+
+/* =========================================================
+   THEME 4 — EMERALD
+========================================================= */
+
+body.theme-emerald{
+  --bg-main:#061912;
+  --bg-sidebar:rgba(4,24,17,.97);
+  --bg-nav:rgba(5,20,15,.84);
+  --bg-chat:rgba(2,13,9,.88);
+  --bg-ai:rgba(4,29,20,.68);
+
+  --primary:#059669;
+  --secondary:#10b981;
+  --accent:#14b8a6;
+
+  --gradient:linear-gradient(
+    90deg,
+    #34d399,
+    #10b981,
+    #2dd4bf
+  );
+
+  --user-gradient:linear-gradient(
+    135deg,
+    rgba(5,150,105,.45),
+    rgba(20,184,166,.38)
+  );
+
+  --button-gradient:linear-gradient(
+    90deg,
+    #059669,
+    #10b981,
+    #14b8a6
+  );
+}
+
+
+/* =========================================================
+   THEME 5 — CYBER RED
+========================================================= */
+
+body.theme-red{
+  --bg-main:#170607;
+  --bg-sidebar:rgba(25,5,7,.97);
+  --bg-nav:rgba(20,5,7,.84);
+  --bg-chat:rgba(12,2,3,.9);
+  --bg-ai:rgba(35,5,8,.68);
+
+  --primary:#dc2626;
+  --secondary:#ef4444;
+  --accent:#f97316;
+
+  --gradient:linear-gradient(
+    90deg,
+    #fb7185,
+    #ef4444,
+    #fb923c
+  );
+
+  --user-gradient:linear-gradient(
+    135deg,
+    rgba(220,38,38,.45),
+    rgba(249,115,22,.38)
+  );
+
+  --button-gradient:linear-gradient(
+    90deg,
+    #dc2626,
+    #ef4444,
+    #f97316
+  );
+}
+
+
+/* =========================================================
+   THEME 6 — SUNSET
+========================================================= */
+
+body.theme-sunset{
+  --bg-main:#180b10;
+  --bg-sidebar:rgba(29,8,16,.97);
+  --bg-nav:rgba(24,8,15,.84);
+  --bg-chat:rgba(15,4,9,.9);
+  --bg-ai:rgba(39,9,19,.68);
+
+  --primary:#f97316;
+  --secondary:#ec4899;
+  --accent:#f43f5e;
+
+  --gradient:linear-gradient(
+    90deg,
+    #fb923c,
+    #f472b6,
+    #fb7185
+  );
+
+  --user-gradient:linear-gradient(
+    135deg,
+    rgba(249,115,22,.45),
+    rgba(236,72,153,.38)
+  );
+
+  --button-gradient:linear-gradient(
+    90deg,
+    #f97316,
+    #ec4899,
+    #f43f5e
+  );
+}
+
+
+/* =========================================================
+   THEME 7 — NEON PINK
+========================================================= */
+
+body.theme-pink{
+  --bg-main:#160617;
+  --bg-sidebar:rgba(24,4,25,.97);
+  --bg-nav:rgba(20,4,22,.84);
+  --bg-chat:rgba(12,2,14,.9);
+  --bg-ai:rgba(31,4,34,.68);
+
+  --primary:#db2777;
+  --secondary:#ec4899;
+  --accent:#a855f7;
+
+  --gradient:linear-gradient(
+    90deg,
+    #f472b6,
+    #ec4899,
+    #c084fc
+  );
+
+  --user-gradient:linear-gradient(
+    135deg,
+    rgba(219,39,119,.45),
+    rgba(168,85,247,.38)
+  );
+
+  --button-gradient:linear-gradient(
+    90deg,
+    #db2777,
+    #ec4899,
+    #a855f7
+  );
+}
+
+
+/* =========================================================
+   THEME 8 — ARCTIC
+========================================================= */
+
+body.theme-arctic{
+  --bg-main:#07151c;
+  --bg-sidebar:rgba(7,24,32,.97);
+  --bg-nav:rgba(6,20,28,.84);
+  --bg-chat:rgba(3,14,20,.9);
+  --bg-ai:rgba(8,30,40,.68);
+
+  --primary:#06b6d4;
+  --secondary:#0ea5e9;
+  --accent:#6366f1;
+
+  --gradient:linear-gradient(
+    90deg,
+    #67e8f9,
+    #38bdf8,
+    #818cf8
+  );
+
+  --user-gradient:linear-gradient(
+    135deg,
+    rgba(6,182,212,.45),
+    rgba(99,102,241,.38)
+  );
+
+  --button-gradient:linear-gradient(
+    90deg,
+    #06b6d4,
+    #0ea5e9,
+    #6366f1
+  );
+}
+
+
+/* =========================================================
+   THEME 9 — COSMIC
+========================================================= */
+
+body.theme-cosmic{
+  --bg-main:#090514;
+  --bg-sidebar:rgba(12,5,24,.98);
+  --bg-nav:rgba(10,4,20,.86);
+  --bg-chat:rgba(5,2,12,.92);
+  --bg-ai:rgba(20,5,38,.7);
+
+  --primary:#6366f1;
+  --secondary:#8b5cf6;
+  --accent:#d946ef;
+
+  --gradient:linear-gradient(
+    90deg,
+    #818cf8,
+    #a78bfa,
+    #e879f9
+  );
+
+  --user-gradient:linear-gradient(
+    135deg,
+    rgba(99,102,241,.45),
+    rgba(217,70,239,.38)
+  );
+
+  --button-gradient:linear-gradient(
+    90deg,
+    #6366f1,
+    #8b5cf6,
+    #d946ef
+  );
+}
+
+
+/* =========================================================
+   GLOBAL
 ========================================================= */
 
 *{
@@ -49,49 +432,30 @@
   padding:0;
 }
 
-html{
-  scroll-behavior:smooth;
-}
-
 body{
-  font-family:var(--font-family);
+  font-family:var(--font-main);
   min-height:100vh;
-  color:var(--text);
+  color:var(--text-main);
 
   background:
     radial-gradient(
       circle at 10% 0%,
-      var(--accent-soft),
+      color-mix(in srgb,var(--primary) 20%,transparent),
       transparent 32%
     ),
     radial-gradient(
       circle at 90% 100%,
-      rgba(124,58,237,.16),
+      color-mix(in srgb,var(--accent) 18%,transparent),
       transparent 35%
     ),
-    var(--bg);
+    var(--bg-main);
 
   overflow-x:hidden;
-
   transition:
-    background .35s ease,
-    color .25s ease,
+    background .45s ease,
+    color .3s ease,
     font-family .2s ease;
 }
-
-button,
-input{
-  font-family:inherit;
-}
-
-button{
-  -webkit-tap-highlight-color:transparent;
-}
-
-
-/* =========================================================
-   APP
-========================================================= */
 
 .app{
   min-height:100vh;
@@ -107,26 +471,21 @@ button{
   left:0;
   top:0;
   bottom:0;
-
   width:285px;
 
-  background:var(--panel);
+  background:var(--bg-sidebar);
 
   border-right:1px solid var(--border);
 
   z-index:300;
 
   transform:translateX(0);
-
-  transition:
-    .25s ease,
-    background .3s ease;
+  transition:.25s;
 
   display:flex;
   flex-direction:column;
 
-  box-shadow:
-    20px 0 70px rgba(0,0,0,.2);
+  box-shadow:20px 0 70px rgba(0,0,0,.2);
 }
 
 .sidebar.collapsed{
@@ -136,7 +495,6 @@ button{
 
 .side-head{
   height:74px;
-
   padding:0 18px;
 
   display:flex;
@@ -153,7 +511,7 @@ button{
 }
 
 .side-title span{
-  color:var(--accent-3);
+  color:var(--accent);
 }
 
 .new-chat{
@@ -162,51 +520,36 @@ button{
 
   border-radius:12px;
 
-  border:1px solid var(--accent-border);
+  border:1px solid var(--border-strong);
 
-  background:
-    linear-gradient(
-      90deg,
-      rgba(37,99,235,.22),
-      rgba(124,58,237,.2)
-    );
+  background:var(--button-gradient);
 
-  color:#eaf2ff;
+  color:#fff;
 
   font-weight:bold;
   cursor:pointer;
 
-  transition:.2s;
+  transition:.25s;
 }
 
 .new-chat:hover{
-  transform:translateY(-1px);
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(37,99,235,.32),
-      rgba(124,58,237,.3)
-    );
+  transform:translateY(-2px);
+  filter:brightness(1.12);
 }
 
 .history-title{
   padding:0 18px 10px;
 
-  color:#687e98;
+  color:var(--text-muted);
 
   font-size:11px;
-
   text-transform:uppercase;
-
   letter-spacing:1.2px;
 }
 
 .history{
   overflow-y:auto;
-
   padding:0 10px 20px;
-
   flex:1;
 }
 
@@ -215,28 +558,28 @@ button{
 }
 
 .history::-webkit-scrollbar-thumb{
-  background:rgba(96,165,250,.2);
+  background:color-mix(
+    in srgb,
+    var(--primary) 30%,
+    transparent
+  );
 
   border-radius:8px;
 }
 
 .history-item{
   padding:12px;
-
   border-radius:11px;
-
   margin-bottom:5px;
 
   cursor:pointer;
 
-  color:#aebbd0;
+  color:var(--text-soft);
 
   font-size:13px;
 
   white-space:nowrap;
-
   overflow:hidden;
-
   text-overflow:ellipsis;
 
   border:1px solid transparent;
@@ -245,18 +588,23 @@ button{
 }
 
 .history-item:hover{
-  background:rgba(59,130,246,.1);
+  background:color-mix(
+    in srgb,
+    var(--primary) 12%,
+    transparent
+  );
 
-  border-color:
-    rgba(96,165,250,.1);
+  border-color:var(--border-strong);
 }
 
 .history-item.active{
-  background:
-    rgba(59,130,246,.14);
+  background:color-mix(
+    in srgb,
+    var(--primary) 17%,
+    transparent
+  );
 
-  border-color:
-    rgba(96,165,250,.18);
+  border-color:var(--border-strong);
 
   color:#fff;
 }
@@ -264,10 +612,9 @@ button{
 .empty-history{
   padding:15px 10px;
 
-  color:#61758d;
+  color:var(--text-muted);
 
   font-size:12px;
-
   line-height:1.6;
 }
 
@@ -291,24 +638,19 @@ button{
 
   border:1px solid var(--border);
 
-  background:rgba(8,23,40,.9);
+  background:var(--bg-nav);
 
   color:#dbeafe;
 
   cursor:pointer;
 
-  box-shadow:
-    0 10px 30px rgba(0,0,0,.25);
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
 
   transition:.25s;
 }
 
 .sidebar.collapsed~.sidebar-toggle{
   left:18px;
-}
-
-.sidebar-toggle:hover{
-  transform:scale(1.05);
 }
 
 
@@ -318,7 +660,6 @@ button{
 
 .main{
   margin-left:285px;
-
   transition:.25s;
 }
 
@@ -328,7 +669,7 @@ button{
 
 
 /* =========================================================
-   NAVBAR
+   NAV
 ========================================================= */
 
 nav{
@@ -345,12 +686,11 @@ nav{
 
   z-index:100;
 
-  background:rgba(7,17,31,.78);
+  background:var(--bg-nav);
 
   backdrop-filter:blur(22px);
 
-  border-bottom:
-    1px solid var(--border);
+  border-bottom:1px solid var(--border);
 }
 
 .logo{
@@ -359,13 +699,7 @@ nav{
 }
 
 .logo span{
-  background:
-    linear-gradient(
-      90deg,
-      var(--accent-1),
-      var(--accent-2),
-      var(--accent-3)
-    );
+  background:var(--gradient);
 
   -webkit-background-clip:text;
 
@@ -375,12 +709,11 @@ nav{
 .nav-right{
   display:flex;
   align-items:center;
-
   gap:14px;
 }
 
 .user-name{
-  color:#aebbd0;
+  color:var(--text-soft);
   font-size:14px;
 }
 
@@ -391,7 +724,11 @@ nav{
 
   border:1px solid var(--border);
 
-  background:rgba(30,58,95,.35);
+  background:color-mix(
+    in srgb,
+    var(--primary) 15%,
+    transparent
+  );
 
   color:#cbd5e1;
 
@@ -401,7 +738,11 @@ nav{
 }
 
 .clear-chat:hover{
-  background:rgba(30,58,95,.55);
+  background:color-mix(
+    in srgb,
+    var(--primary) 25%,
+    transparent
+  );
 }
 
 
@@ -419,14 +760,9 @@ nav{
 
   border-radius:50%;
 
-  border:2px solid rgba(147,197,253,.28);
+  border:2px solid var(--border-strong);
 
-  background:
-    linear-gradient(
-      135deg,
-      var(--accent-1),
-      var(--accent-3)
-    );
+  background:var(--button-gradient);
 
   color:#fff;
 
@@ -439,10 +775,6 @@ nav{
 
 .profile-button:hover{
   transform:scale(1.06);
-
-  box-shadow:
-    0 0 20px
-    rgba(96,165,250,var(--glow));
 }
 
 .profile-menu{
@@ -457,42 +789,36 @@ nav{
 
   border-radius:20px;
 
-  background:rgba(8,23,40,.97);
+  background:var(--bg-sidebar);
 
-  border:
-    1px solid var(--border);
+  border:1px solid var(--border);
 
-  box-shadow:
-    0 25px 70px rgba(0,0,0,.45);
+  box-shadow:0 25px 70px rgba(0,0,0,.45);
 
   opacity:0;
-
   visibility:hidden;
 
   transform:translateY(-8px);
 
   transition:.2s;
+
+  backdrop-filter:blur(25px);
 }
 
 .profile-menu.open{
   opacity:1;
-
   visibility:visible;
-
   transform:translateY(0);
 }
 
 .profile-head{
   display:flex;
-
   gap:12px;
-
   align-items:center;
 
   padding-bottom:15px;
 
-  border-bottom:
-    1px solid var(--border);
+  border-bottom:1px solid var(--border);
 }
 
 .profile-mini{
@@ -502,16 +828,10 @@ nav{
   border-radius:50%;
 
   display:flex;
-
   align-items:center;
   justify-content:center;
 
-  background:
-    linear-gradient(
-      135deg,
-      var(--accent-1),
-      var(--accent-3)
-    );
+  background:var(--button-gradient);
 
   font-weight:800;
 }
@@ -524,7 +844,7 @@ nav{
 .profile-head small{
   display:block;
 
-  color:#7f96b4;
+  color:var(--text-muted);
 
   font-size:11px;
 
@@ -534,7 +854,7 @@ nav{
 .profile-item{
   padding:11px 2px;
 
-  color:#aebbd0;
+  color:var(--text-soft);
 
   font-size:12px;
 }
@@ -542,7 +862,7 @@ nav{
 .profile-item span{
   display:block;
 
-  color:#647991;
+  color:var(--text-muted);
 
   font-size:10px;
 
@@ -551,6 +871,33 @@ nav{
   letter-spacing:1px;
 
   margin-bottom:3px;
+}
+
+.profile-actions{
+  display:flex;
+  gap:9px;
+}
+
+.profile-actions button{
+  flex:1;
+
+  padding:10px;
+
+  border-radius:10px;
+
+  border:1px solid var(--border);
+
+  background:color-mix(
+    in srgb,
+    var(--primary) 15%,
+    transparent
+  );
+
+  color:#dbeafe;
+
+  font-weight:bold;
+
+  cursor:pointer;
 }
 
 .edit-username-button{
@@ -562,11 +909,13 @@ nav{
 
   border-radius:10px;
 
-  border:
-    1px solid var(--border);
+  border:1px solid var(--border);
 
-  background:
-    rgba(37,99,235,.12);
+  background:color-mix(
+    in srgb,
+    var(--primary) 13%,
+    transparent
+  );
 
   color:#93b4ff;
 
@@ -580,11 +929,11 @@ nav{
 }
 
 .edit-username-button:hover{
-  background:
-    rgba(37,99,235,.22);
-
-  border-color:
-    rgba(96,165,250,.3);
+  background:color-mix(
+    in srgb,
+    var(--primary) 25%,
+    transparent
+  );
 }
 
 
@@ -597,73 +946,331 @@ nav{
 
   padding:11px 12px;
 
-  margin:2px 0 10px;
+  margin:3px 0 14px;
 
   border-radius:10px;
 
-  border:
-    1px solid rgba(139,92,246,.25);
+  border:1px solid var(--border-strong);
 
-  background:
-    linear-gradient(
-      90deg,
-      rgba(37,99,235,.13),
-      rgba(124,58,237,.13)
-    );
+  background:var(--button-gradient);
 
-  color:#c4b5fd;
+  color:#fff;
 
   font-weight:bold;
 
   cursor:pointer;
 
-  transition:.2s;
-
   text-align:left;
+
+  transition:.2s;
 }
 
 .customize-button:hover{
-  background:
-    linear-gradient(
-      90deg,
-      rgba(37,99,235,.22),
-      rgba(124,58,237,.22)
-    );
-
+  filter:brightness(1.12);
   transform:translateY(-1px);
 }
 
-.profile-actions{
-  display:flex;
 
-  gap:9px;
+/* =========================================================
+   CUSTOMIZE PANEL
+========================================================= */
+
+.customize-panel{
+  position:fixed;
+
+  top:0;
+  right:0;
+  bottom:0;
+
+  width:390px;
+
+  max-width:calc(100vw - 20px);
+
+  z-index:1000;
+
+  background:var(--bg-sidebar);
+
+  border-left:1px solid var(--border);
+
+  box-shadow:-25px 0 80px rgba(0,0,0,.5);
+
+  transform:translateX(105%);
+
+  transition:.35s ease;
+
+  overflow-y:auto;
+
+  padding:25px;
 }
 
-.profile-actions button{
-  flex:1;
+.customize-panel.open{
+  transform:translateX(0);
+}
 
-  padding:10px;
+.customize-panel::-webkit-scrollbar{
+  width:6px;
+}
+
+.customize-panel::-webkit-scrollbar-thumb{
+  background:var(--primary);
+  border-radius:10px;
+}
+
+.customize-overlay{
+  position:fixed;
+
+  inset:0;
+
+  z-index:999;
+
+  background:rgba(0,0,0,.55);
+
+  backdrop-filter:blur(4px);
+
+  opacity:0;
+  visibility:hidden;
+
+  transition:.25s;
+}
+
+.customize-overlay.open{
+  opacity:1;
+  visibility:visible;
+}
+
+.customize-header{
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
+
+  margin-bottom:25px;
+}
+
+.customize-header h2{
+  font-size:23px;
+}
+
+.close-customize{
+  width:38px;
+  height:38px;
 
   border-radius:10px;
 
-  border:
-    1px solid var(--border);
+  border:1px solid var(--border);
 
-  background:
-    rgba(30,58,95,.4);
+  background:rgba(255,255,255,.04);
 
-  color:#dbeafe;
+  color:#fff;
+
+  cursor:pointer;
+
+  font-size:18px;
+}
+
+.customize-subtitle{
+  color:var(--text-muted);
+
+  font-size:13px;
+
+  line-height:1.6;
+
+  margin-bottom:25px;
+}
+
+.customize-section{
+  margin-bottom:30px;
+}
+
+.customize-section-title{
+  font-size:14px;
 
   font-weight:bold;
 
+  margin-bottom:14px;
+
+  color:#dbeafe;
+}
+
+.theme-grid{
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:12px;
+}
+
+.theme-option{
+  position:relative;
+
+  min-height:90px;
+
+  padding:13px;
+
+  border-radius:15px;
+
+  border:2px solid transparent;
+
   cursor:pointer;
+
+  overflow:hidden;
 
   transition:.2s;
 }
 
-.profile-actions button:hover{
+.theme-option:hover{
+  transform:translateY(-2px);
+}
+
+.theme-option.selected{
+  border-color:#fff;
+
+  box-shadow:
+    0 0 0 2px var(--primary),
+    0 8px 25px rgba(0,0,0,.25);
+}
+
+.theme-preview{
+  position:absolute;
+
+  inset:0;
+
+  opacity:.95;
+}
+
+.theme-name{
+  position:relative;
+
+  z-index:2;
+
+  margin-top:42px;
+
+  font-size:12px;
+
+  font-weight:bold;
+
+  color:#fff;
+
+  text-shadow:0 2px 8px #000;
+}
+
+
+/* Theme previews */
+
+.preview-midnight{
   background:
-    rgba(30,58,95,.6);
+    linear-gradient(135deg,#07111f,#2563eb,#7c3aed);
+}
+
+.preview-purple{
+  background:
+    linear-gradient(135deg,#10071f,#9333ea,#ec4899);
+}
+
+.preview-ocean{
+  background:
+    linear-gradient(135deg,#03191f,#0891b2,#14b8a6);
+}
+
+.preview-emerald{
+  background:
+    linear-gradient(135deg,#061912,#059669,#14b8a6);
+}
+
+.preview-red{
+  background:
+    linear-gradient(135deg,#170607,#dc2626,#f97316);
+}
+
+.preview-sunset{
+  background:
+    linear-gradient(135deg,#180b10,#f97316,#ec4899);
+}
+
+.preview-pink{
+  background:
+    linear-gradient(135deg,#160617,#db2777,#a855f7);
+}
+
+.preview-arctic{
+  background:
+    linear-gradient(135deg,#07151c,#06b6d4,#6366f1);
+}
+
+.preview-cosmic{
+  background:
+    linear-gradient(135deg,#090514,#6366f1,#d946ef);
+}
+
+
+/* =========================================================
+   FONT OPTIONS
+========================================================= */
+
+.font-grid{
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:10px;
+}
+
+.font-option{
+  padding:13px;
+
+  border-radius:12px;
+
+  border:1px solid var(--border);
+
+  background:rgba(255,255,255,.03);
+
+  color:var(--text-soft);
+
+  cursor:pointer;
+
+  text-align:left;
+
+  transition:.2s;
+}
+
+.font-option:hover{
+  border-color:var(--border-strong);
+}
+
+.font-option.selected{
+  background:color-mix(
+    in srgb,
+    var(--primary) 20%,
+    transparent
+  );
+
+  border-color:var(--primary);
+
+  color:#fff;
+}
+
+.font-preview-arial{
+  font-family:Arial;
+}
+
+.font-preview-inter{
+  font-family:Inter,Arial;
+}
+
+.font-preview-poppins{
+  font-family:Poppins,Arial;
+}
+
+.font-preview-roboto{
+  font-family:Roboto,Arial;
+}
+
+.font-preview-space{
+  font-family:"Space Grotesk",Arial;
+}
+
+.font-preview-georgia{
+  font-family:Georgia;
 }
 
 
@@ -681,17 +1288,12 @@ nav{
   padding:55px 2% 100px;
 }
 
-
-/* =========================================================
-   WELCOME
-========================================================= */
-
 .welcome{
   margin-bottom:42px;
 }
 
 .welcome-label{
-  color:#7f96b4;
+  color:var(--text-muted);
 
   font-size:13px;
 
@@ -703,8 +1305,7 @@ nav{
 }
 
 .welcome h1{
-  font-size:
-    clamp(38px,6vw,60px);
+  font-size:clamp(38px,6vw,60px);
 
   line-height:1.05;
 
@@ -714,13 +1315,7 @@ nav{
 }
 
 .gradient{
-  background:
-    linear-gradient(
-      90deg,
-      var(--accent-1),
-      var(--accent-2),
-      var(--accent-3)
-    );
+  background:var(--gradient);
 
   -webkit-background-clip:text;
 
@@ -729,6 +1324,7 @@ nav{
 
 .welcome p{
   color:#8ea2bb;
+
   font-size:16px;
 }
 
@@ -749,17 +1345,16 @@ nav{
   background:
     linear-gradient(
       135deg,
-      rgba(30,64,175,.22),
-      rgba(67,56,202,.14),
-      rgba(15,35,60,.7)
+      var(--bg-card-start),
+      var(--bg-card-mid),
+      var(--bg-card-end)
     );
 
-  border:
-    1px solid var(--accent-border);
+  border:1px solid var(--border-strong);
 
-  box-shadow:
-    0 25px 80px
-    rgba(0,0,0,var(--glow));
+  box-shadow:0 25px 80px rgba(0,0,0,.28);
+
+  transition:background .4s ease;
 }
 
 .ai-top{
@@ -788,12 +1383,11 @@ nav{
   background:
     linear-gradient(
       135deg,
-      rgba(59,130,246,.28),
-      rgba(124,58,237,.28)
+      color-mix(in srgb,var(--primary) 30%,transparent),
+      color-mix(in srgb,var(--accent) 30%,transparent)
     );
 
-  border:
-    1px solid rgba(147,197,253,.18);
+  border:1px solid var(--border-strong);
 }
 
 .ai-title h2{
@@ -810,7 +1404,7 @@ nav{
 
 
 /* =========================================================
-   QUESTION INPUT
+   INPUT
 ========================================================= */
 
 .question-box{
@@ -822,11 +1416,9 @@ nav{
 
   border-radius:15px;
 
-  background:
-    rgba(4,14,28,.55);
+  background:rgba(4,14,28,.55);
 
-  border:
-    1px solid var(--border);
+  border:1px solid var(--border);
 }
 
 .question-box input{
@@ -835,7 +1427,6 @@ nav{
   min-width:0;
 
   border:none;
-
   outline:none;
 
   background:transparent;
@@ -845,10 +1436,12 @@ nav{
   padding:13px;
 
   font-size:14px;
+
+  font-family:var(--font-main);
 }
 
 .question-box input::placeholder{
-  color:#60758f;
+  color:#71859e;
 }
 
 .ask-button{
@@ -864,31 +1457,21 @@ nav{
 
   cursor:pointer;
 
-  background:
-    linear-gradient(
-      90deg,
-      var(--accent-1),
-      var(--accent-2),
-      var(--accent-3)
-    );
+  background:var(--button-gradient);
+
+  font-family:var(--font-main);
 
   transition:.2s;
 }
 
 .ask-button:hover{
-  transform:translateY(-1px);
-
-  box-shadow:
-    0 8px 25px
-    rgba(79,70,229,.25);
+  filter:brightness(1.1);
 }
 
 .ask-button:disabled{
   opacity:.6;
 
   cursor:not-allowed;
-
-  transform:none;
 }
 
 
@@ -913,7 +1496,7 @@ nav{
 }
 
 .chat-header span{
-  color:#71859e;
+  color:var(--text-muted);
 
   font-size:12px;
 }
@@ -934,28 +1517,22 @@ nav{
 
   flex-direction:column;
 
-  gap:var(--chat-gap);
+  gap:24px;
 
   overflow-y:auto;
 
   margin:0;
 
-  padding:var(--chat-padding);
+  padding:25px 18px;
 
   border-radius:18px;
 
-  background:
-    rgba(2,9,18,.82);
+  background:var(--bg-chat);
 
-  border:
-    1px solid rgba(147,197,253,.10);
+  border:1px solid var(--border);
 
   box-shadow:
     inset 0 0 35px rgba(0,0,0,.18);
-
-  transition:
-    gap .25s,
-    padding .25s;
 }
 
 .chat-history::-webkit-scrollbar{
@@ -963,8 +1540,11 @@ nav{
 }
 
 .chat-history::-webkit-scrollbar-thumb{
-  background:
-    rgba(96,165,250,.22);
+  background:color-mix(
+    in srgb,
+    var(--primary) 30%,
+    transparent
+  );
 
   border-radius:10px;
 }
@@ -981,13 +1561,11 @@ nav{
 
   border-radius:18px;
 
-  background:
-    rgba(4,14,28,.35);
+  background:rgba(4,14,28,.35);
 
-  border:
-    1px dashed rgba(147,197,253,.12);
+  border:1px dashed var(--border);
 
-  color:#71859e;
+  color:var(--text-muted);
 
   line-height:1.7;
 }
@@ -1009,7 +1587,7 @@ nav{
 
 
 /* =========================================================
-   USER MESSAGE — RIGHT
+   USER — COMPLETELY RIGHT
 ========================================================= */
 
 .user-message{
@@ -1043,18 +1621,11 @@ nav{
 
   padding:14px 19px;
 
-  border-radius:
-    18px 18px 4px 18px;
+  border-radius:18px 18px 4px 18px;
 
-  background:
-    linear-gradient(
-      135deg,
-      rgba(37,99,235,.42),
-      rgba(79,70,229,.38)
-    );
+  background:var(--user-gradient);
 
-  border:
-    1px solid rgba(96,165,250,.22);
+  border:1px solid var(--border-strong);
 
   color:#f4f7ff;
 
@@ -1064,13 +1635,12 @@ nav{
 
   text-align:left;
 
-  box-shadow:
-    0 8px 25px rgba(0,0,0,.12);
+  box-shadow:0 8px 25px rgba(0,0,0,.12);
 }
 
 
 /* =========================================================
-   AI MESSAGE — COMPLETELY LEFT
+   AI — COMPLETELY LEFT
 ========================================================= */
 
 .ai-message{
@@ -1106,16 +1676,13 @@ nav{
 
   padding:20px 22px;
 
-  border-radius:
-    4px 18px 18px 18px;
+  border-radius:4px 18px 18px 18px;
 
-  background:
-    rgba(4,14,28,.62);
+  background:var(--bg-ai);
 
-  border:
-    1px solid rgba(96,165,250,.15);
+  border:1px solid var(--border-strong);
 
-  color:#dbeafe;
+  color:var(--text-ai);
 
   line-height:1.75;
 
@@ -1129,8 +1696,7 @@ nav{
 
   text-align:left;
 
-  box-shadow:
-    0 8px 30px rgba(0,0,0,.15);
+  box-shadow:0 8px 30px rgba(0,0,0,.15);
 }
 
 .chat-time{
@@ -1165,7 +1731,7 @@ nav{
 }
 
 .section-heading p{
-  color:#71859e;
+  color:var(--text-muted);
 
   font-size:14px;
 }
@@ -1173,8 +1739,7 @@ nav{
 .tools{
   display:grid;
 
-  grid-template-columns:
-    repeat(3,1fr);
+  grid-template-columns:repeat(3,1fr);
 
   gap:20px;
 }
@@ -1189,12 +1754,11 @@ nav{
   background:
     linear-gradient(
       145deg,
-      rgba(20,43,70,.72),
-      rgba(11,28,48,.62)
+      color-mix(in srgb,var(--primary) 12%,#142b46),
+      color-mix(in srgb,var(--accent) 8%,#0b1c30)
     );
 
-  border:
-    1px solid var(--border);
+  border:1px solid var(--border);
 
   cursor:pointer;
 
@@ -1204,8 +1768,7 @@ nav{
 .tool:hover{
   transform:translateY(-7px);
 
-  border-color:
-    rgba(96,165,250,.3);
+  border-color:var(--border-strong);
 }
 
 .tool-icon{
@@ -1248,640 +1811,11 @@ footer{
 
   padding:35px;
 
-  border-top:
-    1px solid var(--border);
+  border-top:1px solid var(--border);
 
   color:#52667e;
 
   font-size:12px;
-}
-
-
-/* =========================================================
-   CUSTOMIZE OVERLAY
-========================================================= */
-
-.customize-overlay{
-  position:fixed;
-
-  inset:0;
-
-  z-index:1000;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  padding:20px;
-
-  background:
-    rgba(0,0,0,.68);
-
-  backdrop-filter:blur(10px);
-
-  opacity:0;
-
-  visibility:hidden;
-
-  transition:.25s;
-}
-
-.customize-overlay.open{
-  opacity:1;
-
-  visibility:visible;
-}
-
-
-/* =========================================================
-   CUSTOMIZE PANEL
-========================================================= */
-
-.customize-panel{
-  width:min(760px,100%);
-
-  max-height:
-    min(850px,92vh);
-
-  overflow-y:auto;
-
-  border-radius:26px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(9,25,44,.98),
-      rgba(7,18,32,.98)
-    );
-
-  border:
-    1px solid rgba(147,197,253,.18);
-
-  box-shadow:
-    0 35px 120px rgba(0,0,0,.6);
-
-  transform:translateY(20px) scale(.98);
-
-  transition:.25s;
-
-  padding:28px;
-}
-
-.customize-overlay.open
-.customize-panel{
-  transform:
-    translateY(0) scale(1);
-}
-
-.customize-panel::-webkit-scrollbar{
-  width:7px;
-}
-
-.customize-panel::-webkit-scrollbar-thumb{
-  background:
-    rgba(96,165,250,.25);
-
-  border-radius:10px;
-}
-
-
-/* =========================================================
-   CUSTOMIZE HEADER
-========================================================= */
-
-.customize-header{
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  gap:15px;
-
-  margin-bottom:25px;
-}
-
-.customize-title{
-  display:flex;
-
-  align-items:center;
-
-  gap:14px;
-}
-
-.customize-title-icon{
-  width:52px;
-  height:52px;
-
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  border-radius:16px;
-
-  font-size:25px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(37,99,235,.25),
-      rgba(124,58,237,.25)
-    );
-
-  border:
-    1px solid rgba(147,197,253,.15);
-}
-
-.customize-title h2{
-  font-size:23px;
-
-  margin-bottom:4px;
-}
-
-.customize-title p{
-  color:#7f96b4;
-
-  font-size:12px;
-}
-
-.close-customize{
-  width:40px;
-  height:40px;
-
-  border-radius:12px;
-
-  border:
-    1px solid var(--border);
-
-  background:
-    rgba(30,58,95,.35);
-
-  color:#cbd5e1;
-
-  font-size:20px;
-
-  cursor:pointer;
-
-  transition:.2s;
-}
-
-.close-customize:hover{
-  background:
-    rgba(127,29,29,.35);
-
-  color:#fff;
-}
-
-
-/* =========================================================
-   CUSTOMIZE SECTIONS
-========================================================= */
-
-.customize-section{
-  padding:20px 0;
-
-  border-top:
-    1px solid rgba(147,197,253,.08);
-}
-
-.customize-section:first-of-type{
-  border-top:none;
-}
-
-.customize-section-title{
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  margin-bottom:14px;
-}
-
-.customize-section-title h3{
-  font-size:15px;
-}
-
-.customize-section-title span{
-  color:#61758d;
-
-  font-size:11px;
-}
-
-
-/* =========================================================
-   THEME GRID
-========================================================= */
-
-.theme-grid{
-  display:grid;
-
-  grid-template-columns:
-    repeat(4,1fr);
-
-  gap:12px;
-}
-
-.theme-option{
-  position:relative;
-
-  min-height:82px;
-
-  border-radius:15px;
-
-  border:
-    1px solid rgba(147,197,253,.12);
-
-  background:
-    rgba(4,14,28,.65);
-
-  cursor:pointer;
-
-  overflow:hidden;
-
-  transition:.2s;
-
-  padding:10px;
-}
-
-.theme-option:hover{
-  transform:translateY(-2px);
-
-  border-color:
-    rgba(147,197,253,.3);
-}
-
-.theme-option.selected{
-  border:
-    2px solid #93b4ff;
-
-  box-shadow:
-    0 0 20px
-    rgba(96,165,250,.16);
-}
-
-.theme-preview{
-  height:38px;
-
-  border-radius:9px;
-
-  margin-bottom:8px;
-}
-
-.theme-name{
-  font-size:11px;
-
-  color:#cbd5e1;
-
-  font-weight:bold;
-}
-
-
-/* Theme preview colours */
-
-.theme-blue .theme-preview{
-  background:
-    linear-gradient(
-      135deg,
-      #2563eb,
-      #4f46e5,
-      #7c3aed
-    );
-}
-
-.theme-emerald .theme-preview{
-  background:
-    linear-gradient(
-      135deg,
-      #059669,
-      #0d9488,
-      #14b8a6
-    );
-}
-
-.theme-cyan .theme-preview{
-  background:
-    linear-gradient(
-      135deg,
-      #0891b2,
-      #06b6d4,
-      #3b82f6
-    );
-}
-
-.theme-pink .theme-preview{
-  background:
-    linear-gradient(
-      135deg,
-      #db2777,
-      #ec4899,
-      #a855f7
-    );
-}
-
-.theme-orange .theme-preview{
-  background:
-    linear-gradient(
-      135deg,
-      #ea580c,
-      #f97316,
-      #eab308
-    );
-}
-
-.theme-red .theme-preview{
-  background:
-    linear-gradient(
-      135deg,
-      #dc2626,
-      #e11d48,
-      #be123c
-    );
-}
-
-.theme-violet .theme-preview{
-  background:
-    linear-gradient(
-      135deg,
-      #7c3aed,
-      #8b5cf6,
-      #c026d3
-    );
-}
-
-.theme-mint .theme-preview{
-  background:
-    linear-gradient(
-      135deg,
-      #10b981,
-      #22c55e,
-      #84cc16
-    );
-}
-
-
-/* =========================================================
-   FONT OPTIONS
-========================================================= */
-
-.font-grid{
-  display:grid;
-
-  grid-template-columns:
-    repeat(4,1fr);
-
-  gap:10px;
-}
-
-.font-option{
-  padding:13px 10px;
-
-  border-radius:12px;
-
-  border:
-    1px solid rgba(147,197,253,.12);
-
-  background:
-    rgba(4,14,28,.6);
-
-  color:#cbd5e1;
-
-  cursor:pointer;
-
-  transition:.2s;
-
-  text-align:center;
-
-  font-size:13px;
-}
-
-.font-option:hover{
-  border-color:
-    rgba(147,197,253,.3);
-}
-
-.font-option.selected{
-  border-color:#93b4ff;
-
-  background:
-    rgba(37,99,235,.15);
-
-  color:#fff;
-}
-
-.font-arial{
-  font-family:Arial,Helvetica,sans-serif;
-}
-
-.font-inter{
-  font-family:Inter,Arial,sans-serif;
-}
-
-.font-poppins{
-  font-family:Poppins,Arial,sans-serif;
-}
-
-.font-roboto{
-  font-family:Roboto,Arial,sans-serif;
-}
-
-.font-georgia{
-  font-family:Georgia,serif;
-}
-
-.font-trebuchet{
-  font-family:"Trebuchet MS",Arial,sans-serif;
-}
-
-.font-mono{
-  font-family:"Courier New",monospace;
-}
-
-.font-verdana{
-  font-family:Verdana,Arial,sans-serif;
-}
-
-
-/* =========================================================
-   CHAT DENSITY
-========================================================= */
-
-.density-grid{
-  display:grid;
-
-  grid-template-columns:
-    repeat(3,1fr);
-
-  gap:10px;
-}
-
-.density-option{
-  padding:14px;
-
-  border-radius:12px;
-
-  border:
-    1px solid rgba(147,197,253,.12);
-
-  background:
-    rgba(4,14,28,.6);
-
-  color:#cbd5e1;
-
-  cursor:pointer;
-
-  transition:.2s;
-
-  text-align:center;
-}
-
-.density-option:hover{
-  border-color:
-    rgba(147,197,253,.3);
-}
-
-.density-option.selected{
-  border-color:#93b4ff;
-
-  background:
-    rgba(37,99,235,.15);
-
-  color:#fff;
-}
-
-.density-option strong{
-  display:block;
-
-  font-size:13px;
-
-  margin-bottom:4px;
-}
-
-.density-option small{
-  color:#71859e;
-
-  font-size:10px;
-}
-
-
-/* =========================================================
-   GLOW
-========================================================= */
-
-.glow-grid{
-  display:grid;
-
-  grid-template-columns:
-    repeat(3,1fr);
-
-  gap:10px;
-}
-
-.glow-option{
-  padding:13px;
-
-  border-radius:12px;
-
-  border:
-    1px solid rgba(147,197,253,.12);
-
-  background:
-    rgba(4,14,28,.6);
-
-  color:#cbd5e1;
-
-  cursor:pointer;
-
-  text-align:center;
-
-  transition:.2s;
-}
-
-.glow-option:hover{
-  border-color:
-    rgba(147,197,253,.3);
-}
-
-.glow-option.selected{
-  border-color:#93b4ff;
-
-  background:
-    rgba(37,99,235,.15);
-
-  color:#fff;
-}
-
-
-/* =========================================================
-   CUSTOMIZE FOOTER
-========================================================= */
-
-.customize-footer{
-  display:flex;
-
-  justify-content:space-between;
-
-  gap:12px;
-
-  padding-top:20px;
-
-  border-top:
-    1px solid rgba(147,197,253,.08);
-}
-
-.reset-button,
-.done-button{
-  padding:12px 20px;
-
-  border-radius:12px;
-
-  font-weight:bold;
-
-  cursor:pointer;
-
-  transition:.2s;
-}
-
-.reset-button{
-  border:
-    1px solid rgba(147,197,253,.14);
-
-  background:
-    rgba(30,58,95,.35);
-
-  color:#cbd5e1;
-}
-
-.reset-button:hover{
-  background:
-    rgba(30,58,95,.55);
-}
-
-.done-button{
-  border:none;
-
-  color:#fff;
-
-  background:
-    linear-gradient(
-      90deg,
-      var(--accent-1),
-      var(--accent-2),
-      var(--accent-3)
-    );
-
-  min-width:110px;
-}
-
-.done-button:hover{
-  transform:translateY(-1px);
-
-  box-shadow:
-    0 8px 25px
-    rgba(79,70,229,.25);
 }
 
 
@@ -1918,15 +1852,13 @@ footer{
   .dashboard{
     width:100%;
 
-    padding:
-      35px 12px 70px;
+    padding:35px 12px 70px;
   }
 
   .ai-card{
     width:100%;
 
-    padding:
-      25px 14px 14px;
+    padding:25px 14px 14px;
   }
 
   .ai-top{
@@ -1957,8 +1889,7 @@ footer{
 
     min-height:450px;
 
-    padding:
-      20px 12px;
+    padding:20px 12px;
   }
 
   .chat-question{
@@ -1976,248 +1907,38 @@ footer{
   .profile-menu{
     right:-5px;
 
-    width:
-      min(
-        300px,
-        calc(100vw - 30px)
-      );
+    width:min(
+      300px,
+      calc(100vw - 30px)
+    );
   }
 
   .clear-chat{
     display:none;
   }
 
-  .customize-overlay{
-    padding:10px;
-  }
-
   .customize-panel{
-    padding:20px;
+    width:100%;
 
-    max-height:95vh;
+    max-width:100%;
   }
 
-  .theme-grid{
-    grid-template-columns:
-      repeat(2,1fr);
-  }
+}
 
+
+/* =========================================================
+   SMALL SCREEN
+========================================================= */
+
+@media(max-width:450px){
+
+  .theme-grid,
   .font-grid{
-    grid-template-columns:
-      repeat(2,1fr);
-  }
-
-  .density-grid,
-  .glow-grid{
-    grid-template-columns:1fr;
-  }
-
-  .customize-footer{
-    position:sticky;
-
-    bottom:0;
-
-    background:
-      rgba(7,18,32,.98);
-
-    padding-bottom:2px;
-  }
-}
-/* ============================= */
-/* CUSTOMIZE SYSTEM */
-/* ============================= */
-
-.customize-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.65);
-  backdrop-filter:blur(12px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-  opacity:0;
-  visibility:hidden;
-  transition:.25s;
-  padding:20px;
-}
-
-.customize-overlay.open{
-  opacity:1;
-  visibility:visible;
-}
-
-.customize-panel{
-  width:min(650px,100%);
-  max-height:90vh;
-  overflow-y:auto;
-  padding:28px;
-  border-radius:26px;
-  background:rgba(8,23,40,.98);
-  border:1px solid rgba(147,197,253,.2);
-  box-shadow:0 30px 100px rgba(0,0,0,.55);
-}
-
-.customize-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  margin-bottom:30px;
-}
-
-.customize-header h2{
-  font-size:24px;
-  margin-bottom:7px;
-}
-
-.customize-header p{
-  color:#8195ad;
-  font-size:13px;
-}
-
-.customize-header button{
-  width:38px;
-  height:38px;
-  border-radius:10px;
-  border:1px solid rgba(147,197,253,.15);
-  background:rgba(30,58,95,.4);
-  color:#fff;
-  cursor:pointer;
-  font-size:18px;
-}
-
-.customize-section{
-  margin-bottom:28px;
-}
-
-.customize-section h3{
-  font-size:16px;
-  margin-bottom:15px;
-}
-
-.theme-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-}
-
-.theme-option{
-  min-height:90px;
-  border-radius:15px;
-  border:1px solid rgba(147,197,253,.15);
-  color:#fff;
-  cursor:pointer;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:7px;
-  font-size:23px;
-  transition:.2s;
-}
-
-.theme-option span{
-  font-size:11px;
-  font-weight:bold;
-}
-
-.theme-option:hover{
-  transform:translateY(-3px);
-}
-
-.blue-theme{
-  background:linear-gradient(135deg,#2563eb,#1e3a8a);
-}
-
-.purple-theme{
-  background:linear-gradient(135deg,#7c3aed,#4c1d95);
-}
-
-.green-theme{
-  background:linear-gradient(135deg,#059669,#064e3b);
-}
-
-.red-theme{
-  background:linear-gradient(135deg,#dc2626,#7f1d1d);
-}
-
-.cyan-theme{
-  background:linear-gradient(135deg,#0891b2,#164e63);
-}
-
-.pink-theme{
-  background:linear-gradient(135deg,#db2777,#831843);
-}
-
-.font-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-
-.font-grid button{
-  padding:13px;
-  border-radius:12px;
-  border:1px solid rgba(147,197,253,.13);
-  background:rgba(30,58,95,.35);
-  color:#dbeafe;
-  cursor:pointer;
-  font-size:14px;
-}
-
-.font-grid button:hover{
-  background:rgba(59,130,246,.2);
-}
-
-.customize-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:14px;
-  margin-bottom:8px;
-  border-radius:12px;
-  background:rgba(30,58,95,.25);
-  color:#cbd5e1;
-  font-size:13px;
-}
-
-.customize-row input{
-  width:18px;
-  height:18px;
-  cursor:pointer;
-}
-
-.reset-customize{
-  width:100%;
-  padding:13px;
-  border-radius:12px;
-  border:1px solid rgba(248,113,113,.2);
-  background:rgba(127,29,29,.2);
-  color:#fca5a5;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-body.no-rounded .chat-question,
-body.no-rounded .chat-answer,
-body.no-rounded .ai-card,
-body.no-rounded .chat-history{
-  border-radius:3px;
-}
-
-body.no-animation *{
-  transition:none !important;
-  animation:none !important;
-}
-
-@media(max-width:600px){
-
-  .theme-grid{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:1fr 1fr;
   }
 
   .customize-panel{
-    padding:20px;
+    padding:20px 16px;
   }
 
 }
@@ -2226,14 +1947,14 @@ body.no-animation *{
 </head>
 
 
-<body>
+<body class="theme-midnight font-Arial">
 
 <div class="app">
 
 
-<!-- =====================================================
+<!-- ======================================================
      SIDEBAR
-===================================================== -->
+====================================================== -->
 
 <aside class="sidebar" id="sidebar">
 
@@ -2279,9 +2000,9 @@ body.no-animation *{
 <div class="main">
 
 
-<!-- =====================================================
+<!-- ======================================================
      NAVBAR
-===================================================== -->
+====================================================== -->
 
 <nav>
 
@@ -2319,13 +2040,12 @@ body.no-animation *{
       </button>
 
 
+      <!-- PROFILE MENU -->
+
       <div
         class="profile-menu"
         id="profileMenu"
       >
-
-
-        <!-- PROFILE HEADER -->
 
         <div class="profile-head">
 
@@ -2339,16 +2059,11 @@ body.no-animation *{
 
           <div>
 
-            <strong
-              id="profileName"
-            >
+            <strong id="profileName">
               Student
             </strong>
 
-
-            <small
-              id="profileEmail"
-            >
+            <small id="profileEmail">
               Loading...
             </small>
 
@@ -2356,8 +2071,6 @@ body.no-animation *{
 
         </div>
 
-
-        <!-- USERNAME -->
 
         <div class="profile-item">
 
@@ -2380,51 +2093,45 @@ body.no-animation *{
         </button>
 
 
-        <!-- EMAIL -->
-
         <div class="profile-item">
 
           <span>
             Registered email
           </span>
 
-          <b
-            id="profileRegisteredEmail"
-          >
+          <b id="profileRegisteredEmail">
             Loading...
           </b>
 
         </div>
 
 
-        <!-- CUSTOMIZE -->
+        <!-- CUSTOMIZE BUTTON -->
 
         <button
           class="customize-button"
           onclick="openCustomize()"
         >
-          🎨 Customize Dashboard
+          🎨 Customize
         </button>
 
 
-        <!-- PROFILE ACTIONS -->
-
         <div class="profile-actions">
 
-  <button onclick="openCustomize()">
-    🎨 Customize
-  </button>
+          <button
+            onclick="location.href='profile.html'"
+          >
+            View Profile 👤
+          </button>
 
-  <button onclick="location.href='profile.html'">
-    👤 Profile
-  </button>
 
-  <button onclick="logout()">
-    🚪 Log Out
-  </button>
+          <button
+            onclick="logout()"
+          >
+            Log Out 🚪
+          </button>
 
-</div>
-
+        </div>
 
       </div>
 
@@ -2435,14 +2142,12 @@ body.no-animation *{
 </nav>
 
 
-<!-- =====================================================
+<!-- ======================================================
      DASHBOARD
-===================================================== -->
+====================================================== -->
 
 <main class="dashboard">
 
-
-<!-- WELCOME -->
 
 <section class="welcome">
 
@@ -2475,9 +2180,9 @@ body.no-animation *{
 </section>
 
 
-<!-- =====================================================
+<!-- ======================================================
      AI CHAT CARD
-===================================================== -->
+====================================================== -->
 
 <section class="ai-card">
 
@@ -2504,8 +2209,6 @@ body.no-animation *{
   </div>
 
 
-  <!-- INPUT -->
-
   <div class="question-box">
 
     <input
@@ -2527,8 +2230,6 @@ body.no-animation *{
   </div>
 
 
-  <!-- CHAT HEADER -->
-
   <div class="chat-header">
 
     <h3>
@@ -2536,16 +2237,12 @@ body.no-animation *{
     </h3>
 
 
-    <span
-      id="chatCount"
-    >
+    <span id="chatCount">
       0 messages
     </span>
 
   </div>
 
-
-  <!-- CHAT -->
 
   <div
     class="chat-history"
@@ -2556,9 +2253,9 @@ body.no-animation *{
 </section>
 
 
-<!-- =====================================================
+<!-- ======================================================
      STUDY TOOLS
-===================================================== -->
+====================================================== -->
 
 <div class="section-heading">
 
@@ -2577,8 +2274,6 @@ body.no-animation *{
 <section class="tools">
 
 
-  <!-- DOUBT SOLVER -->
-
   <div
     class="tool"
     onclick="comingSoon('Doubt Solver')"
@@ -2588,17 +2283,14 @@ body.no-animation *{
       🤖
     </div>
 
-
     <h3>
       Doubt Solver 💡
     </h3>
-
 
     <p>
       Get simple, step-by-step explanations
       for your questions. 🧠📖
     </p>
-
 
     <div class="tool-link">
       Solve a doubt →
@@ -2606,8 +2298,6 @@ body.no-animation *{
 
   </div>
 
-
-  <!-- AI NOTES -->
 
   <div
     class="tool"
@@ -2618,17 +2308,14 @@ body.no-animation *{
       📚
     </div>
 
-
     <h3>
       AI Notes 🧠
     </h3>
-
 
     <p>
       Turn chapters into concise notes
       and revision material. ✍️📖
     </p>
-
 
     <div class="tool-link">
       Create notes →
@@ -2636,8 +2323,6 @@ body.no-animation *{
 
   </div>
 
-
-  <!-- CUSTOM TESTS -->
 
   <div
     class="tool"
@@ -2648,18 +2333,15 @@ body.no-animation *{
       📝
     </div>
 
-
     <h3>
       Custom Tests 🎯
     </h3>
-
 
     <p>
       Generate tests based on class,
       subject, chapters and difficulty.
       🏆📚
     </p>
-
 
     <div class="tool-link">
       Create a test →
@@ -2673,9 +2355,9 @@ body.no-animation *{
 </main>
 
 
-<!-- =====================================================
+<!-- ======================================================
      FOOTER
-===================================================== -->
+====================================================== -->
 
 <footer>
 
@@ -2693,437 +2375,307 @@ body.no-animation *{
 </div>
 
 
-<!-- =====================================================
-     CUSTOMIZE MODAL
-===================================================== -->
+<!-- ======================================================
+     CUSTOMIZE OVERLAY
+====================================================== -->
 
 <div
   class="customize-overlay"
   id="customizeOverlay"
-  onclick="closeCustomizeFromOverlay(event)"
+  onclick="closeCustomize()"
+></div>
+
+
+<!-- ======================================================
+     CUSTOMIZE PANEL
+====================================================== -->
+
+<div
+  class="customize-panel"
+  id="customizePanel"
 >
 
 
-  <div
-    class="customize-panel"
-    onclick="event.stopPropagation()"
-  >
-
-
-    <!-- HEADER -->
-
-    <div class="customize-header">
-
-      <div class="customize-title">
-
-        <div class="customize-title-icon">
-          🎨
-        </div>
-
-
-        <div>
-
-          <h2>
-            Customize DIVYAM.AI
-          </h2>
-
-          <p>
-            Make your study dashboard yours ✨
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <button
-        class="close-customize"
-        onclick="closeCustomize()"
-        aria-label="Close customization"
-      >
-        ×
-      </button>
-
-    </div>
-
-
-    <!-- =================================================
-         COLOUR THEMES
-    ================================================= -->
-
-    <section class="customize-section">
-
-      <div class="customize-section-title">
-
-        <h3>
-          🎨 Colour Theme
-        </h3>
-
-        <span>
-          Choose your dashboard colours
-        </span>
-
-      </div>
-
-
-      <div class="theme-grid">
-
-
-        <button
-          class="theme-option theme-blue"
-          data-theme="blue"
-          onclick="setTheme('blue')"
-        >
-          <div class="theme-preview"></div>
-          <div class="theme-name">
-            💙 Blue Aurora
-          </div>
-        </button>
-
-
-        <button
-          class="theme-option theme-emerald"
-          data-theme="emerald"
-          onclick="setTheme('emerald')"
-        >
-          <div class="theme-preview"></div>
-          <div class="theme-name">
-            💚 Emerald
-          </div>
-        </button>
-
-
-        <button
-          class="theme-option theme-cyan"
-          data-theme="cyan"
-          onclick="setTheme('cyan')"
-        >
-          <div class="theme-preview"></div>
-          <div class="theme-name">
-            🩵 Cyan Neon
-          </div>
-        </button>
-
-
-        <button
-          class="theme-option theme-pink"
-          data-theme="pink"
-          onclick="setTheme('pink')"
-        >
-          <div class="theme-preview"></div>
-          <div class="theme-name">
-            💗 Pink Galaxy
-          </div>
-        </button>
-
-
-        <button
-          class="theme-option theme-orange"
-          data-theme="orange"
-          onclick="setTheme('orange')"
-        >
-          <div class="theme-preview"></div>
-          <div class="theme-name">
-            🧡 Sunset
-          </div>
-        </button>
-
-
-        <button
-          class="theme-option theme-red"
-          data-theme="red"
-          onclick="setTheme('red')"
-        >
-          <div class="theme-preview"></div>
-          <div class="theme-name">
-            ❤️ Crimson
-          </div>
-        </button>
-
-
-        <button
-          class="theme-option theme-violet"
-          data-theme="violet"
-          onclick="setTheme('violet')"
-        >
-          <div class="theme-preview"></div>
-          <div class="theme-name">
-            💜 Violet
-          </div>
-        </button>
-
-
-        <button
-          class="theme-option theme-mint"
-          data-theme="mint"
-          onclick="setTheme('mint')"
-        >
-          <div class="theme-preview"></div>
-          <div class="theme-name">
-            🌿 Mint
-          </div>
-        </button>
-
-
-      </div>
-
-    </section>
-
-
-    <!-- =================================================
-         FONT
-    ================================================= -->
-
-    <section class="customize-section">
-
-      <div class="customize-section-title">
-
-        <h3>
-          🔤 Font Style
-        </h3>
-
-        <span>
-          Change the dashboard typography
-        </span>
-
-      </div>
-
-
-      <div class="font-grid">
-
-
-        <button
-          class="font-option font-arial"
-          data-font="arial"
-          onclick="setFont('arial')"
-        >
-          Arial
-        </button>
-
-
-        <button
-          class="font-option font-inter"
-          data-font="inter"
-          onclick="setFont('inter')"
-        >
-          Inter
-        </button>
-
-
-        <button
-          class="font-option font-poppins"
-          data-font="poppins"
-          onclick="setFont('poppins')"
-        >
-          Poppins
-        </button>
-
-
-        <button
-          class="font-option font-roboto"
-          data-font="roboto"
-          onclick="setFont('roboto')"
-        >
-          Roboto
-        </button>
-
-
-        <button
-          class="font-option font-georgia"
-          data-font="georgia"
-          onclick="setFont('georgia')"
-        >
-          Georgia
-        </button>
-
-
-        <button
-          class="font-option font-trebuchet"
-          data-font="trebuchet"
-          onclick="setFont('trebuchet')"
-        >
-          Trebuchet
-        </button>
-
-
-        <button
-          class="font-option font-mono"
-          data-font="mono"
-          onclick="setFont('mono')"
-        >
-          Monospace
-        </button>
-
-
-        <button
-          class="font-option font-verdana"
-          data-font="verdana"
-          onclick="setFont('verdana')"
-        >
-          Verdana
-        </button>
-
-
-      </div>
-
-    </section>
-
-
-    <!-- =================================================
-         CHAT DENSITY
-    ================================================= -->
-
-    <section class="customize-section">
-
-      <div class="customize-section-title">
-
-        <h3>
-          💬 Chat Spacing
-        </h3>
-
-        <span>
-          Control conversation density
-        </span>
-
-      </div>
-
-
-      <div class="density-grid">
-
-
-        <button
-          class="density-option"
-          data-density="compact"
-          onclick="setDensity('compact')"
-        >
-
-          <strong>
-            Compact
-          </strong>
-
-          <small>
-            More messages
-          </small>
-
-        </button>
-
-
-        <button
-          class="density-option"
-          data-density="comfortable"
-          onclick="setDensity('comfortable')"
-        >
-
-          <strong>
-            Comfortable
-          </strong>
-
-          <small>
-            Recommended
-          </small>
-
-        </button>
-
-
-        <button
-          class="density-option"
-          data-density="spacious"
-          onclick="setDensity('spacious')"
-        >
-
-          <strong>
-            Spacious
-          </strong>
-
-          <small>
-            More breathing room
-          </small>
-
-        </button>
-
-
-      </div>
-
-    </section>
-
-
-    <!-- =================================================
-         GLOW
-    ================================================= -->
-
-    <section class="customize-section">
-
-      <div class="customize-section-title">
-
-        <h3>
-          ✨ UI Glow
-        </h3>
-
-        <span>
-          Control visual intensity
-        </span>
-
-      </div>
-
-
-      <div class="glow-grid">
-
-
-        <button
-          class="glow-option"
-          data-glow="low"
-          onclick="setGlow('low')"
-        >
-          🌙 Low
-        </button>
-
-
-        <button
-          class="glow-option"
-          data-glow="medium"
-          onclick="setGlow('medium')"
-        >
-          ✨ Medium
-        </button>
-
-
-        <button
-          class="glow-option"
-          data-glow="high"
-          onclick="setGlow('high')"
-        >
-          ⚡ High
-        </button>
-
-
-      </div>
-
-    </section>
-
-
-    <!-- FOOTER -->
-
-    <div class="customize-footer">
-
-      <button
-        class="reset-button"
-        onclick="resetCustomization()"
-      >
-        🔄 Reset Default
-      </button>
-
-
-      <button
-        class="done-button"
-        onclick="closeCustomize()"
-      >
-        ✓ Done
-      </button>
-
-    </div>
-
+  <div class="customize-header">
+
+    <h2>
+      🎨 Customize DIVYAM.AI
+    </h2>
+
+
+    <button
+      class="close-customize"
+      onclick="closeCustomize()"
+    >
+      ✕
+    </button>
 
   </div>
+
+
+  <p class="customize-subtitle">
+
+    Personalize the look and feel of your
+    DIVYAM.AI dashboard. 🌈✨
+
+    <br>
+
+    Your choices are automatically saved
+    on this device. 💾
+
+  </p>
+
+
+  <!-- ==================================================
+       COLOUR THEMES
+  ================================================== -->
+
+  <div class="customize-section">
+
+    <div class="customize-section-title">
+      🌈 Colour Theme
+    </div>
+
+
+    <div class="theme-grid">
+
+
+      <div
+        class="theme-option"
+        data-theme="midnight"
+        onclick="setTheme('midnight')"
+      >
+
+        <div class="theme-preview preview-midnight"></div>
+
+        <div class="theme-name">
+          🌌 Midnight Blue
+        </div>
+
+      </div>
+
+
+      <div
+        class="theme-option"
+        data-theme="purple"
+        onclick="setTheme('purple')"
+      >
+
+        <div class="theme-preview preview-purple"></div>
+
+        <div class="theme-name">
+          💜 Purple Galaxy
+        </div>
+
+      </div>
+
+
+      <div
+        class="theme-option"
+        data-theme="ocean"
+        onclick="setTheme('ocean')"
+      >
+
+        <div class="theme-preview preview-ocean"></div>
+
+        <div class="theme-name">
+          🌊 Ocean
+        </div>
+
+      </div>
+
+
+      <div
+        class="theme-option"
+        data-theme="emerald"
+        onclick="setTheme('emerald')"
+      >
+
+        <div class="theme-preview preview-emerald"></div>
+
+        <div class="theme-name">
+          🌲 Emerald
+        </div>
+
+      </div>
+
+
+      <div
+        class="theme-option"
+        data-theme="red"
+        onclick="setTheme('red')"
+      >
+
+        <div class="theme-preview preview-red"></div>
+
+        <div class="theme-name">
+          🔥 Cyber Red
+        </div>
+
+      </div>
+
+
+      <div
+        class="theme-option"
+        data-theme="sunset"
+        onclick="setTheme('sunset')"
+      >
+
+        <div class="theme-preview preview-sunset"></div>
+
+        <div class="theme-name">
+          🌅 Sunset
+        </div>
+
+      </div>
+
+
+      <div
+        class="theme-option"
+        data-theme="pink"
+        onclick="setTheme('pink')"
+      >
+
+        <div class="theme-preview preview-pink"></div>
+
+        <div class="theme-name">
+          💗 Neon Pink
+        </div>
+
+      </div>
+
+
+      <div
+        class="theme-option"
+        data-theme="arctic"
+        onclick="setTheme('arctic')"
+      >
+
+        <div class="theme-preview preview-arctic"></div>
+
+        <div class="theme-name">
+          🧊 Arctic
+        </div>
+
+      </div>
+
+
+      <div
+        class="theme-option"
+        data-theme="cosmic"
+        onclick="setTheme('cosmic')"
+      >
+
+        <div class="theme-preview preview-cosmic"></div>
+
+        <div class="theme-name">
+          ☄️ Cosmic
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+  <!-- ==================================================
+       FONT STYLE
+  ================================================== -->
+
+  <div class="customize-section">
+
+    <div class="customize-section-title">
+      🔤 Font Style
+    </div>
+
+
+    <div class="font-grid">
+
+
+      <button
+        class="font-option font-preview-arial"
+        data-font="Arial"
+        onclick="setFont('Arial')"
+      >
+        Arial
+      </button>
+
+
+      <button
+        class="font-option font-preview-inter"
+        data-font="Inter"
+        onclick="setFont('Inter')"
+      >
+        Inter
+      </button>
+
+
+      <button
+        class="font-option font-preview-poppins"
+        data-font="Poppins"
+        onclick="setFont('Poppins')"
+      >
+        Poppins
+      </button>
+
+
+      <button
+        class="font-option font-preview-roboto"
+        data-font="Roboto"
+        onclick="setFont('Roboto')"
+      >
+        Roboto
+      </button>
+
+
+      <button
+        class="font-option font-preview-space"
+        data-font="Space"
+        onclick="setFont('Space')"
+      >
+        Space Grotesk
+      </button>
+
+
+      <button
+        class="font-option font-preview-georgia"
+        data-font="Georgia"
+        onclick="setFont('Georgia')"
+      >
+        Georgia
+      </button>
+
+
+    </div>
+
+  </div>
+
+
+  <div
+    style="
+      padding:15px;
+      border-radius:14px;
+      background:rgba(255,255,255,.03);
+      border:1px solid var(--border);
+      color:var(--text-muted);
+      font-size:12px;
+      line-height:1.7;
+    "
+  >
+
+    ✨ <strong style="color:#dbeafe">
+      Your customization is saved automatically.
+    </strong>
+
+    <br>
+
+    Change the theme or font anytime from
+    Profile → 🎨 Customize.
+
+  </div>
+
 
 </div>
 
@@ -3148,7 +2700,7 @@ const supabaseClient =
 
 
 /* =========================================================
-   VARIABLES
+   CHAT VARIABLES
 ========================================================= */
 
 let userId="guest";
@@ -3162,540 +2714,6 @@ let activeId=null;
 
 
 /* =========================================================
-   CUSTOMIZATION SETTINGS
-========================================================= */
-
-const customizationKey=
-  "divyam_customization";
-
-
-const defaultCustomization={
-
-  theme:"blue",
-
-  font:"arial",
-
-  density:"comfortable",
-
-  glow:"medium"
-
-};
-
-
-let customization={
-  ...defaultCustomization
-};
-
-
-/* =========================================================
-   THEME DEFINITIONS
-========================================================= */
-
-const themes={
-
-  blue:{
-    accent1:"#2563eb",
-    accent2:"#4f46e5",
-    accent3:"#7c3aed",
-    accentSoft:"rgba(59,130,246,.18)",
-    accentBorder:"rgba(96,165,250,.20)",
-    bg:"#07111f"
-  },
-
-  emerald:{
-    accent1:"#059669",
-    accent2:"#0d9488",
-    accent3:"#14b8a6",
-    accentSoft:"rgba(16,185,129,.18)",
-    accentBorder:"rgba(52,211,153,.20)",
-    bg:"#061914"
-  },
-
-  cyan:{
-    accent1:"#0891b2",
-    accent2:"#06b6d4",
-    accent3:"#3b82f6",
-    accentSoft:"rgba(6,182,212,.18)",
-    accentBorder:"rgba(34,211,238,.20)",
-    bg:"#06151c"
-  },
-
-  pink:{
-    accent1:"#db2777",
-    accent2:"#ec4899",
-    accent3:"#a855f7",
-    accentSoft:"rgba(236,72,153,.17)",
-    accentBorder:"rgba(244,114,182,.20)",
-    bg:"#1a0715"
-  },
-
-  orange:{
-    accent1:"#ea580c",
-    accent2:"#f97316",
-    accent3:"#eab308",
-    accentSoft:"rgba(249,115,22,.18)",
-    accentBorder:"rgba(251,146,60,.20)",
-    bg:"#1b0c04"
-  },
-
-  red:{
-    accent1:"#dc2626",
-    accent2:"#e11d48",
-    accent3:"#be123c",
-    accentSoft:"rgba(225,29,72,.18)",
-    accentBorder:"rgba(251,113,133,.20)",
-    bg:"#190607"
-  },
-
-  violet:{
-    accent1:"#7c3aed",
-    accent2:"#8b5cf6",
-    accent3:"#c026d3",
-    accentSoft:"rgba(139,92,246,.18)",
-    accentBorder:"rgba(167,139,250,.20)",
-    bg:"#100719"
-  },
-
-  mint:{
-    accent1:"#10b981",
-    accent2:"#22c55e",
-    accent3:"#84cc16",
-    accentSoft:"rgba(34,197,94,.18)",
-    accentBorder:"rgba(74,222,128,.20)",
-    bg:"#08170e"
-  }
-
-};
-
-
-/* =========================================================
-   FONT DEFINITIONS
-========================================================= */
-
-const fonts={
-
-  arial:
-    "Arial,Helvetica,sans-serif",
-
-  inter:
-    "Inter,Arial,sans-serif",
-
-  poppins:
-    "Poppins,Arial,sans-serif",
-
-  roboto:
-    "Roboto,Arial,sans-serif",
-
-  georgia:
-    "Georgia,serif",
-
-  trebuchet:
-    '"Trebuchet MS",Arial,sans-serif',
-
-  mono:
-    '"Courier New",monospace',
-
-  verdana:
-    "Verdana,Arial,sans-serif"
-
-};
-
-
-/* =========================================================
-   LOAD CUSTOMIZATION
-========================================================= */
-
-function loadCustomization(){
-
-  try{
-
-    const saved=
-      JSON.parse(
-        localStorage.getItem(
-          customizationKey
-        ) || "null"
-      );
-
-    if(saved){
-
-      customization={
-        ...defaultCustomization,
-        ...saved
-      };
-
-    }
-
-  }catch{
-
-    customization={
-      ...defaultCustomization
-    };
-
-  }
-
-  applyCustomization();
-
-}
-
-
-/* =========================================================
-   SAVE CUSTOMIZATION
-========================================================= */
-
-function saveCustomization(){
-
-  localStorage.setItem(
-    customizationKey,
-    JSON.stringify(
-      customization
-    )
-  );
-
-}
-
-
-/* =========================================================
-   APPLY CUSTOMIZATION
-========================================================= */
-
-function applyCustomization(){
-
-  const root=
-    document.documentElement;
-
-  const theme=
-    themes[
-      customization.theme
-    ] || themes.blue;
-
-  root.style.setProperty(
-    "--accent-1",
-    theme.accent1
-  );
-
-  root.style.setProperty(
-    "--accent-2",
-    theme.accent2
-  );
-
-  root.style.setProperty(
-    "--accent-3",
-    theme.accent3
-  );
-
-  root.style.setProperty(
-    "--accent-soft",
-    theme.accentSoft
-  );
-
-  root.style.setProperty(
-    "--accent-border",
-    theme.accentBorder
-  );
-
-  root.style.setProperty(
-    "--bg",
-    theme.bg
-  );
-
-
-  root.style.setProperty(
-    "--font-family",
-    fonts[
-      customization.font
-    ] || fonts.arial
-  );
-
-
-  const densities={
-
-    compact:{
-      gap:"14px",
-      padding:"18px 14px"
-    },
-
-    comfortable:{
-      gap:"24px",
-      padding:"25px 18px"
-    },
-
-    spacious:{
-      gap:"34px",
-      padding:"32px 22px"
-    }
-
-  };
-
-
-  const density=
-    densities[
-      customization.density
-    ] ||
-    densities.comfortable;
-
-
-  root.style.setProperty(
-    "--chat-gap",
-    density.gap
-  );
-
-  root.style.setProperty(
-    "--chat-padding",
-    density.padding
-  );
-
-
-  const glowValues={
-
-    low:"0.10",
-
-    medium:"0.25",
-
-    high:"0.45"
-
-  };
-
-
-  root.style.setProperty(
-    "--glow",
-    glowValues[
-      customization.glow
-    ] || "0.25"
-  );
-
-
-  updateCustomizeSelection();
-
-}
-
-
-/* =========================================================
-   UPDATE SELECTION UI
-========================================================= */
-
-function updateCustomizeSelection(){
-
-  document
-    .querySelectorAll(
-      ".theme-option"
-    )
-    .forEach(el=>{
-
-      el.classList.toggle(
-        "selected",
-        el.dataset.theme===
-        customization.theme
-      );
-
-    });
-
-
-  document
-    .querySelectorAll(
-      ".font-option"
-    )
-    .forEach(el=>{
-
-      el.classList.toggle(
-        "selected",
-        el.dataset.font===
-        customization.font
-      );
-
-    });
-
-
-  document
-    .querySelectorAll(
-      ".density-option"
-    )
-    .forEach(el=>{
-
-      el.classList.toggle(
-        "selected",
-        el.dataset.density===
-        customization.density
-      );
-
-    });
-
-
-  document
-    .querySelectorAll(
-      ".glow-option"
-    )
-    .forEach(el=>{
-
-      el.classList.toggle(
-        "selected",
-        el.dataset.glow===
-        customization.glow
-      );
-
-    });
-
-}
-
-
-/* =========================================================
-   SET THEME
-========================================================= */
-
-function setTheme(theme){
-
-  if(!themes[theme]){
-    return;
-  }
-
-  customization.theme=
-    theme;
-
-  saveCustomization();
-
-  applyCustomization();
-
-}
-
-
-/* =========================================================
-   SET FONT
-========================================================= */
-
-function setFont(font){
-
-  if(!fonts[font]){
-    return;
-  }
-
-  customization.font=
-    font;
-
-  saveCustomization();
-
-  applyCustomization();
-
-}
-
-
-/* =========================================================
-   SET DENSITY
-========================================================= */
-
-function setDensity(density){
-
-  customization.density=
-    density;
-
-  saveCustomization();
-
-  applyCustomization();
-
-}
-
-
-/* =========================================================
-   SET GLOW
-========================================================= */
-
-function setGlow(glow){
-
-  customization.glow=
-    glow;
-
-  saveCustomization();
-
-  applyCustomization();
-
-}
-
-
-/* =========================================================
-   RESET CUSTOMIZATION
-========================================================= */
-
-function resetCustomization(){
-
-  if(
-    !confirm(
-      "🔄 Reset all dashboard customization to default?"
-    )
-  ){
-
-    return;
-
-  }
-
-  customization={
-    ...defaultCustomization
-  };
-
-  saveCustomization();
-
-  applyCustomization();
-
-}
-
-
-/* =========================================================
-   OPEN CUSTOMIZE
-========================================================= */
-
-function openCustomize(){
-
-  document
-    .getElementById(
-      "profileMenu"
-    )
-    .classList
-    .remove("open");
-
-  document
-    .getElementById(
-      "customizeOverlay"
-    )
-    .classList
-    .add("open");
-
-}
-
-
-/* =========================================================
-   CLOSE CUSTOMIZE
-========================================================= */
-
-function closeCustomize(){
-
-  document
-    .getElementById(
-      "customizeOverlay"
-    )
-    .classList
-    .remove("open");
-
-}
-
-
-/* =========================================================
-   CLOSE WHEN CLICKING OVERLAY
-========================================================= */
-
-function closeCustomizeFromOverlay(e){
-
-  if(
-    e.target===
-    document.getElementById(
-      "customizeOverlay"
-    )
-  ){
-
-    closeCustomize();
-
-  }
-
-}
-
-
-/* =========================================================
    INITIALS
 ========================================================= */
 
@@ -3704,13 +2722,10 @@ function getInitials(name){
   return name
     .trim()
     .split(/\s+/)
-    .map(
-      x=>x[0]
-    )
+    .map(x=>x[0])
     .slice(0,2)
     .join("")
-    .toUpperCase()
-    || "U";
+    .toUpperCase() || "U";
 
 }
 
@@ -3722,9 +2737,7 @@ function getInitials(name){
 function toggleSidebar(){
 
   document
-    .getElementById(
-      "sidebar"
-    )
+    .getElementById("sidebar")
     .classList
     .toggle("collapsed");
 
@@ -3732,7 +2745,7 @@ function toggleSidebar(){
 
 
 /* =========================================================
-   PROFILE MENU
+   PROFILE
 ========================================================= */
 
 function toggleProfile(e){
@@ -3740,9 +2753,7 @@ function toggleProfile(e){
   e.stopPropagation();
 
   document
-    .getElementById(
-      "profileMenu"
-    )
+    .getElementById("profileMenu")
     .classList
     .toggle("open");
 
@@ -3764,9 +2775,7 @@ document.addEventListener(
     ){
 
       document
-        .getElementById(
-          "profileMenu"
-        )
+        .getElementById("profileMenu")
         .classList
         .remove("open");
 
@@ -3777,7 +2786,202 @@ document.addEventListener(
 
 
 /* =========================================================
-   LOAD CHAT SESSIONS
+   CUSTOMIZE PANEL
+========================================================= */
+
+function openCustomize(){
+
+  document
+    .getElementById("profileMenu")
+    .classList
+    .remove("open");
+
+  document
+    .getElementById("customizePanel")
+    .classList
+    .add("open");
+
+  document
+    .getElementById("customizeOverlay")
+    .classList
+    .add("open");
+
+}
+
+
+function closeCustomize(){
+
+  document
+    .getElementById("customizePanel")
+    .classList
+    .remove("open");
+
+  document
+    .getElementById("customizeOverlay")
+    .classList
+    .remove("open");
+
+}
+
+
+/* =========================================================
+   THEME SYSTEM
+========================================================= */
+
+function setTheme(theme){
+
+  const body=document.body;
+
+  const themes=[
+    "midnight",
+    "purple",
+    "ocean",
+    "emerald",
+    "red",
+    "sunset",
+    "pink",
+    "arctic",
+    "cosmic"
+  ];
+
+  themes.forEach(t=>{
+    body.classList.remove(
+      "theme-"+t
+    );
+  });
+
+  body.classList.add(
+    "theme-"+theme
+  );
+
+  localStorage.setItem(
+    "divyam_theme",
+    theme
+  );
+
+  updateThemeSelection();
+
+}
+
+
+/* =========================================================
+   UPDATE SELECTED THEME
+========================================================= */
+
+function updateThemeSelection(){
+
+  const theme=
+    localStorage.getItem(
+      "divyam_theme"
+    ) || "midnight";
+
+  document
+    .querySelectorAll(
+      ".theme-option"
+    )
+    .forEach(option=>{
+
+      option.classList.toggle(
+        "selected",
+        option.dataset.theme===theme
+      );
+
+    });
+
+}
+
+
+/* =========================================================
+   FONT SYSTEM
+========================================================= */
+
+function setFont(font){
+
+  const body=document.body;
+
+  const fonts=[
+    "Arial",
+    "Inter",
+    "Poppins",
+    "Roboto",
+    "Space",
+    "Georgia"
+  ];
+
+  fonts.forEach(f=>{
+
+    body.classList.remove(
+      "font-"+f
+    );
+
+  });
+
+  body.classList.add(
+    "font-"+font
+  );
+
+  localStorage.setItem(
+    "divyam_font",
+    font
+  );
+
+  updateFontSelection();
+
+}
+
+
+/* =========================================================
+   UPDATE SELECTED FONT
+========================================================= */
+
+function updateFontSelection(){
+
+  const font=
+    localStorage.getItem(
+      "divyam_font"
+    ) || "Arial";
+
+  document
+    .querySelectorAll(
+      ".font-option"
+    )
+    .forEach(option=>{
+
+      option.classList.toggle(
+        "selected",
+        option.dataset.font===font
+      );
+
+    });
+
+}
+
+
+/* =========================================================
+   LOAD CUSTOMIZATION
+========================================================= */
+
+function loadCustomization(){
+
+  const savedTheme=
+    localStorage.getItem(
+      "divyam_theme"
+    ) || "midnight";
+
+  const savedFont=
+    localStorage.getItem(
+      "divyam_font"
+    ) || "Arial";
+
+  setTheme(savedTheme);
+
+  setFont(savedFont);
+
+}
+
+
+/* =========================================================
+   CHAT STORAGE
 ========================================================= */
 
 function loadSessions(){
@@ -3792,9 +2996,7 @@ function loadSessions(){
       );
 
     if(
-      !Array.isArray(
-        sessions
-      )
+      !Array.isArray(sessions)
     ){
 
       sessions=[];
@@ -3812,17 +3014,16 @@ function loadSessions(){
 }
 
 
-/* =========================================================
-   SAVE SESSIONS
-========================================================= */
-
 function saveSessions(){
 
   localStorage.setItem(
+
     storageKey,
+
     JSON.stringify(
       sessions.slice(-100)
     )
+
   );
 
 }
@@ -3881,7 +3082,7 @@ function current(){
 
 
 /* =========================================================
-   RENDER HISTORY
+   HISTORY
 ========================================================= */
 
 function renderHistory(){
@@ -3910,9 +3111,7 @@ function renderHistory(){
 
   }
 
-
   list.innerHTML="";
-
 
   [...sessions]
     .reverse()
@@ -3931,7 +3130,6 @@ function renderHistory(){
             : ""
         );
 
-
       item.textContent=
         "💬 "+
         (
@@ -3939,11 +3137,9 @@ function renderHistory(){
           "New Chat"
         );
 
-
       item.title=
         s.title ||
         "New Chat";
-
 
       item.onclick=()=>{
 
@@ -3955,10 +3151,7 @@ function renderHistory(){
 
       };
 
-
-      list.appendChild(
-        item
-      );
+      list.appendChild(item);
 
     });
 
@@ -3979,7 +3172,6 @@ function cleanAIResponse(text){
 
   }
 
-
   let x=
     text.replace(
       /```[\s\S]*?```/g,
@@ -3994,7 +3186,6 @@ function cleanAIResponse(text){
             ""
           )
     );
-
 
   x=
     x
@@ -4023,7 +3214,6 @@ function cleanAIResponse(text){
         "• "
       );
 
-
   x=
     x.replace(
       /^\s*\|(.+)\|\s*$/gm,
@@ -4038,13 +3228,11 @@ function cleanAIResponse(text){
             .filter(Boolean);
 
         return c.length
-          ? "• "+
-            c.join(" — ")
+          ? "• "+c.join(" — ")
           : "";
 
       }
     );
-
 
   return x.trim();
 
@@ -4068,7 +3256,6 @@ function renderChat(){
     );
 
   const s=current();
-
 
   box.innerHTML="";
 
@@ -4103,7 +3290,6 @@ function renderChat(){
 
       </div>
       `;
-
 
     count.textContent=
       "0 messages";
@@ -4268,7 +3454,6 @@ function renderChat(){
       aiContainer
     );
 
-
     box.appendChild(
       wrap
     );
@@ -4290,7 +3475,6 @@ function clearCurrentChat(){
 
   const s=current();
 
-
   if(
     !s ||
     !s.messages.length
@@ -4299,7 +3483,6 @@ function clearCurrentChat(){
     return;
 
   }
-
 
   if(
     !confirm(
@@ -4310,7 +3493,6 @@ function clearCurrentChat(){
     return;
 
   }
-
 
   s.messages=[];
 
@@ -4336,12 +3518,10 @@ async function askAI(){
       "questionInput"
     );
 
-
   const button=
     document.getElementById(
       "askButton"
     );
-
 
   const question=
     input.value.trim();
@@ -4489,7 +3669,6 @@ async function askAI(){
 
     thinking.remove();
 
-
     const err=
       document.createElement(
         "div"
@@ -4498,7 +3677,6 @@ async function askAI(){
     err.className=
       "chat-answer";
 
-
     err.textContent=
       "❌ DIVYAM.AI ERROR\n\n"+
       (
@@ -4506,10 +3684,7 @@ async function askAI(){
         "Could not connect to DIVYAM.AI."
       );
 
-
-    box.appendChild(
-      err
-    );
+    box.appendChild(err);
 
   }finally{
 
@@ -4604,12 +3779,9 @@ async function editUsername(){
       await supabaseClient
         .auth
         .updateUser({
-
           data:{
-            full_name:
-              username
+            full_name:username
           }
-
         });
 
 
@@ -4675,7 +3847,6 @@ async function editUsername(){
 
     console.error(error);
 
-
     alert(
       "❌ Could not update username.\n\n"+
       (
@@ -4739,17 +3910,14 @@ async function checkUser(){
   }
 
 
-  const u=
-    data.user;
+  const u=data.user;
 
 
-  userId=
-    u.id;
+  userId=u.id;
 
 
   storageKey=
-    "divyam_sessions_"+
-    u.id;
+    "divyam_sessions_"+u.id;
 
 
   const name=
@@ -4771,8 +3939,7 @@ async function checkUser(){
       "userName"
     )
     .textContent=
-    u.email ||
-    name;
+    u.email || name;
 
 
   const initials=
@@ -4858,7 +4025,6 @@ async function checkUser(){
           sessions.length-1
         ].id;
 
-
       renderHistory();
 
       renderChat();
@@ -4913,172 +4079,20 @@ document
 
 
 /* =========================================================
-   ESCAPE KEY — CLOSE CUSTOMIZE
-========================================================= */
-
-document.addEventListener(
-  "keydown",
-  e=>{
-
-    if(
-      e.key==="Escape"
-    ){
-
-      closeCustomize();
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   START
+   INITIALIZE CUSTOMIZATION
 ========================================================= */
 
 loadCustomization();
 
+
+/* =========================================================
+   START DASHBOARD
+========================================================= */
+
 checkUser();
 
 </script>
-   <!-- CUSTOMIZE PANEL -->
-
-<div class="customize-overlay" id="customizeOverlay">
-
-  <div class="customize-panel">
-
-    <div class="customize-header">
-
-      <div>
-        <h2>🎨 Customize DIVYAM.AI</h2>
-        <p>Make your study space look the way you want ✨</p>
-      </div>
-
-      <button onclick="closeCustomize()">✕</button>
-
-    </div>
-
-    <div class="customize-section">
-
-      <h3>🌈 Colour Theme</h3>
-
-      <div class="theme-grid">
-
-        <button class="theme-option blue-theme"
-                onclick="setTheme('blue')">
-          🔵
-          <span>Ocean Blue</span>
-        </button>
-
-        <button class="theme-option purple-theme"
-                onclick="setTheme('purple')">
-          🟣
-          <span>Royal Purple</span>
-        </button>
-
-        <button class="theme-option green-theme"
-                onclick="setTheme('green')">
-          🟢
-          <span>Emerald</span>
-        </button>
-
-        <button class="theme-option red-theme"
-                onclick="setTheme('red')">
-          🔴
-          <span>Crimson</span>
-        </button>
-
-        <button class="theme-option cyan-theme"
-                onclick="setTheme('cyan')">
-          🩵
-          <span>Cyber Cyan</span>
-        </button>
-
-        <button class="theme-option pink-theme"
-                onclick="setTheme('pink')">
-          🩷
-          <span>Neon Pink</span>
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <div class="customize-section">
-
-      <h3>🔤 Font Style</h3>
-
-      <div class="font-grid">
-
-        <button onclick="setFont('Arial')">
-          Arial
-        </button>
-
-        <button onclick="setFont('Verdana')">
-          Verdana
-        </button>
-
-        <button onclick="setFont('Trebuchet MS')">
-          Trebuchet MS
-        </button>
-
-        <button onclick="setFont('Georgia')">
-          Georgia
-        </button>
-
-        <button onclick="setFont('Courier New')">
-          Courier New
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <div class="customize-section">
-
-      <h3>✨ Interface</h3>
-
-      <div class="customize-row">
-
-        <span>💬 Rounded Chat Boxes</span>
-
-        <input
-          type="checkbox"
-          id="roundedToggle"
-          checked
-          onchange="toggleRounded()"
-        >
-
-      </div>
-
-      <div class="customize-row">
-
-        <span>✨ Animations</span>
-
-        <input
-          type="checkbox"
-          id="animationToggle"
-          checked
-          onchange="toggleAnimations()"
-        >
-
-      </div>
-
-    </div>
-
-
-    <button
-      class="reset-customize"
-      onclick="resetCustomization()"
-    >
-      🔄 Reset to Default
-    </button>
-
-  </div>
-
-</div>
 
 </body>
 </html>
+````

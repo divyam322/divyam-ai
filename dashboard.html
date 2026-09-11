@@ -1,9 +1,10 @@
-````html
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
 <title>DIVYAM.AI — Dashboard</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -11,419 +12,7 @@
 <style>
 
 /* =========================================================
-   DIVYAM.AI — GLOBAL THEME VARIABLES
-========================================================= */
-
-:root{
-  --bg-main:#07111f;
-  --bg-sidebar:rgba(6,18,33,.96);
-  --bg-nav:rgba(7,17,31,.78);
-  --bg-chat:rgba(2,9,18,.82);
-  --bg-ai:rgba(4,14,28,.62);
-  --bg-card-start:rgba(30,64,175,.22);
-  --bg-card-mid:rgba(67,56,202,.14);
-  --bg-card-end:rgba(15,35,60,.7);
-
-  --primary:#2563eb;
-  --secondary:#4f46e5;
-  --accent:#7c3aed;
-
-  --gradient:linear-gradient(
-    90deg,
-    #60a5fa,
-    #818cf8,
-    #a78bfa
-  );
-
-  --text-main:#f4f7ff;
-  --text-soft:#aebbd0;
-  --text-muted:#71859e;
-  --text-ai:#dbeafe;
-
-  --border:rgba(147,197,253,.12);
-  --border-strong:rgba(96,165,250,.2);
-
-  --user-gradient:linear-gradient(
-    135deg,
-    rgba(37,99,235,.42),
-    rgba(79,70,229,.38)
-  );
-
-  --button-gradient:linear-gradient(
-    90deg,
-    #2563eb,
-    #4f46e5,
-    #7c3aed
-  );
-
-  --font-main:Arial,Helvetica,sans-serif;
-}
-
-
-/* =========================================================
-   FONT SYSTEM
-========================================================= */
-
-body.font-Arial{
-  --font-main:Arial,Helvetica,sans-serif;
-}
-
-body.font-Inter{
-  --font-main:Inter,Arial,sans-serif;
-}
-
-body.font-Poppins{
-  --font-main:Poppins,Arial,sans-serif;
-}
-
-body.font-Roboto{
-  --font-main:Roboto,Arial,sans-serif;
-}
-
-body.font-Space{
-  --font-main:"Space Grotesk",Arial,sans-serif;
-}
-
-body.font-Georgia{
-  --font-main:Georgia,"Times New Roman",serif;
-}
-
-
-/* =========================================================
-   THEME 1 — MIDNIGHT BLUE
-========================================================= */
-
-body.theme-midnight{
-  --bg-main:#07111f;
-  --bg-sidebar:rgba(6,18,33,.96);
-  --bg-nav:rgba(7,17,31,.78);
-  --bg-chat:rgba(2,9,18,.82);
-  --bg-ai:rgba(4,14,28,.62);
-
-  --primary:#2563eb;
-  --secondary:#4f46e5;
-  --accent:#7c3aed;
-
-  --gradient:linear-gradient(
-    90deg,
-    #60a5fa,
-    #818cf8,
-    #a78bfa
-  );
-
-  --user-gradient:linear-gradient(
-    135deg,
-    rgba(37,99,235,.42),
-    rgba(79,70,229,.38)
-  );
-
-  --button-gradient:linear-gradient(
-    90deg,
-    #2563eb,
-    #4f46e5,
-    #7c3aed
-  );
-}
-
-
-/* =========================================================
-   THEME 2 — PURPLE GALAXY
-========================================================= */
-
-body.theme-purple{
-  --bg-main:#10071f;
-  --bg-sidebar:rgba(19,7,35,.97);
-  --bg-nav:rgba(16,7,31,.82);
-  --bg-chat:rgba(13,4,25,.86);
-  --bg-ai:rgba(24,7,43,.68);
-
-  --primary:#9333ea;
-  --secondary:#7c3aed;
-  --accent:#ec4899;
-
-  --gradient:linear-gradient(
-    90deg,
-    #c084fc,
-    #a855f7,
-    #f472b6
-  );
-
-  --user-gradient:linear-gradient(
-    135deg,
-    rgba(147,51,234,.45),
-    rgba(236,72,153,.38)
-  );
-
-  --button-gradient:linear-gradient(
-    90deg,
-    #7c3aed,
-    #9333ea,
-    #ec4899
-  );
-}
-
-
-/* =========================================================
-   THEME 3 — OCEAN
-========================================================= */
-
-body.theme-ocean{
-  --bg-main:#03191f;
-  --bg-sidebar:rgba(3,24,31,.97);
-  --bg-nav:rgba(3,20,27,.84);
-  --bg-chat:rgba(1,15,21,.88);
-  --bg-ai:rgba(3,29,38,.68);
-
-  --primary:#0891b2;
-  --secondary:#0ea5e9;
-  --accent:#14b8a6;
-
-  --gradient:linear-gradient(
-    90deg,
-    #22d3ee,
-    #38bdf8,
-    #2dd4bf
-  );
-
-  --user-gradient:linear-gradient(
-    135deg,
-    rgba(8,145,178,.45),
-    rgba(20,184,166,.38)
-  );
-
-  --button-gradient:linear-gradient(
-    90deg,
-    #0891b2,
-    #0ea5e9,
-    #14b8a6
-  );
-}
-
-
-/* =========================================================
-   THEME 4 — EMERALD
-========================================================= */
-
-body.theme-emerald{
-  --bg-main:#061912;
-  --bg-sidebar:rgba(4,24,17,.97);
-  --bg-nav:rgba(5,20,15,.84);
-  --bg-chat:rgba(2,13,9,.88);
-  --bg-ai:rgba(4,29,20,.68);
-
-  --primary:#059669;
-  --secondary:#10b981;
-  --accent:#14b8a6;
-
-  --gradient:linear-gradient(
-    90deg,
-    #34d399,
-    #10b981,
-    #2dd4bf
-  );
-
-  --user-gradient:linear-gradient(
-    135deg,
-    rgba(5,150,105,.45),
-    rgba(20,184,166,.38)
-  );
-
-  --button-gradient:linear-gradient(
-    90deg,
-    #059669,
-    #10b981,
-    #14b8a6
-  );
-}
-
-
-/* =========================================================
-   THEME 5 — CYBER RED
-========================================================= */
-
-body.theme-red{
-  --bg-main:#170607;
-  --bg-sidebar:rgba(25,5,7,.97);
-  --bg-nav:rgba(20,5,7,.84);
-  --bg-chat:rgba(12,2,3,.9);
-  --bg-ai:rgba(35,5,8,.68);
-
-  --primary:#dc2626;
-  --secondary:#ef4444;
-  --accent:#f97316;
-
-  --gradient:linear-gradient(
-    90deg,
-    #fb7185,
-    #ef4444,
-    #fb923c
-  );
-
-  --user-gradient:linear-gradient(
-    135deg,
-    rgba(220,38,38,.45),
-    rgba(249,115,22,.38)
-  );
-
-  --button-gradient:linear-gradient(
-    90deg,
-    #dc2626,
-    #ef4444,
-    #f97316
-  );
-}
-
-
-/* =========================================================
-   THEME 6 — SUNSET
-========================================================= */
-
-body.theme-sunset{
-  --bg-main:#180b10;
-  --bg-sidebar:rgba(29,8,16,.97);
-  --bg-nav:rgba(24,8,15,.84);
-  --bg-chat:rgba(15,4,9,.9);
-  --bg-ai:rgba(39,9,19,.68);
-
-  --primary:#f97316;
-  --secondary:#ec4899;
-  --accent:#f43f5e;
-
-  --gradient:linear-gradient(
-    90deg,
-    #fb923c,
-    #f472b6,
-    #fb7185
-  );
-
-  --user-gradient:linear-gradient(
-    135deg,
-    rgba(249,115,22,.45),
-    rgba(236,72,153,.38)
-  );
-
-  --button-gradient:linear-gradient(
-    90deg,
-    #f97316,
-    #ec4899,
-    #f43f5e
-  );
-}
-
-
-/* =========================================================
-   THEME 7 — NEON PINK
-========================================================= */
-
-body.theme-pink{
-  --bg-main:#160617;
-  --bg-sidebar:rgba(24,4,25,.97);
-  --bg-nav:rgba(20,4,22,.84);
-  --bg-chat:rgba(12,2,14,.9);
-  --bg-ai:rgba(31,4,34,.68);
-
-  --primary:#db2777;
-  --secondary:#ec4899;
-  --accent:#a855f7;
-
-  --gradient:linear-gradient(
-    90deg,
-    #f472b6,
-    #ec4899,
-    #c084fc
-  );
-
-  --user-gradient:linear-gradient(
-    135deg,
-    rgba(219,39,119,.45),
-    rgba(168,85,247,.38)
-  );
-
-  --button-gradient:linear-gradient(
-    90deg,
-    #db2777,
-    #ec4899,
-    #a855f7
-  );
-}
-
-
-/* =========================================================
-   THEME 8 — ARCTIC
-========================================================= */
-
-body.theme-arctic{
-  --bg-main:#07151c;
-  --bg-sidebar:rgba(7,24,32,.97);
-  --bg-nav:rgba(6,20,28,.84);
-  --bg-chat:rgba(3,14,20,.9);
-  --bg-ai:rgba(8,30,40,.68);
-
-  --primary:#06b6d4;
-  --secondary:#0ea5e9;
-  --accent:#6366f1;
-
-  --gradient:linear-gradient(
-    90deg,
-    #67e8f9,
-    #38bdf8,
-    #818cf8
-  );
-
-  --user-gradient:linear-gradient(
-    135deg,
-    rgba(6,182,212,.45),
-    rgba(99,102,241,.38)
-  );
-
-  --button-gradient:linear-gradient(
-    90deg,
-    #06b6d4,
-    #0ea5e9,
-    #6366f1
-  );
-}
-
-
-/* =========================================================
-   THEME 9 — COSMIC
-========================================================= */
-
-body.theme-cosmic{
-  --bg-main:#090514;
-  --bg-sidebar:rgba(12,5,24,.98);
-  --bg-nav:rgba(10,4,20,.86);
-  --bg-chat:rgba(5,2,12,.92);
-  --bg-ai:rgba(20,5,38,.7);
-
-  --primary:#6366f1;
-  --secondary:#8b5cf6;
-  --accent:#d946ef;
-
-  --gradient:linear-gradient(
-    90deg,
-    #818cf8,
-    #a78bfa,
-    #e879f9
-  );
-
-  --user-gradient:linear-gradient(
-    135deg,
-    rgba(99,102,241,.45),
-    rgba(217,70,239,.38)
-  );
-
-  --button-gradient:linear-gradient(
-    90deg,
-    #6366f1,
-    #8b5cf6,
-    #d946ef
-  );
-}
-
-
-/* =========================================================
-   GLOBAL
+   ROOT / RESET
 ========================================================= */
 
 *{
@@ -432,30 +21,664 @@ body.theme-cosmic{
   padding:0;
 }
 
+html{
+  scroll-behavior:smooth;
+}
+
 body{
-  font-family:var(--font-main);
+  font-family:var(--font-family);
   min-height:100vh;
   color:var(--text-main);
-
   background:
     radial-gradient(
       circle at 10% 0%,
-      color-mix(in srgb,var(--primary) 20%,transparent),
-      transparent 32%
+      var(--glow-one),
+      transparent 34%
     ),
     radial-gradient(
       circle at 90% 100%,
-      color-mix(in srgb,var(--accent) 18%,transparent),
-      transparent 35%
+      var(--glow-two),
+      transparent 38%
     ),
-    var(--bg-main);
-
+    var(--background);
   overflow-x:hidden;
   transition:
-    background .45s ease,
-    color .3s ease,
-    font-family .2s ease;
+    background .35s ease,
+    color .25s ease,
+    font-family .25s ease;
 }
+
+
+/* =========================================================
+   DEFAULT THEME
+========================================================= */
+
+:root{
+
+  --background:#07111f;
+
+  --background-secondary:#0b1427;
+
+  --sidebar-bg:rgba(6,18,33,.97);
+
+  --navbar-bg:rgba(7,17,31,.84);
+
+  --panel-bg:
+    linear-gradient(
+      135deg,
+      rgba(76,29,149,.28),
+      rgba(30,64,175,.22),
+      rgba(15,23,42,.82)
+    );
+
+  --chat-bg:rgba(2,9,24,.88);
+
+  --input-bg:rgba(2,9,20,.72);
+
+  --profile-bg:rgba(8,18,40,.98);
+
+  --border:rgba(129,140,248,.25);
+
+  --border-bright:rgba(167,139,250,.42);
+
+  --accent-one:#7c3aed;
+
+  --accent-two:#a855f7;
+
+  --accent-three:#ec4899;
+
+  --accent-four:#3b82f6;
+
+  --text-main:#f8faff;
+
+  --text-secondary:#a8b7d0;
+
+  --text-muted:#71839f;
+
+  --user-message:
+    linear-gradient(
+      135deg,
+      rgba(124,58,237,.65),
+      rgba(236,72,153,.52)
+    );
+
+  --ai-message:rgba(4,12,28,.72);
+
+  --button:
+    linear-gradient(
+      90deg,
+      #7c3aed,
+      #a855f7,
+      #ec4899
+    );
+
+  --glow-one:rgba(124,58,237,.27);
+
+  --glow-two:rgba(236,72,153,.18);
+
+  --font-family:Arial,Helvetica,sans-serif;
+
+}
+
+
+/* =========================================================
+   THEME 1 — GALAXY PURPLE
+========================================================= */
+
+body[data-theme="galaxy"]{
+
+  --background:#080516;
+
+  --background-secondary:#100827;
+
+  --sidebar-bg:rgba(12,6,34,.97);
+
+  --navbar-bg:rgba(8,4,20,.91);
+
+  --panel-bg:
+    linear-gradient(
+      135deg,
+      rgba(91,33,182,.38),
+      rgba(30,64,175,.26),
+      rgba(15,8,35,.9)
+    );
+
+  --chat-bg:
+    linear-gradient(
+      145deg,
+      rgba(13,7,32,.96),
+      rgba(17,10,45,.94),
+      rgba(5,12,30,.97)
+    );
+
+  --input-bg:rgba(8,5,23,.84);
+
+  --profile-bg:rgba(14,7,35,.98);
+
+  --border:rgba(168,85,247,.32);
+
+  --border-bright:rgba(217,70,239,.6);
+
+  --accent-one:#7c3aed;
+
+  --accent-two:#a855f7;
+
+  --accent-three:#ec4899;
+
+  --accent-four:#2563eb;
+
+  --user-message:
+    linear-gradient(
+      135deg,
+      rgba(124,58,237,.72),
+      rgba(236,72,153,.64)
+    );
+
+  --ai-message:
+    linear-gradient(
+      135deg,
+      rgba(10,6,28,.94),
+      rgba(15,11,42,.94),
+      rgba(5,15,38,.96)
+    );
+
+  --button:
+    linear-gradient(
+      90deg,
+      #7c3aed,
+      #a855f7,
+      #ec4899
+    );
+
+  --glow-one:rgba(124,58,237,.38);
+
+  --glow-two:rgba(236,72,153,.28);
+
+}
+
+
+/* =========================================================
+   THEME 2 — OCEAN CYAN
+========================================================= */
+
+body[data-theme="ocean"]{
+
+  --background:#03151d;
+
+  --background-secondary:#062631;
+
+  --sidebar-bg:rgba(2,25,35,.97);
+
+  --navbar-bg:rgba(2,18,27,.93);
+
+  --panel-bg:
+    linear-gradient(
+      135deg,
+      rgba(6,182,212,.28),
+      rgba(14,116,144,.25),
+      rgba(3,37,50,.9)
+    );
+
+  --chat-bg:
+    linear-gradient(
+      145deg,
+      rgba(2,22,31,.96),
+      rgba(3,35,47,.94),
+      rgba(2,16,27,.97)
+    );
+
+  --input-bg:rgba(1,20,29,.85);
+
+  --profile-bg:rgba(2,27,39,.98);
+
+  --border:rgba(34,211,238,.28);
+
+  --border-bright:rgba(45,212,191,.55);
+
+  --accent-one:#06b6d4;
+
+  --accent-two:#22d3ee;
+
+  --accent-three:#2dd4bf;
+
+  --accent-four:#3b82f6;
+
+  --user-message:
+    linear-gradient(
+      135deg,
+      rgba(6,182,212,.62),
+      rgba(20,184,166,.58)
+    );
+
+  --ai-message:
+    linear-gradient(
+      135deg,
+      rgba(2,25,35,.95),
+      rgba(3,39,52,.95)
+    );
+
+  --button:
+    linear-gradient(
+      90deg,
+      #0891b2,
+      #06b6d4,
+      #14b8a6
+    );
+
+  --glow-one:rgba(6,182,212,.30);
+
+  --glow-two:rgba(20,184,166,.20);
+
+}
+
+
+/* =========================================================
+   THEME 3 — SUNSET EMBER
+========================================================= */
+
+body[data-theme="sunset"]{
+
+  --background:#1b0807;
+
+  --background-secondary:#30100c;
+
+  --sidebar-bg:rgba(37,9,7,.97);
+
+  --navbar-bg:rgba(26,6,5,.93);
+
+  --panel-bg:
+    linear-gradient(
+      135deg,
+      rgba(234,88,12,.30),
+      rgba(220,38,38,.25),
+      rgba(59,7,7,.9)
+    );
+
+  --chat-bg:
+    linear-gradient(
+      145deg,
+      rgba(31,7,6,.97),
+      rgba(53,10,7,.94),
+      rgba(25,5,5,.97)
+    );
+
+  --input-bg:rgba(30,6,5,.86);
+
+  --profile-bg:rgba(43,8,7,.98);
+
+  --border:rgba(251,146,60,.30);
+
+  --border-bright:rgba(249,115,22,.58);
+
+  --accent-one:#ea580c;
+
+  --accent-two:#f97316;
+
+  --accent-three:#ef4444;
+
+  --accent-four:#f59e0b;
+
+  --user-message:
+    linear-gradient(
+      135deg,
+      rgba(234,88,12,.70),
+      rgba(239,68,68,.60)
+    );
+
+  --ai-message:
+    linear-gradient(
+      135deg,
+      rgba(35,8,6,.96),
+      rgba(53,12,7,.95)
+    );
+
+  --button:
+    linear-gradient(
+      90deg,
+      #ea580c,
+      #f97316,
+      #ef4444
+    );
+
+  --glow-one:rgba(234,88,12,.32);
+
+  --glow-two:rgba(239,68,68,.20);
+
+}
+
+
+/* =========================================================
+   THEME 4 — FOREST AURORA
+========================================================= */
+
+body[data-theme="forest"]{
+
+  --background:#03130d;
+
+  --background-secondary:#06271a;
+
+  --sidebar-bg:rgba(3,25,16,.97);
+
+  --navbar-bg:rgba(2,18,11,.93);
+
+  --panel-bg:
+    linear-gradient(
+      135deg,
+      rgba(22,163,74,.27),
+      rgba(13,148,136,.24),
+      rgba(3,34,23,.92)
+    );
+
+  --chat-bg:
+    linear-gradient(
+      145deg,
+      rgba(3,23,15,.97),
+      rgba(5,39,27,.94),
+      rgba(2,18,14,.97)
+    );
+
+  --input-bg:rgba(2,22,14,.86);
+
+  --profile-bg:rgba(4,31,20,.98);
+
+  --border:rgba(74,222,128,.28);
+
+  --border-bright:rgba(45,212,191,.55);
+
+  --accent-one:#16a34a;
+
+  --accent-two:#22c55e;
+
+  --accent-three:#2dd4bf;
+
+  --accent-four:#84cc16;
+
+  --user-message:
+    linear-gradient(
+      135deg,
+      rgba(22,163,74,.67),
+      rgba(13,148,136,.60)
+    );
+
+  --ai-message:
+    linear-gradient(
+      135deg,
+      rgba(3,27,18,.96),
+      rgba(4,42,27,.95)
+    );
+
+  --button:
+    linear-gradient(
+      90deg,
+      #16a34a,
+      #22c55e,
+      #14b8a6
+    );
+
+  --glow-one:rgba(34,197,94,.27);
+
+  --glow-two:rgba(20,184,166,.18);
+
+}
+
+
+/* =========================================================
+   THEME 5 — ROSE NEBULA
+========================================================= */
+
+body[data-theme="rose"]{
+
+  --background:#190711;
+
+  --background-secondary:#2b0b1c;
+
+  --sidebar-bg:rgba(35,6,21,.97);
+
+  --navbar-bg:rgba(25,5,15,.94);
+
+  --panel-bg:
+    linear-gradient(
+      135deg,
+      rgba(190,24,93,.32),
+      rgba(126,34,206,.25),
+      rgba(45,5,27,.92)
+    );
+
+  --chat-bg:
+    linear-gradient(
+      145deg,
+      rgba(31,5,19,.97),
+      rgba(52,7,29,.95),
+      rgba(25,5,18,.97)
+    );
+
+  --input-bg:rgba(28,5,17,.86);
+
+  --profile-bg:rgba(43,6,25,.98);
+
+  --border:rgba(244,114,182,.29);
+
+  --border-bright:rgba(236,72,153,.58);
+
+  --accent-one:#db2777;
+
+  --accent-two:#ec4899;
+
+  --accent-three:#c026d3;
+
+  --accent-four:#8b5cf6;
+
+  --user-message:
+    linear-gradient(
+      135deg,
+      rgba(219,39,119,.68),
+      rgba(192,38,211,.62)
+    );
+
+  --ai-message:
+    linear-gradient(
+      135deg,
+      rgba(34,5,22,.96),
+      rgba(55,8,32,.95)
+    );
+
+  --button:
+    linear-gradient(
+      90deg,
+      #db2777,
+      #ec4899,
+      #c026d3
+    );
+
+  --glow-one:rgba(236,72,153,.30);
+
+  --glow-two:rgba(192,38,211,.20);
+
+}
+
+
+/* =========================================================
+   THEME 6 — MIDNIGHT GOLD
+========================================================= */
+
+body[data-theme="gold"]{
+
+  --background:#11100a;
+
+  --background-secondary:#211e0c;
+
+  --sidebar-bg:rgba(21,19,8,.98);
+
+  --navbar-bg:rgba(14,13,7,.95);
+
+  --panel-bg:
+    linear-gradient(
+      135deg,
+      rgba(180,130,20,.25),
+      rgba(120,53,15,.22),
+      rgba(25,23,10,.94)
+    );
+
+  --chat-bg:
+    linear-gradient(
+      145deg,
+      rgba(20,18,8,.97),
+      rgba(35,30,10,.95),
+      rgba(15,14,7,.98)
+    );
+
+  --input-bg:rgba(17,16,7,.88);
+
+  --profile-bg:rgba(30,27,9,.98);
+
+  --border:rgba(250,204,21,.27);
+
+  --border-bright:rgba(245,158,11,.56);
+
+  --accent-one:#d97706;
+
+  --accent-two:#f59e0b;
+
+  --accent-three:#facc15;
+
+  --accent-four:#eab308;
+
+  --user-message:
+    linear-gradient(
+      135deg,
+      rgba(180,83,9,.70),
+      rgba(202,138,4,.62)
+    );
+
+  --ai-message:
+    linear-gradient(
+      135deg,
+      rgba(25,22,8,.96),
+      rgba(43,37,10,.95)
+    );
+
+  --button:
+    linear-gradient(
+      90deg,
+      #b45309,
+      #d97706,
+      #eab308
+    );
+
+  --glow-one:rgba(234,179,8,.24);
+
+  --glow-two:rgba(245,158,11,.17);
+
+}
+
+
+/* =========================================================
+   THEME 7 — ARCTIC BLUE
+========================================================= */
+
+body[data-theme="arctic"]{
+
+  --background:#06101c;
+
+  --background-secondary:#0b2034;
+
+  --sidebar-bg:rgba(5,22,37,.97);
+
+  --navbar-bg:rgba(4,16,28,.94);
+
+  --panel-bg:
+    linear-gradient(
+      135deg,
+      rgba(37,99,235,.28),
+      rgba(14,165,233,.23),
+      rgba(5,27,47,.93)
+    );
+
+  --chat-bg:
+    linear-gradient(
+      145deg,
+      rgba(5,24,42,.97),
+      rgba(7,37,60,.95),
+      rgba(4,18,34,.98)
+    );
+
+  --input-bg:rgba(4,21,36,.87);
+
+  --profile-bg:rgba(6,30,51,.98);
+
+  --border:rgba(96,165,250,.30);
+
+  --border-bright:rgba(56,189,248,.58);
+
+  --accent-one:#2563eb;
+
+  --accent-two:#0ea5e9;
+
+  --accent-three:#38bdf8;
+
+  --accent-four:#06b6d4;
+
+  --user-message:
+    linear-gradient(
+      135deg,
+      rgba(37,99,235,.68),
+      rgba(14,165,233,.60)
+    );
+
+  --ai-message:
+    linear-gradient(
+      135deg,
+      rgba(5,27,47,.96),
+      rgba(7,43,67,.95)
+    );
+
+  --button:
+    linear-gradient(
+      90deg,
+      #2563eb,
+      #0ea5e9,
+      #06b6d4
+    );
+
+  --glow-one:rgba(37,99,235,.30);
+
+  --glow-two:rgba(6,182,212,.19);
+
+}
+
+
+/* =========================================================
+   FONTS
+========================================================= */
+
+body[data-font="inter"]{
+  --font-family:Inter,Arial,sans-serif;
+}
+
+body[data-font="poppins"]{
+  --font-family:Poppins,Arial,sans-serif;
+}
+
+body[data-font="nunito"]{
+  --font-family:Nunito,Arial,sans-serif;
+}
+
+body[data-font="space"]{
+  --font-family:"Space Grotesk",Arial,sans-serif;
+}
+
+body[data-font="georgia"]{
+  --font-family:Georgia,serif;
+}
+
+body[data-font="mono"]{
+  --font-family:"Courier New",monospace;
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
 
 .app{
   min-height:100vh;
@@ -467,155 +690,246 @@ body{
 ========================================================= */
 
 .sidebar{
+
   position:fixed;
+
   left:0;
   top:0;
   bottom:0;
+
   width:285px;
 
-  background:var(--bg-sidebar);
+  background:var(--sidebar-bg);
 
   border-right:1px solid var(--border);
 
   z-index:300;
 
   transform:translateX(0);
-  transition:.25s;
+
+  transition:
+    width .25s ease,
+    transform .25s ease,
+    background .35s ease;
 
   display:flex;
+
   flex-direction:column;
 
-  box-shadow:20px 0 70px rgba(0,0,0,.2);
+  box-shadow:
+    20px 0 70px rgba(0,0,0,.25);
+
+  /*
+     IMPORTANT FIX:
+     prevents sidebar contents from appearing
+     outside the collapsed sidebar.
+  */
+
+  overflow:hidden;
 }
+
 
 .sidebar.collapsed{
+
   width:0;
+
   transform:translateX(-100%);
+
+  border-right:none;
+
+  box-shadow:none;
+
 }
 
+
+/* SIDEBAR HEADER */
+
 .side-head{
+
   height:74px;
+
+  min-height:74px;
+
   padding:0 18px;
 
   display:flex;
+
   align-items:center;
+
   justify-content:space-between;
 
   border-bottom:1px solid var(--border);
+
 }
+
 
 .side-title{
+
   font-weight:800;
+
   font-size:19px;
+
   white-space:nowrap;
+
 }
+
 
 .side-title span{
-  color:var(--accent);
+
+  color:var(--accent-two);
+
 }
 
+
+/* NEW CHAT */
+
 .new-chat{
+
   margin:16px;
+
+  min-width:calc(285px - 32px);
+
   padding:12px;
 
   border-radius:12px;
 
-  border:1px solid var(--border-strong);
+  border:1px solid var(--border);
 
-  background:var(--button-gradient);
+  background:var(--button);
 
   color:#fff;
 
   font-weight:bold;
+
   cursor:pointer;
 
-  transition:.25s;
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.2);
+
+  transition:.2s;
+
 }
+
 
 .new-chat:hover{
+
   transform:translateY(-2px);
-  filter:brightness(1.12);
+
+  filter:brightness(1.08);
+
 }
 
+
+/* HISTORY */
+
 .history-title{
+
   padding:0 18px 10px;
 
   color:var(--text-muted);
 
   font-size:11px;
+
   text-transform:uppercase;
+
   letter-spacing:1.2px;
+
+  white-space:nowrap;
+
 }
+
 
 .history{
+
   overflow-y:auto;
+
+  overflow-x:hidden;
+
   padding:0 10px 20px;
+
   flex:1;
+
 }
+
 
 .history::-webkit-scrollbar{
+
   width:5px;
+
 }
+
 
 .history::-webkit-scrollbar-thumb{
-  background:color-mix(
-    in srgb,
-    var(--primary) 30%,
-    transparent
-  );
+
+  background:var(--accent-one);
 
   border-radius:8px;
+
 }
 
+
 .history-item{
+
   padding:12px;
+
   border-radius:11px;
+
   margin-bottom:5px;
 
   cursor:pointer;
 
-  color:var(--text-soft);
+  color:var(--text-secondary);
 
   font-size:13px;
 
   white-space:nowrap;
+
   overflow:hidden;
+
   text-overflow:ellipsis;
 
   border:1px solid transparent;
 
   transition:.2s;
+
 }
+
 
 .history-item:hover{
-  background:color-mix(
-    in srgb,
-    var(--primary) 12%,
-    transparent
-  );
 
-  border-color:var(--border-strong);
+  background:rgba(255,255,255,.05);
+
+  border-color:var(--border);
+
 }
+
 
 .history-item.active{
-  background:color-mix(
-    in srgb,
-    var(--primary) 17%,
-    transparent
-  );
 
-  border-color:var(--border-strong);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(124,58,237,.24),
+      rgba(236,72,153,.13)
+    );
+
+  border-color:var(--border);
 
   color:#fff;
+
 }
 
+
 .empty-history{
+
   padding:15px 10px;
 
   color:var(--text-muted);
 
   font-size:12px;
+
   line-height:1.6;
+
 }
 
 
@@ -624,33 +938,51 @@ body{
 ========================================================= */
 
 .sidebar-toggle{
+
   position:fixed;
 
   left:300px;
+
   top:88px;
 
   z-index:250;
 
   width:40px;
+
   height:40px;
 
   border-radius:12px;
 
   border:1px solid var(--border);
 
-  background:var(--bg-nav);
+  background:var(--sidebar-bg);
 
-  color:#dbeafe;
+  color:var(--text-main);
 
   cursor:pointer;
 
-  box-shadow:0 10px 30px rgba(0,0,0,.25);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.25);
 
-  transition:.25s;
+  transition:
+    left .25s ease,
+    background .35s ease,
+    border-color .35s ease;
+
 }
 
+
 .sidebar.collapsed~.sidebar-toggle{
+
   left:18px;
+
+}
+
+
+.sidebar-toggle:hover{
+
+  background:var(--button);
+
 }
 
 
@@ -659,90 +991,138 @@ body{
 ========================================================= */
 
 .main{
+
   margin-left:285px;
-  transition:.25s;
+
+  transition:
+    margin-left .25s ease;
+
 }
 
+
 .sidebar.collapsed~.main{
+
   margin-left:0;
+
 }
 
 
 /* =========================================================
-   NAV
+   NAVBAR
 ========================================================= */
 
 nav{
+
   height:74px;
 
   display:flex;
+
   align-items:center;
+
   justify-content:space-between;
 
   padding:0 3%;
 
   position:sticky;
+
   top:0;
 
   z-index:100;
 
-  background:var(--bg-nav);
+  background:var(--navbar-bg);
 
   backdrop-filter:blur(22px);
 
   border-bottom:1px solid var(--border);
+
 }
+
+
+/* FIXED LOGO */
 
 .logo{
+
   font-size:24px;
+
   font-weight:800;
+
+  white-space:nowrap;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:4px;
+
+  color:#fff;
+
 }
 
+
 .logo span{
-  background:var(--gradient);
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--accent-four),
+      var(--accent-two),
+      var(--accent-three)
+    );
 
   -webkit-background-clip:text;
 
+  background-clip:text;
+
   color:transparent;
+
 }
+
+
+/* NAV RIGHT */
 
 .nav-right{
+
   display:flex;
+
   align-items:center;
+
   gap:14px;
+
 }
+
 
 .user-name{
-  color:var(--text-soft);
+
+  color:var(--text-secondary);
+
   font-size:14px;
+
 }
 
+
 .clear-chat{
+
   padding:9px 14px;
 
   border-radius:10px;
 
   border:1px solid var(--border);
 
-  background:color-mix(
-    in srgb,
-    var(--primary) 15%,
-    transparent
-  );
+  background:rgba(255,255,255,.05);
 
-  color:#cbd5e1;
+  color:var(--text-main);
 
   cursor:pointer;
 
   transition:.2s;
+
 }
 
+
 .clear-chat:hover{
-  background:color-mix(
-    in srgb,
-    var(--primary) 25%,
-    transparent
-  );
+
+  background:var(--button);
+
 }
 
 
@@ -751,18 +1131,23 @@ nav{
 ========================================================= */
 
 .profile-wrap{
+
   position:relative;
+
 }
 
+
 .profile-button{
+
   width:42px;
+
   height:42px;
 
   border-radius:50%;
 
-  border:2px solid var(--border-strong);
+  border:2px solid var(--border-bright);
 
-  background:var(--button-gradient);
+  background:var(--button);
 
   color:#fff;
 
@@ -770,17 +1155,18 @@ nav{
 
   cursor:pointer;
 
-  transition:.25s;
+  box-shadow:
+    0 5px 20px rgba(0,0,0,.25);
+
 }
 
-.profile-button:hover{
-  transform:scale(1.06);
-}
 
 .profile-menu{
+
   position:absolute;
 
   top:54px;
+
   right:0;
 
   width:300px;
@@ -789,59 +1175,82 @@ nav{
 
   border-radius:20px;
 
-  background:var(--bg-sidebar);
+  background:var(--profile-bg);
 
-  border:1px solid var(--border);
+  border:1px solid var(--border-bright);
 
-  box-shadow:0 25px 70px rgba(0,0,0,.45);
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.55);
 
   opacity:0;
+
   visibility:hidden;
 
   transform:translateY(-8px);
 
   transition:.2s;
 
-  backdrop-filter:blur(25px);
 }
+
 
 .profile-menu.open{
+
   opacity:1;
+
   visibility:visible;
+
   transform:translateY(0);
+
 }
 
+
 .profile-head{
+
   display:flex;
+
   gap:12px;
+
   align-items:center;
 
   padding-bottom:15px;
 
   border-bottom:1px solid var(--border);
+
 }
 
+
 .profile-mini{
+
   width:48px;
+
   height:48px;
 
   border-radius:50%;
 
   display:flex;
+
   align-items:center;
+
   justify-content:center;
 
-  background:var(--button-gradient);
+  background:var(--button);
 
   font-weight:800;
+
 }
+
 
 .profile-head strong{
+
   display:block;
+
   font-size:15px;
+
 }
 
+
 .profile-head small{
+
   display:block;
 
   color:var(--text-muted);
@@ -849,17 +1258,23 @@ nav{
   font-size:11px;
 
   margin-top:4px;
+
 }
+
 
 .profile-item{
+
   padding:11px 2px;
 
-  color:var(--text-soft);
+  color:var(--text-secondary);
 
   font-size:12px;
+
 }
 
+
 .profile-item span{
+
   display:block;
 
   color:var(--text-muted);
@@ -871,14 +1286,21 @@ nav{
   letter-spacing:1px;
 
   margin-bottom:3px;
+
 }
+
 
 .profile-actions{
+
   display:flex;
+
   gap:9px;
+
 }
 
+
 .profile-actions button{
+
   flex:1;
 
   padding:10px;
@@ -887,20 +1309,28 @@ nav{
 
   border:1px solid var(--border);
 
-  background:color-mix(
-    in srgb,
-    var(--primary) 15%,
-    transparent
-  );
+  background:rgba(255,255,255,.05);
 
-  color:#dbeafe;
+  color:var(--text-main);
 
   font-weight:bold;
 
   cursor:pointer;
+
 }
 
+
+.profile-actions button:hover{
+
+  background:var(--button);
+
+}
+
+
+/* EDIT USERNAME */
+
 .edit-username-button{
+
   width:100%;
 
   padding:10px 12px;
@@ -911,13 +1341,9 @@ nav{
 
   border:1px solid var(--border);
 
-  background:color-mix(
-    in srgb,
-    var(--primary) 13%,
-    transparent
-  );
+  background:rgba(255,255,255,.04);
 
-  color:#93b4ff;
+  color:var(--accent-two);
 
   font-weight:bold;
 
@@ -926,35 +1352,41 @@ nav{
   transition:.2s;
 
   text-align:left;
+
 }
+
 
 .edit-username-button:hover{
-  background:color-mix(
-    in srgb,
-    var(--primary) 25%,
-    transparent
-  );
+
+  background:var(--button);
+
+  color:#fff;
+
 }
 
 
-/* =========================================================
-   CUSTOMIZE BUTTON
-========================================================= */
+/* CUSTOMIZE BUTTON */
 
 .customize-button{
+
   width:100%;
 
   padding:11px 12px;
 
-  margin:3px 0 14px;
+  margin:2px 0 10px;
 
   border-radius:10px;
 
-  border:1px solid var(--border-strong);
+  border:1px solid var(--border);
 
-  background:var(--button-gradient);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(124,58,237,.16),
+      rgba(236,72,153,.10)
+    );
 
-  color:#fff;
+  color:var(--text-main);
 
   font-weight:bold;
 
@@ -963,314 +1395,14 @@ nav{
   text-align:left;
 
   transition:.2s;
+
 }
+
 
 .customize-button:hover{
-  filter:brightness(1.12);
-  transform:translateY(-1px);
-}
 
+  background:var(--button);
 
-/* =========================================================
-   CUSTOMIZE PANEL
-========================================================= */
-
-.customize-panel{
-  position:fixed;
-
-  top:0;
-  right:0;
-  bottom:0;
-
-  width:390px;
-
-  max-width:calc(100vw - 20px);
-
-  z-index:1000;
-
-  background:var(--bg-sidebar);
-
-  border-left:1px solid var(--border);
-
-  box-shadow:-25px 0 80px rgba(0,0,0,.5);
-
-  transform:translateX(105%);
-
-  transition:.35s ease;
-
-  overflow-y:auto;
-
-  padding:25px;
-}
-
-.customize-panel.open{
-  transform:translateX(0);
-}
-
-.customize-panel::-webkit-scrollbar{
-  width:6px;
-}
-
-.customize-panel::-webkit-scrollbar-thumb{
-  background:var(--primary);
-  border-radius:10px;
-}
-
-.customize-overlay{
-  position:fixed;
-
-  inset:0;
-
-  z-index:999;
-
-  background:rgba(0,0,0,.55);
-
-  backdrop-filter:blur(4px);
-
-  opacity:0;
-  visibility:hidden;
-
-  transition:.25s;
-}
-
-.customize-overlay.open{
-  opacity:1;
-  visibility:visible;
-}
-
-.customize-header{
-  display:flex;
-
-  align-items:center;
-  justify-content:space-between;
-
-  margin-bottom:25px;
-}
-
-.customize-header h2{
-  font-size:23px;
-}
-
-.close-customize{
-  width:38px;
-  height:38px;
-
-  border-radius:10px;
-
-  border:1px solid var(--border);
-
-  background:rgba(255,255,255,.04);
-
-  color:#fff;
-
-  cursor:pointer;
-
-  font-size:18px;
-}
-
-.customize-subtitle{
-  color:var(--text-muted);
-
-  font-size:13px;
-
-  line-height:1.6;
-
-  margin-bottom:25px;
-}
-
-.customize-section{
-  margin-bottom:30px;
-}
-
-.customize-section-title{
-  font-size:14px;
-
-  font-weight:bold;
-
-  margin-bottom:14px;
-
-  color:#dbeafe;
-}
-
-.theme-grid{
-  display:grid;
-
-  grid-template-columns:1fr 1fr;
-
-  gap:12px;
-}
-
-.theme-option{
-  position:relative;
-
-  min-height:90px;
-
-  padding:13px;
-
-  border-radius:15px;
-
-  border:2px solid transparent;
-
-  cursor:pointer;
-
-  overflow:hidden;
-
-  transition:.2s;
-}
-
-.theme-option:hover{
-  transform:translateY(-2px);
-}
-
-.theme-option.selected{
-  border-color:#fff;
-
-  box-shadow:
-    0 0 0 2px var(--primary),
-    0 8px 25px rgba(0,0,0,.25);
-}
-
-.theme-preview{
-  position:absolute;
-
-  inset:0;
-
-  opacity:.95;
-}
-
-.theme-name{
-  position:relative;
-
-  z-index:2;
-
-  margin-top:42px;
-
-  font-size:12px;
-
-  font-weight:bold;
-
-  color:#fff;
-
-  text-shadow:0 2px 8px #000;
-}
-
-
-/* Theme previews */
-
-.preview-midnight{
-  background:
-    linear-gradient(135deg,#07111f,#2563eb,#7c3aed);
-}
-
-.preview-purple{
-  background:
-    linear-gradient(135deg,#10071f,#9333ea,#ec4899);
-}
-
-.preview-ocean{
-  background:
-    linear-gradient(135deg,#03191f,#0891b2,#14b8a6);
-}
-
-.preview-emerald{
-  background:
-    linear-gradient(135deg,#061912,#059669,#14b8a6);
-}
-
-.preview-red{
-  background:
-    linear-gradient(135deg,#170607,#dc2626,#f97316);
-}
-
-.preview-sunset{
-  background:
-    linear-gradient(135deg,#180b10,#f97316,#ec4899);
-}
-
-.preview-pink{
-  background:
-    linear-gradient(135deg,#160617,#db2777,#a855f7);
-}
-
-.preview-arctic{
-  background:
-    linear-gradient(135deg,#07151c,#06b6d4,#6366f1);
-}
-
-.preview-cosmic{
-  background:
-    linear-gradient(135deg,#090514,#6366f1,#d946ef);
-}
-
-
-/* =========================================================
-   FONT OPTIONS
-========================================================= */
-
-.font-grid{
-  display:grid;
-
-  grid-template-columns:1fr 1fr;
-
-  gap:10px;
-}
-
-.font-option{
-  padding:13px;
-
-  border-radius:12px;
-
-  border:1px solid var(--border);
-
-  background:rgba(255,255,255,.03);
-
-  color:var(--text-soft);
-
-  cursor:pointer;
-
-  text-align:left;
-
-  transition:.2s;
-}
-
-.font-option:hover{
-  border-color:var(--border-strong);
-}
-
-.font-option.selected{
-  background:color-mix(
-    in srgb,
-    var(--primary) 20%,
-    transparent
-  );
-
-  border-color:var(--primary);
-
-  color:#fff;
-}
-
-.font-preview-arial{
-  font-family:Arial;
-}
-
-.font-preview-inter{
-  font-family:Inter,Arial;
-}
-
-.font-preview-poppins{
-  font-family:Poppins,Arial;
-}
-
-.font-preview-roboto{
-  font-family:Roboto,Arial;
-}
-
-.font-preview-space{
-  font-family:"Space Grotesk",Arial;
-}
-
-.font-preview-georgia{
-  font-family:Georgia;
 }
 
 
@@ -1279,6 +1411,7 @@ nav{
 ========================================================= */
 
 .dashboard{
+
   width:100%;
 
   max-width:none;
@@ -1286,13 +1419,21 @@ nav{
   margin:0;
 
   padding:55px 2% 100px;
+
 }
+
+
+/* WELCOME */
 
 .welcome{
+
   margin-bottom:42px;
+
 }
 
+
 .welcome-label{
+
   color:var(--text-muted);
 
   font-size:13px;
@@ -1302,9 +1443,12 @@ nav{
   letter-spacing:1.5px;
 
   margin-bottom:12px;
+
 }
 
+
 .welcome h1{
+
   font-size:clamp(38px,6vw,60px);
 
   line-height:1.05;
@@ -1312,20 +1456,35 @@ nav{
   letter-spacing:-2.5px;
 
   margin-bottom:14px;
+
 }
 
+
 .gradient{
-  background:var(--gradient);
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--accent-four),
+      var(--accent-two),
+      var(--accent-three)
+    );
 
   -webkit-background-clip:text;
 
+  background-clip:text;
+
   color:transparent;
+
 }
 
+
 .welcome p{
-  color:#8ea2bb;
+
+  color:var(--text-secondary);
 
   font-size:16px;
+
 }
 
 
@@ -1334,6 +1493,7 @@ nav{
 ========================================================= */
 
 .ai-card{
+
   width:100%;
 
   padding:30px 22px 22px;
@@ -1342,22 +1502,24 @@ nav{
 
   margin-bottom:45px;
 
-  background:
-    linear-gradient(
-      135deg,
-      var(--bg-card-start),
-      var(--bg-card-mid),
-      var(--bg-card-end)
-    );
+  background:var(--panel-bg);
 
-  border:1px solid var(--border-strong);
+  border:1px solid var(--border-bright);
 
-  box-shadow:0 25px 80px rgba(0,0,0,.28);
+  box-shadow:
+    0 25px 80px rgba(0,0,0,.30);
 
-  transition:background .4s ease;
+  transition:
+    background .35s ease,
+    border-color .35s ease;
+
 }
 
+
+/* AI HEADER */
+
 .ai-top{
+
   display:flex;
 
   align-items:center;
@@ -1365,15 +1527,20 @@ nav{
   gap:18px;
 
   margin-bottom:26px;
+
 }
 
+
 .ai-icon{
+
   width:60px;
+
   height:60px;
 
   display:flex;
 
   align-items:center;
+
   justify-content:center;
 
   border-radius:18px;
@@ -1383,23 +1550,30 @@ nav{
   background:
     linear-gradient(
       135deg,
-      color-mix(in srgb,var(--primary) 30%,transparent),
-      color-mix(in srgb,var(--accent) 30%,transparent)
+      rgba(255,255,255,.10),
+      rgba(255,255,255,.03)
     );
 
-  border:1px solid var(--border-strong);
+  border:1px solid var(--border);
+
 }
 
+
 .ai-title h2{
+
   font-size:25px;
 
   margin-bottom:5px;
+
 }
 
+
 .ai-title p{
-  color:#91a4bd;
+
+  color:var(--text-secondary);
 
   font-size:13px;
+
 }
 
 
@@ -1408,6 +1582,7 @@ nav{
 ========================================================= */
 
 .question-box{
+
   display:flex;
 
   gap:12px;
@@ -1416,17 +1591,21 @@ nav{
 
   border-radius:15px;
 
-  background:rgba(4,14,28,.55);
+  background:var(--input-bg);
 
   border:1px solid var(--border);
+
 }
 
+
 .question-box input{
+
   flex:1;
 
   min-width:0;
 
   border:none;
+
   outline:none;
 
   background:transparent;
@@ -1437,14 +1616,20 @@ nav{
 
   font-size:14px;
 
-  font-family:var(--font-main);
+  font-family:inherit;
+
 }
+
 
 .question-box input::placeholder{
-  color:#71859e;
+
+  color:var(--text-muted);
+
 }
 
+
 .ask-button{
+
   border:none;
 
   border-radius:11px;
@@ -1457,21 +1642,26 @@ nav{
 
   cursor:pointer;
 
-  background:var(--button-gradient);
-
-  font-family:var(--font-main);
+  background:var(--button);
 
   transition:.2s;
+
 }
+
 
 .ask-button:hover{
+
   filter:brightness(1.1);
+
 }
 
+
 .ask-button:disabled{
+
   opacity:.6;
 
   cursor:not-allowed;
+
 }
 
 
@@ -1480,6 +1670,7 @@ nav{
 ========================================================= */
 
 .chat-header{
+
   display:flex;
 
   justify-content:space-between;
@@ -1489,24 +1680,32 @@ nav{
   margin-top:20px;
 
   margin-bottom:10px;
+
 }
+
 
 .chat-header h3{
+
   font-size:16px;
+
 }
 
+
 .chat-header span{
+
   color:var(--text-muted);
 
   font-size:12px;
+
 }
 
 
 /* =========================================================
-   INNER CHAT
+   CHAT HISTORY
 ========================================================= */
 
 .chat-history{
+
   width:100%;
 
   min-height:500px;
@@ -1527,26 +1726,33 @@ nav{
 
   border-radius:18px;
 
-  background:var(--bg-chat);
+  background:var(--chat-bg);
 
   border:1px solid var(--border);
 
   box-shadow:
-    inset 0 0 35px rgba(0,0,0,.18);
+    inset 0 0 45px rgba(0,0,0,.22);
+
+  transition:
+    background .35s ease,
+    border-color .35s ease;
+
 }
+
 
 .chat-history::-webkit-scrollbar{
+
   width:7px;
+
 }
 
+
 .chat-history::-webkit-scrollbar-thumb{
-  background:color-mix(
-    in srgb,
-    var(--primary) 30%,
-    transparent
-  );
+
+  background:var(--accent-one);
 
   border-radius:10px;
+
 }
 
 
@@ -1555,19 +1761,26 @@ nav{
 ========================================================= */
 
 .empty-chat{
+
   text-align:center;
 
-  padding:35px 20px;
+  padding:45px 20px;
 
   border-radius:18px;
 
-  background:rgba(4,14,28,.35);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.025),
+      rgba(255,255,255,.01)
+    );
 
   border:1px dashed var(--border);
 
-  color:var(--text-muted);
+  color:var(--text-secondary);
 
   line-height:1.7;
+
 }
 
 
@@ -1576,6 +1789,7 @@ nav{
 ========================================================= */
 
 .chat-message{
+
   display:flex;
 
   flex-direction:column;
@@ -1583,14 +1797,16 @@ nav{
   width:100%;
 
   gap:18px;
+
 }
 
 
 /* =========================================================
-   USER — COMPLETELY RIGHT
+   USER RIGHT
 ========================================================= */
 
 .user-message{
+
   width:100%;
 
   display:flex;
@@ -1598,10 +1814,13 @@ nav{
   flex-direction:column;
 
   align-items:flex-end;
+
 }
 
+
 .user-label{
-  color:#93b4ff;
+
+  color:var(--accent-two);
 
   font-size:11px;
 
@@ -1610,9 +1829,12 @@ nav{
   margin-right:5px;
 
   margin-bottom:4px;
+
 }
 
+
 .chat-question{
+
   align-self:flex-end;
 
   width:fit-content;
@@ -1623,11 +1845,11 @@ nav{
 
   border-radius:18px 18px 4px 18px;
 
-  background:var(--user-gradient);
+  background:var(--user-message);
 
-  border:1px solid var(--border-strong);
+  border:1px solid var(--border);
 
-  color:#f4f7ff;
+  color:#fff;
 
   line-height:1.6;
 
@@ -1635,15 +1857,18 @@ nav{
 
   text-align:left;
 
-  box-shadow:0 8px 25px rgba(0,0,0,.12);
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.15);
+
 }
 
 
 /* =========================================================
-   AI — COMPLETELY LEFT
+   AI LEFT
 ========================================================= */
 
 .ai-message{
+
   align-self:stretch;
 
   width:100%;
@@ -1653,10 +1878,13 @@ nav{
   flex-direction:column;
 
   align-items:flex-start;
+
 }
 
+
 .ai-label{
-  color:#93b4ff;
+
+  color:var(--accent-two);
 
   font-size:11px;
 
@@ -1665,9 +1893,12 @@ nav{
   margin-left:5px;
 
   margin-bottom:4px;
+
 }
 
+
 .chat-answer{
+
   align-self:flex-start;
 
   width:100%;
@@ -1678,11 +1909,11 @@ nav{
 
   border-radius:4px 18px 18px 18px;
 
-  background:var(--bg-ai);
+  background:var(--ai-message);
 
-  border:1px solid var(--border-strong);
+  border:1px solid var(--border);
 
-  color:var(--text-ai);
+  color:var(--text-main);
 
   line-height:1.75;
 
@@ -1696,23 +1927,31 @@ nav{
 
   text-align:left;
 
-  box-shadow:0 8px 30px rgba(0,0,0,.15);
+  box-shadow:
+    0 8px 30px rgba(0,0,0,.18);
+
 }
 
+
 .chat-time{
-  color:#5d7189;
+
+  color:var(--text-muted);
 
   font-size:10px;
 
   margin-top:8px;
+
 }
 
+
 .thinking{
+
   align-self:flex-start;
 
   width:100%;
 
   max-width:100%;
+
 }
 
 
@@ -1721,30 +1960,43 @@ nav{
 ========================================================= */
 
 .section-heading{
+
   margin:45px 0 20px;
+
 }
 
+
 .section-heading h2{
+
   font-size:24px;
 
   margin-bottom:6px;
+
 }
 
+
 .section-heading p{
+
   color:var(--text-muted);
 
   font-size:14px;
+
 }
 
+
 .tools{
+
   display:grid;
 
   grid-template-columns:repeat(3,1fr);
 
   gap:20px;
+
 }
 
+
 .tool{
+
   padding:30px;
 
   min-height:225px;
@@ -1754,8 +2006,8 @@ nav{
   background:
     linear-gradient(
       145deg,
-      color-mix(in srgb,var(--primary) 12%,#142b46),
-      color-mix(in srgb,var(--accent) 8%,#0b1c30)
+      rgba(255,255,255,.07),
+      rgba(255,255,255,.025)
     );
 
   border:1px solid var(--border);
@@ -1763,42 +2015,61 @@ nav{
   cursor:pointer;
 
   transition:.3s;
+
 }
+
 
 .tool:hover{
+
   transform:translateY(-7px);
 
-  border-color:var(--border-strong);
+  border-color:var(--border-bright);
+
+  box-shadow:
+    0 20px 50px rgba(0,0,0,.2);
+
 }
 
+
 .tool-icon{
+
   font-size:35px;
 
   margin-bottom:22px;
+
 }
 
+
 .tool h3{
+
   font-size:20px;
 
   margin-bottom:10px;
+
 }
 
+
 .tool p{
-  color:#8195ad;
+
+  color:var(--text-secondary);
 
   font-size:14px;
 
   line-height:1.65;
 
   margin-bottom:18px;
+
 }
 
+
 .tool-link{
-  color:#93b4ff;
+
+  color:var(--accent-two);
 
   font-size:13px;
 
   font-weight:bold;
+
 }
 
 
@@ -1807,15 +2078,444 @@ nav{
 ========================================================= */
 
 footer{
+
   text-align:center;
 
   padding:35px;
 
   border-top:1px solid var(--border);
 
-  color:#52667e;
+  color:var(--text-muted);
 
   font-size:12px;
+
+}
+
+
+/* =========================================================
+   CUSTOMIZE MODAL
+========================================================= */
+
+.customize-overlay{
+
+  position:fixed;
+
+  inset:0;
+
+  z-index:1000;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  padding:20px;
+
+  background:rgba(0,0,0,.68);
+
+  backdrop-filter:blur(12px);
+
+  opacity:0;
+
+  visibility:hidden;
+
+  transition:.25s;
+
+}
+
+
+.customize-overlay.open{
+
+  opacity:1;
+
+  visibility:visible;
+
+}
+
+
+.customize-panel{
+
+  width:min(900px,96vw);
+
+  max-height:90vh;
+
+  overflow-y:auto;
+
+  border-radius:26px;
+
+  padding:26px;
+
+  background:var(--profile-bg);
+
+  border:1px solid var(--border-bright);
+
+  box-shadow:
+    0 30px 100px rgba(0,0,0,.55);
+
+  transform:scale(.96);
+
+  transition:.25s;
+
+}
+
+
+.customize-overlay.open
+.customize-panel{
+
+  transform:scale(1);
+
+}
+
+
+.customize-header{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  margin-bottom:24px;
+
+}
+
+
+.customize-header h2{
+
+  font-size:25px;
+
+}
+
+
+.close-customize{
+
+  width:38px;
+
+  height:38px;
+
+  border-radius:50%;
+
+  border:1px solid var(--border);
+
+  background:rgba(255,255,255,.05);
+
+  color:#fff;
+
+  font-size:20px;
+
+  cursor:pointer;
+
+}
+
+
+.customize-section{
+
+  margin-bottom:28px;
+
+}
+
+
+.customize-section h3{
+
+  margin-bottom:6px;
+
+  font-size:17px;
+
+}
+
+
+.customize-section p{
+
+  color:var(--text-muted);
+
+  font-size:12px;
+
+  margin-bottom:15px;
+
+}
+
+
+/* THEME GRID */
+
+.theme-grid{
+
+  display:grid;
+
+  grid-template-columns:repeat(4,1fr);
+
+  gap:13px;
+
+}
+
+
+.theme-option{
+
+  position:relative;
+
+  padding:0;
+
+  min-height:105px;
+
+  overflow:hidden;
+
+  border-radius:16px;
+
+  border:2px solid transparent;
+
+  cursor:pointer;
+
+  background:#111;
+
+  transition:.25s;
+
+}
+
+
+.theme-option:hover{
+
+  transform:translateY(-3px);
+
+}
+
+
+.theme-option.selected{
+
+  border-color:#fff;
+
+  box-shadow:
+    0 0 0 2px var(--accent-two),
+    0 10px 30px rgba(0,0,0,.3);
+
+}
+
+
+.theme-preview{
+
+  height:70px;
+
+  width:100%;
+
+}
+
+
+.theme-name{
+
+  height:35px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  background:rgba(0,0,0,.72);
+
+  color:#fff;
+
+  font-size:11px;
+
+  font-weight:bold;
+
+}
+
+
+/* PREVIEWS */
+
+.preview-galaxy{
+
+  background:
+    radial-gradient(circle at 20% 20%,#a855f7,transparent 35%),
+    radial-gradient(circle at 80% 80%,#ec4899,transparent 35%),
+    linear-gradient(135deg,#080516,#172554,#3b0764);
+
+}
+
+
+.preview-ocean{
+
+  background:
+    radial-gradient(circle at 20% 20%,#22d3ee,transparent 35%),
+    radial-gradient(circle at 80% 80%,#14b8a6,transparent 35%),
+    linear-gradient(135deg,#03151d,#064e5e,#082f49);
+
+}
+
+
+.preview-sunset{
+
+  background:
+    radial-gradient(circle at 20% 20%,#f97316,transparent 35%),
+    radial-gradient(circle at 80% 80%,#ef4444,transparent 35%),
+    linear-gradient(135deg,#1b0807,#7c2d12,#450a0a);
+
+}
+
+
+.preview-forest{
+
+  background:
+    radial-gradient(circle at 20% 20%,#22c55e,transparent 35%),
+    radial-gradient(circle at 80% 80%,#2dd4bf,transparent 35%),
+    linear-gradient(135deg,#03130d,#064e3b,#052e16);
+
+}
+
+
+.preview-rose{
+
+  background:
+    radial-gradient(circle at 20% 20%,#ec4899,transparent 35%),
+    radial-gradient(circle at 80% 80%,#c026d3,transparent 35%),
+    linear-gradient(135deg,#190711,#701a75,#500724);
+
+}
+
+
+.preview-gold{
+
+  background:
+    radial-gradient(circle at 20% 20%,#facc15,transparent 35%),
+    radial-gradient(circle at 80% 80%,#f59e0b,transparent 35%),
+    linear-gradient(135deg,#11100a,#713f12,#422006);
+
+}
+
+
+.preview-arctic{
+
+  background:
+    radial-gradient(circle at 20% 20%,#38bdf8,transparent 35%),
+    radial-gradient(circle at 80% 80%,#06b6d4,transparent 35%),
+    linear-gradient(135deg,#06101c,#075985,#082f49);
+
+}
+
+
+/* FONT GRID */
+
+.font-grid{
+
+  display:grid;
+
+  grid-template-columns:repeat(3,1fr);
+
+  gap:12px;
+
+}
+
+
+.font-option{
+
+  padding:15px;
+
+  border-radius:13px;
+
+  border:1px solid var(--border);
+
+  background:rgba(255,255,255,.035);
+
+  color:var(--text-main);
+
+  cursor:pointer;
+
+  transition:.2s;
+
+}
+
+
+.font-option:hover{
+
+  background:rgba(255,255,255,.08);
+
+}
+
+
+.font-option.selected{
+
+  background:var(--button);
+
+  border-color:transparent;
+
+}
+
+
+.font-preview{
+
+  font-size:17px;
+
+  margin-bottom:5px;
+
+}
+
+
+.font-description{
+
+  font-size:10px;
+
+  color:var(--text-muted);
+
+}
+
+
+.font-option.selected
+.font-description{
+
+  color:rgba(255,255,255,.8);
+
+}
+
+
+/* RESET */
+
+.customize-footer{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  padding-top:18px;
+
+  border-top:1px solid var(--border);
+
+}
+
+
+.reset-customization{
+
+  padding:10px 15px;
+
+  border-radius:10px;
+
+  border:1px solid var(--border);
+
+  background:rgba(255,255,255,.05);
+
+  color:var(--text-main);
+
+  cursor:pointer;
+
+}
+
+
+.customize-done{
+
+  padding:10px 20px;
+
+  border:none;
+
+  border-radius:10px;
+
+  background:var(--button);
+
+  color:#fff;
+
+  font-weight:bold;
+
+  cursor:pointer;
+
 }
 
 
@@ -1826,142 +2526,207 @@ footer{
 @media(max-width:800px){
 
   .sidebar{
+
     width:285px;
+
   }
 
   .main{
+
     margin-left:0;
+
   }
 
   .sidebar-toggle{
+
     left:18px;
+
   }
 
   .sidebar:not(.collapsed)~.sidebar-toggle{
+
     left:300px;
+
   }
 
   nav{
+
     padding:0 18px;
+
+  }
+
+  .logo{
+
+    font-size:20px;
+
   }
 
   .user-name{
+
     display:none;
+
   }
 
   .dashboard{
+
     width:100%;
 
     padding:35px 12px 70px;
+
   }
 
   .ai-card{
+
     width:100%;
 
     padding:25px 14px 14px;
+
   }
 
   .ai-top{
+
     gap:12px;
+
   }
 
   .ai-icon{
+
     width:52px;
+
     height:52px;
 
     font-size:25px;
+
   }
 
   .ai-title h2{
+
     font-size:21px;
+
   }
 
   .question-box{
+
     flex-direction:column;
+
   }
 
   .ask-button{
+
     width:100%;
+
   }
 
   .chat-history{
+
     width:100%;
 
     min-height:450px;
 
     padding:20px 12px;
+
   }
 
   .chat-question{
+
     max-width:88%;
+
   }
 
   .chat-answer{
+
     max-width:100%;
+
   }
 
   .tools{
+
     grid-template-columns:1fr;
+
   }
 
   .profile-menu{
+
     right:-5px;
 
-    width:min(
-      300px,
-      calc(100vw - 30px)
-    );
+    width:min(300px,calc(100vw - 30px));
+
   }
 
   .clear-chat{
+
     display:none;
+
+  }
+
+  .theme-grid{
+
+    grid-template-columns:repeat(2,1fr);
+
+  }
+
+  .font-grid{
+
+    grid-template-columns:1fr;
+
   }
 
   .customize-panel{
-    width:100%;
 
-    max-width:100%;
+    padding:20px;
+
   }
 
 }
 
 
-/* =========================================================
-   SMALL SCREEN
-========================================================= */
+/* VERY SMALL MOBILE */
 
 @media(max-width:450px){
 
-  .theme-grid,
-  .font-grid{
+  .theme-grid{
+
     grid-template-columns:1fr 1fr;
+
   }
 
-  .customize-panel{
-    padding:20px 16px;
+  .theme-option{
+
+    min-height:90px;
+
+  }
+
+  .customize-header h2{
+
+    font-size:20px;
+
   }
 
 }
 
 </style>
+
 </head>
 
 
-<body class="theme-midnight font-Arial">
+<body data-theme="galaxy" data-font="inter">
+
 
 <div class="app">
 
 
-<!-- ======================================================
+<!-- =====================================================
      SIDEBAR
-====================================================== -->
+===================================================== -->
 
 <aside class="sidebar" id="sidebar">
 
   <div class="side-head">
 
     <div class="side-title">
+
       💬 DIVYAM<span>.AI</span>
+
     </div>
 
   </div>
@@ -1971,12 +2736,16 @@ footer{
     class="new-chat"
     onclick="newChat()"
   >
+
     ＋ New Chat ✨
+
   </button>
 
 
   <div class="history-title">
+
     Previous Chats
+
   </div>
 
 
@@ -1988,36 +2757,50 @@ footer{
 </aside>
 
 
+<!-- SIDEBAR TOGGLE -->
+
 <button
   class="sidebar-toggle"
   onclick="toggleSidebar()"
   aria-label="Toggle chat history"
 >
+
   ☰
+
 </button>
 
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
 
 <div class="main">
 
 
-<!-- ======================================================
+<!-- =====================================================
      NAVBAR
-====================================================== -->
+===================================================== -->
 
 <nav>
 
+
   <div class="logo">
-    DIVYAM<span>.AI</span> 🤖
+
+    💬 DIVYAM<span>.AI</span> 🤖
+
   </div>
 
 
   <div class="nav-right">
 
+
     <div
       class="user-name"
       id="userName"
     >
+
       Loading...
+
     </div>
 
 
@@ -2025,134 +2808,184 @@ footer{
       class="clear-chat"
       onclick="clearCurrentChat()"
     >
+
       🧹 Clear
+
     </button>
 
 
+    <!-- PROFILE -->
+
     <div class="profile-wrap">
+
 
       <button
         class="profile-button"
         id="profileButton"
         onclick="toggleProfile(event)"
       >
+
         U
+
       </button>
 
-
-      <!-- PROFILE MENU -->
 
       <div
         class="profile-menu"
         id="profileMenu"
       >
 
+
         <div class="profile-head">
+
 
           <div
             class="profile-mini"
             id="profileMini"
           >
+
             U
+
           </div>
 
 
           <div>
 
             <strong id="profileName">
+
               Student
+
             </strong>
 
+
             <small id="profileEmail">
+
               Loading...
+
             </small>
 
           </div>
 
+
         </div>
 
+
+        <!-- USERNAME -->
 
         <div class="profile-item">
 
           <span>
+
             Username
+
           </span>
 
+
           <b id="profileUsername">
+
             Student
+
           </b>
 
         </div>
 
+
+        <!-- EDIT USERNAME -->
 
         <button
           class="edit-username-button"
           onclick="editUsername()"
         >
+
           ✏️ Edit Username
+
         </button>
 
 
-        <div class="profile-item">
-
-          <span>
-            Registered email
-          </span>
-
-          <b id="profileRegisteredEmail">
-            Loading...
-          </b>
-
-        </div>
-
-
-        <!-- CUSTOMIZE BUTTON -->
+        <!-- CUSTOMIZE -->
 
         <button
           class="customize-button"
           onclick="openCustomize()"
         >
-          🎨 Customize
+
+          🎨 Customize Appearance
+
         </button>
 
 
+        <!-- EMAIL -->
+
+        <div class="profile-item">
+
+          <span>
+
+            Registered email
+
+          </span>
+
+
+          <b id="profileRegisteredEmail">
+
+            Loading...
+
+          </b>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
         <div class="profile-actions">
+
 
           <button
             onclick="location.href='profile.html'"
           >
+
             View Profile 👤
+
           </button>
 
 
           <button
             onclick="logout()"
           >
+
             Log Out 🚪
+
           </button>
 
+
         </div>
+
 
       </div>
 
     </div>
+
 
   </div>
 
 </nav>
 
 
-<!-- ======================================================
+<!-- =====================================================
      DASHBOARD
-====================================================== -->
+===================================================== -->
 
 <main class="dashboard">
 
 
+<!-- WELCOME -->
+
 <section class="welcome">
 
+
   <div class="welcome-label">
+
     YOUR PERSONAL AI STUDY SPACE 🚀📚
+
   </div>
 
 
@@ -2164,7 +2997,9 @@ footer{
       class="gradient"
       id="welcomeName"
     >
+
       Student
+
     </span>
 
     👋
@@ -2173,43 +3008,61 @@ footer{
 
 
   <p>
+
     Start a fresh conversation and learn something new today.
+
     🧠✨
+
   </p>
+
 
 </section>
 
 
-<!-- ======================================================
+<!-- =====================================================
      AI CHAT CARD
-====================================================== -->
+===================================================== -->
 
 <section class="ai-card">
 
 
   <div class="ai-top">
 
+
     <div class="ai-icon">
+
       🤖
+
     </div>
 
 
     <div class="ai-title">
 
+
       <h2>
+
         Ask Divyam AI ✨
+
       </h2>
 
+
       <p>
+
         Your personal AI study companion 📚🧠🚀
+
       </p>
 
+
     </div>
+
 
   </div>
 
 
+  <!-- INPUT -->
+
   <div class="question-box">
+
 
     <input
       id="questionInput"
@@ -2224,25 +3077,38 @@ footer{
       id="askButton"
       onclick="askAI()"
     >
+
       Ask AI 🚀
+
     </button>
+
 
   </div>
 
 
+  <!-- CHAT HEADER -->
+
   <div class="chat-header">
 
+
     <h3>
+
       💬 Current Conversation
+
     </h3>
 
 
     <span id="chatCount">
+
       0 messages
+
     </span>
+
 
   </div>
 
+
+  <!-- CHAT -->
 
   <div
     class="chat-history"
@@ -2253,20 +3119,28 @@ footer{
 </section>
 
 
-<!-- ======================================================
+<!-- =====================================================
      STUDY TOOLS
-====================================================== -->
+===================================================== -->
 
 <div class="section-heading">
 
+
   <h2>
+
     Study Tools 🧰📚
+
   </h2>
 
+
   <p>
+
     Everything you need to learn smarter.
+
     🚀🧠✨
+
   </p>
+
 
 </div>
 
@@ -2280,20 +3154,31 @@ footer{
   >
 
     <div class="tool-icon">
+
       🤖
+
     </div>
 
+
     <h3>
+
       Doubt Solver 💡
+
     </h3>
 
+
     <p>
+
       Get simple, step-by-step explanations
       for your questions. 🧠📖
+
     </p>
 
+
     <div class="tool-link">
+
       Solve a doubt →
+
     </div>
 
   </div>
@@ -2305,20 +3190,31 @@ footer{
   >
 
     <div class="tool-icon">
+
       📚
+
     </div>
 
+
     <h3>
+
       AI Notes 🧠
+
     </h3>
 
+
     <p>
+
       Turn chapters into concise notes
       and revision material. ✍️📖
+
     </p>
 
+
     <div class="tool-link">
+
       Create notes →
+
     </div>
 
   </div>
@@ -2330,21 +3226,32 @@ footer{
   >
 
     <div class="tool-icon">
+
       📝
+
     </div>
 
+
     <h3>
+
       Custom Tests 🎯
+
     </h3>
 
+
     <p>
+
       Generate tests based on class,
       subject, chapters and difficulty.
       🏆📚
+
     </p>
 
+
     <div class="tool-link">
+
       Create a test →
+
     </div>
 
   </div>
@@ -2352,12 +3259,11 @@ footer{
 
 </section>
 
+
 </main>
 
 
-<!-- ======================================================
-     FOOTER
-====================================================== -->
+<!-- FOOTER -->
 
 <footer>
 
@@ -2366,313 +3272,406 @@ footer{
   <br><br>
 
   Your AI-powered study companion
+
   📚🧠✨🚀
 
 </footer>
 
 
 </div>
+
+
 </div>
 
 
-<!-- ======================================================
-     CUSTOMIZE OVERLAY
-====================================================== -->
+<!-- =====================================================
+     CUSTOMIZE MODAL
+===================================================== -->
 
 <div
   class="customize-overlay"
   id="customizeOverlay"
-  onclick="closeCustomize()"
-></div>
-
-
-<!-- ======================================================
-     CUSTOMIZE PANEL
-====================================================== -->
-
-<div
-  class="customize-panel"
-  id="customizePanel"
 >
 
 
-  <div class="customize-header">
+  <div class="customize-panel">
 
-    <h2>
-      🎨 Customize DIVYAM.AI
-    </h2>
 
+    <div class="customize-header">
 
-    <button
-      class="close-customize"
-      onclick="closeCustomize()"
-    >
-      ✕
-    </button>
 
-  </div>
+      <h2>
 
+        🎨 Customize DIVYAM.AI
 
-  <p class="customize-subtitle">
-
-    Personalize the look and feel of your
-    DIVYAM.AI dashboard. 🌈✨
-
-    <br>
-
-    Your choices are automatically saved
-    on this device. 💾
-
-  </p>
-
-
-  <!-- ==================================================
-       COLOUR THEMES
-  ================================================== -->
-
-  <div class="customize-section">
-
-    <div class="customize-section-title">
-      🌈 Colour Theme
-    </div>
-
-
-    <div class="theme-grid">
-
-
-      <div
-        class="theme-option"
-        data-theme="midnight"
-        onclick="setTheme('midnight')"
-      >
-
-        <div class="theme-preview preview-midnight"></div>
-
-        <div class="theme-name">
-          🌌 Midnight Blue
-        </div>
-
-      </div>
-
-
-      <div
-        class="theme-option"
-        data-theme="purple"
-        onclick="setTheme('purple')"
-      >
-
-        <div class="theme-preview preview-purple"></div>
-
-        <div class="theme-name">
-          💜 Purple Galaxy
-        </div>
-
-      </div>
-
-
-      <div
-        class="theme-option"
-        data-theme="ocean"
-        onclick="setTheme('ocean')"
-      >
-
-        <div class="theme-preview preview-ocean"></div>
-
-        <div class="theme-name">
-          🌊 Ocean
-        </div>
-
-      </div>
-
-
-      <div
-        class="theme-option"
-        data-theme="emerald"
-        onclick="setTheme('emerald')"
-      >
-
-        <div class="theme-preview preview-emerald"></div>
-
-        <div class="theme-name">
-          🌲 Emerald
-        </div>
-
-      </div>
-
-
-      <div
-        class="theme-option"
-        data-theme="red"
-        onclick="setTheme('red')"
-      >
-
-        <div class="theme-preview preview-red"></div>
-
-        <div class="theme-name">
-          🔥 Cyber Red
-        </div>
-
-      </div>
-
-
-      <div
-        class="theme-option"
-        data-theme="sunset"
-        onclick="setTheme('sunset')"
-      >
-
-        <div class="theme-preview preview-sunset"></div>
-
-        <div class="theme-name">
-          🌅 Sunset
-        </div>
-
-      </div>
-
-
-      <div
-        class="theme-option"
-        data-theme="pink"
-        onclick="setTheme('pink')"
-      >
-
-        <div class="theme-preview preview-pink"></div>
-
-        <div class="theme-name">
-          💗 Neon Pink
-        </div>
-
-      </div>
-
-
-      <div
-        class="theme-option"
-        data-theme="arctic"
-        onclick="setTheme('arctic')"
-      >
-
-        <div class="theme-preview preview-arctic"></div>
-
-        <div class="theme-name">
-          🧊 Arctic
-        </div>
-
-      </div>
-
-
-      <div
-        class="theme-option"
-        data-theme="cosmic"
-        onclick="setTheme('cosmic')"
-      >
-
-        <div class="theme-preview preview-cosmic"></div>
-
-        <div class="theme-name">
-          ☄️ Cosmic
-        </div>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-
-  <!-- ==================================================
-       FONT STYLE
-  ================================================== -->
-
-  <div class="customize-section">
-
-    <div class="customize-section-title">
-      🔤 Font Style
-    </div>
-
-
-    <div class="font-grid">
+      </h2>
 
 
       <button
-        class="font-option font-preview-arial"
-        data-font="Arial"
-        onclick="setFont('Arial')"
+        class="close-customize"
+        onclick="closeCustomize()"
       >
-        Arial
-      </button>
 
+        ×
 
-      <button
-        class="font-option font-preview-inter"
-        data-font="Inter"
-        onclick="setFont('Inter')"
-      >
-        Inter
-      </button>
-
-
-      <button
-        class="font-option font-preview-poppins"
-        data-font="Poppins"
-        onclick="setFont('Poppins')"
-      >
-        Poppins
-      </button>
-
-
-      <button
-        class="font-option font-preview-roboto"
-        data-font="Roboto"
-        onclick="setFont('Roboto')"
-      >
-        Roboto
-      </button>
-
-
-      <button
-        class="font-option font-preview-space"
-        data-font="Space"
-        onclick="setFont('Space')"
-      >
-        Space Grotesk
-      </button>
-
-
-      <button
-        class="font-option font-preview-georgia"
-        data-font="Georgia"
-        onclick="setFont('Georgia')"
-      >
-        Georgia
       </button>
 
 
     </div>
 
-  </div>
+
+    <!-- THEMES -->
+
+    <section class="customize-section">
 
 
-  <div
-    style="
-      padding:15px;
-      border-radius:14px;
-      background:rgba(255,255,255,.03);
-      border:1px solid var(--border);
-      color:var(--text-muted);
-      font-size:12px;
-      line-height:1.7;
-    "
-  >
+      <h3>
 
-    ✨ <strong style="color:#dbeafe">
-      Your customization is saved automatically.
-    </strong>
+        🌈 Colour Themes
 
-    <br>
+      </h3>
 
-    Change the theme or font anytime from
-    Profile → 🎨 Customize.
+
+      <p>
+
+        Choose a complete colour combination for your dashboard.
+
+      </p>
+
+
+      <div class="theme-grid">
+
+
+        <button
+          class="theme-option"
+          data-theme-option="galaxy"
+          onclick="setTheme('galaxy')"
+        >
+
+          <div class="theme-preview preview-galaxy"></div>
+
+          <div class="theme-name">
+
+            🌌 Galaxy Purple
+
+          </div>
+
+        </button>
+
+
+        <button
+          class="theme-option"
+          data-theme-option="ocean"
+          onclick="setTheme('ocean')"
+        >
+
+          <div class="theme-preview preview-ocean"></div>
+
+          <div class="theme-name">
+
+            🌊 Ocean Cyan
+
+          </div>
+
+        </button>
+
+
+        <button
+          class="theme-option"
+          data-theme-option="sunset"
+          onclick="setTheme('sunset')"
+        >
+
+          <div class="theme-preview preview-sunset"></div>
+
+          <div class="theme-name">
+
+            🌅 Sunset Ember
+
+          </div>
+
+        </button>
+
+
+        <button
+          class="theme-option"
+          data-theme-option="forest"
+          onclick="setTheme('forest')"
+        >
+
+          <div class="theme-preview preview-forest"></div>
+
+          <div class="theme-name">
+
+            🌲 Forest Aurora
+
+          </div>
+
+        </button>
+
+
+        <button
+          class="theme-option"
+          data-theme-option="rose"
+          onclick="setTheme('rose')"
+        >
+
+          <div class="theme-preview preview-rose"></div>
+
+          <div class="theme-name">
+
+            🌹 Rose Nebula
+
+          </div>
+
+        </button>
+
+
+        <button
+          class="theme-option"
+          data-theme-option="gold"
+          onclick="setTheme('gold')"
+        >
+
+          <div class="theme-preview preview-gold"></div>
+
+          <div class="theme-name">
+
+            🌙 Midnight Gold
+
+          </div>
+
+        </button>
+
+
+        <button
+          class="theme-option"
+          data-theme-option="arctic"
+          onclick="setTheme('arctic')"
+        >
+
+          <div class="theme-preview preview-arctic"></div>
+
+          <div class="theme-name">
+
+            ❄️ Arctic Blue
+
+          </div>
+
+        </button>
+
+
+      </div>
+
+
+    </section>
+
+
+    <!-- FONTS -->
+
+    <section class="customize-section">
+
+
+      <h3>
+
+        🔤 Font Style
+
+      </h3>
+
+
+      <p>
+
+        Select the font style used throughout DIVYAM.AI.
+
+      </p>
+
+
+      <div class="font-grid">
+
+
+        <button
+          class="font-option"
+          data-font-option="inter"
+          onclick="setFont('inter')"
+        >
+
+          <div
+            class="font-preview"
+            style="font-family:Arial,sans-serif"
+          >
+
+            Inter Style
+
+          </div>
+
+
+          <div class="font-description">
+
+            Clean & modern
+
+          </div>
+
+        </button>
+
+
+        <button
+          class="font-option"
+          data-font-option="poppins"
+          onclick="setFont('poppins')"
+        >
+
+          <div
+            class="font-preview"
+            style="font-family:Arial,sans-serif"
+          >
+
+            Poppins Style
+
+          </div>
+
+
+          <div class="font-description">
+
+            Friendly & rounded
+
+          </div>
+
+        </button>
+
+
+        <button
+          class="font-option"
+          data-font-option="nunito"
+          onclick="setFont('nunito')"
+        >
+
+          <div
+            class="font-preview"
+            style="font-family:Arial,sans-serif"
+          >
+
+            Nunito Style
+
+          </div>
+
+
+          <div class="font-description">
+
+            Soft & friendly
+
+          </div>
+
+        </button>
+
+
+        <button
+          class="font-option"
+          data-font-option="space"
+          onclick="setFont('space')"
+        >
+
+          <div
+            class="font-preview"
+            style="font-family:Arial,sans-serif"
+          >
+
+            Space Grotesk
+
+          </div>
+
+
+          <div class="font-description">
+
+            Futuristic
+
+          </div>
+
+        </button>
+
+
+        <button
+          class="font-option"
+          data-font-option="georgia"
+          onclick="setFont('georgia')"
+        >
+
+          <div
+            class="font-preview"
+            style="font-family:Georgia,serif"
+          >
+
+            Georgia Style
+
+          </div>
+
+
+          <div class="font-description">
+
+            Classic
+
+          </div>
+
+        </button>
+
+
+        <button
+          class="font-option"
+          data-font-option="mono"
+          onclick="setFont('mono')"
+        >
+
+          <div
+            class="font-preview"
+            style="font-family:'Courier New',monospace"
+          >
+
+            Monospace
+
+          </div>
+
+
+          <div class="font-description">
+
+            Developer style
+
+          </div>
+
+        </button>
+
+
+      </div>
+
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <div class="customize-footer">
+
+
+      <button
+        class="reset-customization"
+        onclick="resetCustomization()"
+      >
+
+        ↩️ Reset
+
+      </button>
+
+
+      <button
+        class="customize-done"
+        onclick="closeCustomize()"
+      >
+
+        Done ✓
+
+      </button>
+
+
+    </div>
+
 
   </div>
 
@@ -2689,8 +3688,10 @@ footer{
 const SUPABASE_URL =
   "https://teosakxikuswuhtbkmuv.supabase.co";
 
+
 const SUPABASE_KEY =
   "sb_publishable_Wh3yh8OShJ2HnvwUhbInlg_0rGRIxOe";
+
 
 const supabaseClient =
   window.supabase.createClient(
@@ -2700,17 +3701,17 @@ const supabaseClient =
 
 
 /* =========================================================
-   CHAT VARIABLES
+   VARIABLES
 ========================================================= */
 
-let userId="guest";
+let userId = "guest";
 
-let storageKey=
+let storageKey =
   "divyam_sessions_guest";
 
-let sessions=[];
+let sessions = [];
 
-let activeId=null;
+let activeId = null;
 
 
 /* =========================================================
@@ -2764,14 +3765,14 @@ document.addEventListener(
   "click",
   e=>{
 
-    const w=
+    const profile =
       document.querySelector(
         ".profile-wrap"
       );
 
     if(
-      w &&
-      !w.contains(e.target)
+      profile &&
+      !profile.contains(e.target)
     ){
 
       document
@@ -2786,7 +3787,7 @@ document.addEventListener(
 
 
 /* =========================================================
-   CUSTOMIZE PANEL
+   CUSTOMIZE
 ========================================================= */
 
 function openCustomize(){
@@ -2797,14 +3798,11 @@ function openCustomize(){
     .remove("open");
 
   document
-    .getElementById("customizePanel")
-    .classList
-    .add("open");
-
-  document
     .getElementById("customizeOverlay")
     .classList
     .add("open");
+
+  updateCustomizeSelection();
 
 }
 
@@ -2812,11 +3810,6 @@ function openCustomize(){
 function closeCustomize(){
 
   document
-    .getElementById("customizePanel")
-    .classList
-    .remove("open");
-
-  document
     .getElementById("customizeOverlay")
     .classList
     .remove("open");
@@ -2824,132 +3817,145 @@ function closeCustomize(){
 }
 
 
+document
+  .getElementById("customizeOverlay")
+  .addEventListener(
+    "click",
+    e=>{
+
+      if(
+        e.target.id ===
+        "customizeOverlay"
+      ){
+
+        closeCustomize();
+
+      }
+
+    }
+  );
+
+
 /* =========================================================
-   THEME SYSTEM
+   SET THEME
 ========================================================= */
 
 function setTheme(theme){
 
-  const body=document.body;
-
-  const themes=[
-    "midnight",
-    "purple",
+  const allowedThemes = [
+    "galaxy",
     "ocean",
-    "emerald",
-    "red",
     "sunset",
-    "pink",
-    "arctic",
-    "cosmic"
+    "forest",
+    "rose",
+    "gold",
+    "arctic"
   ];
 
-  themes.forEach(t=>{
-    body.classList.remove(
-      "theme-"+t
-    );
-  });
 
-  body.classList.add(
-    "theme-"+theme
-  );
+  if(
+    !allowedThemes.includes(theme)
+  ){
+
+    theme = "galaxy";
+
+  }
+
+
+  document.body.dataset.theme =
+    theme;
+
 
   localStorage.setItem(
     "divyam_theme",
     theme
   );
 
-  updateThemeSelection();
+
+  updateCustomizeSelection();
 
 }
 
 
 /* =========================================================
-   UPDATE SELECTED THEME
-========================================================= */
-
-function updateThemeSelection(){
-
-  const theme=
-    localStorage.getItem(
-      "divyam_theme"
-    ) || "midnight";
-
-  document
-    .querySelectorAll(
-      ".theme-option"
-    )
-    .forEach(option=>{
-
-      option.classList.toggle(
-        "selected",
-        option.dataset.theme===theme
-      );
-
-    });
-
-}
-
-
-/* =========================================================
-   FONT SYSTEM
+   SET FONT
 ========================================================= */
 
 function setFont(font){
 
-  const body=document.body;
-
-  const fonts=[
-    "Arial",
-    "Inter",
-    "Poppins",
-    "Roboto",
-    "Space",
-    "Georgia"
+  const allowedFonts = [
+    "inter",
+    "poppins",
+    "nunito",
+    "space",
+    "georgia",
+    "mono"
   ];
 
-  fonts.forEach(f=>{
 
-    body.classList.remove(
-      "font-"+f
-    );
+  if(
+    !allowedFonts.includes(font)
+  ){
 
-  });
+    font = "inter";
 
-  body.classList.add(
-    "font-"+font
-  );
+  }
+
+
+  document.body.dataset.font =
+    font;
+
 
   localStorage.setItem(
     "divyam_font",
     font
   );
 
-  updateFontSelection();
+
+  updateCustomizeSelection();
 
 }
 
 
 /* =========================================================
-   UPDATE SELECTED FONT
+   UPDATE SELECTED OPTIONS
 ========================================================= */
 
-function updateFontSelection(){
+function updateCustomizeSelection(){
 
-  const font=
-    localStorage.getItem(
-      "divyam_font"
-    ) || "Arial";
+  const currentTheme =
+    document.body.dataset.theme;
+
+
+  const currentFont =
+    document.body.dataset.font;
+
 
   document
     .querySelectorAll(
-      ".font-option"
+      "[data-theme-option]"
     )
-    .forEach(option=>{
+    .forEach(button=>{
 
-      option.classList.toggle(
+      button.classList.toggle(
         "selected",
-        option.dataset.font===font
+        button.dataset.themeOption ===
+        currentTheme
+      );
+
+    });
+
+
+  document
+    .querySelectorAll(
+      "[data-font-option]"
+    )
+    .forEach(button=>{
+
+      button.classList.toggle(
+        "selected",
+        button.dataset.fontOption ===
+        currentFont
       );
 
     });
@@ -2963,37 +3969,67 @@ function updateFontSelection(){
 
 function loadCustomization(){
 
-  const savedTheme=
+  const savedTheme =
     localStorage.getItem(
       "divyam_theme"
-    ) || "midnight";
+    );
 
-  const savedFont=
+
+  const savedFont =
     localStorage.getItem(
       "divyam_font"
-    ) || "Arial";
+    );
 
-  setTheme(savedTheme);
 
-  setFont(savedFont);
+  if(savedTheme){
+
+    document.body.dataset.theme =
+      savedTheme;
+
+  }
+
+
+  if(savedFont){
+
+    document.body.dataset.font =
+      savedFont;
+
+  }
+
+
+  updateCustomizeSelection();
 
 }
 
 
 /* =========================================================
-   CHAT STORAGE
+   RESET CUSTOMIZATION
+========================================================= */
+
+function resetCustomization(){
+
+  setTheme("galaxy");
+
+  setFont("inter");
+
+}
+
+
+/* =========================================================
+   SESSIONS
 ========================================================= */
 
 function loadSessions(){
 
   try{
 
-    sessions=
+    sessions =
       JSON.parse(
         localStorage.getItem(
           storageKey
         ) || "[]"
       );
+
 
     if(
       !Array.isArray(sessions)
@@ -3009,21 +4045,23 @@ function loadSessions(){
 
   }
 
+
   renderHistory();
 
 }
 
 
+/* =========================================================
+   SAVE
+========================================================= */
+
 function saveSessions(){
 
   localStorage.setItem(
-
     storageKey,
-
     JSON.stringify(
       sessions.slice(-100)
     )
-
   );
 
 }
@@ -3035,8 +4073,9 @@ function saveSessions(){
 
 function newChat(){
 
-  const id=
+  const id =
     Date.now().toString();
+
 
   sessions.push({
 
@@ -3051,13 +4090,16 @@ function newChat(){
 
   });
 
+
   activeId=id;
+
 
   saveSessions();
 
   renderHistory();
 
   renderChat();
+
 
   document
     .getElementById(
@@ -3087,23 +4129,20 @@ function current(){
 
 function renderHistory(){
 
-  const list=
+  const list =
     document.getElementById(
       "historyList"
     );
 
+
   if(!sessions.length){
 
-    list.innerHTML=
+    list.innerHTML =
       `
       <div class="empty-history">
-
         No previous chats yet. 💬✨
-
         <br>
-
         Start a new chat to see it here.
-
       </div>
       `;
 
@@ -3111,35 +4150,41 @@ function renderHistory(){
 
   }
 
+
   list.innerHTML="";
+
 
   [...sessions]
     .reverse()
     .forEach(s=>{
 
-      const item=
+      const item =
         document.createElement(
           "div"
         );
 
-      item.className=
-        "history-item"+
+
+      item.className =
+        "history-item" +
         (
           s.id===activeId
             ? " active"
             : ""
         );
 
-      item.textContent=
-        "💬 "+
+
+      item.textContent =
+        "💬 " +
         (
           s.title ||
           "New Chat"
         );
 
-      item.title=
+
+      item.title =
         s.title ||
         "New Chat";
+
 
       item.onclick=()=>{
 
@@ -3150,6 +4195,7 @@ function renderHistory(){
         renderChat();
 
       };
+
 
       list.appendChild(item);
 
@@ -3172,7 +4218,8 @@ function cleanAIResponse(text){
 
   }
 
-  let x=
+
+  let x =
     text.replace(
       /```[\s\S]*?```/g,
       m=>
@@ -3187,7 +4234,8 @@ function cleanAIResponse(text){
           )
     );
 
-  x=
+
+  x =
     x
       .replace(
         /`([^`]+)`/g,
@@ -3214,12 +4262,13 @@ function cleanAIResponse(text){
         "• "
       );
 
-  x=
+
+  x =
     x.replace(
       /^\s*\|(.+)\|\s*$/gm,
       (m,r)=>{
 
-        const c=
+        const c =
           r
             .split("|")
             .map(
@@ -3227,12 +4276,14 @@ function cleanAIResponse(text){
             )
             .filter(Boolean);
 
+
         return c.length
           ? "• "+c.join(" — ")
           : "";
 
       }
     );
+
 
   return x.trim();
 
@@ -3245,17 +4296,20 @@ function cleanAIResponse(text){
 
 function renderChat(){
 
-  const box=
+  const box =
     document.getElementById(
       "chatHistory"
     );
 
-  const count=
+
+  const count =
     document.getElementById(
       "chatCount"
     );
 
+
   const s=current();
+
 
   box.innerHTML="";
 
@@ -3265,7 +4319,7 @@ function renderChat(){
     !s.messages.length
   ){
 
-    box.innerHTML=
+    box.innerHTML =
       `
       <div class="empty-chat">
 
@@ -3291,73 +4345,82 @@ function renderChat(){
       </div>
       `;
 
-    count.textContent=
+
+    count.textContent =
       "0 messages";
+
 
     return;
 
   }
 
 
-  count.textContent=
-    s.messages.length+
+  count.textContent =
+    s.messages.length +
     (
       s.messages.length===1
         ? " message"
         : " messages"
-    )+
+    ) +
     " 💾";
 
 
   s.messages.forEach(m=>{
 
-    const wrap=
+    const wrap =
       document.createElement(
         "div"
       );
 
-    wrap.className=
+
+    wrap.className =
       "chat-message";
 
 
     /* USER */
 
-    const userContainer=
+    const userContainer =
       document.createElement(
         "div"
       );
 
-    userContainer.className=
+
+    userContainer.className =
       "user-message";
 
 
-    const userLabel=
+    const userLabel =
       document.createElement(
         "div"
       );
 
-    userLabel.className=
+
+    userLabel.className =
       "user-label";
 
-    userLabel.textContent=
+
+    userLabel.textContent =
       "Your message 🧑‍🎓";
 
 
-    const question=
+    const question =
       document.createElement(
         "div"
       );
 
-    question.className=
+
+    question.className =
       "chat-question";
 
-    question.textContent=
+
+    question.textContent =
       m.question;
 
 
     userContainer.appendChild(
       userLabel
     );
+
 
     userContainer.appendChild(
       question
@@ -3366,57 +4429,64 @@ function renderChat(){
 
     /* AI */
 
-    const aiContainer=
+    const aiContainer =
       document.createElement(
         "div"
       );
 
-    aiContainer.className=
+
+    aiContainer.className =
       "ai-message";
 
 
-    const aiLabel=
+    const aiLabel =
       document.createElement(
         "div"
       );
 
-    aiLabel.className=
+
+    aiLabel.className =
       "ai-label";
 
-    aiLabel.textContent=
+
+    aiLabel.textContent =
       "🤖 DIVYAM.AI";
 
 
-    const answer=
+    const answer =
       document.createElement(
         "div"
       );
 
-    answer.className=
+
+    answer.className =
       "chat-answer";
 
 
-    const answerText=
+    const answerText =
       document.createElement(
         "div"
       );
 
-    answerText.textContent=
+
+    answerText.textContent =
       cleanAIResponse(
         m.answer
       );
 
 
-    const time=
+    const time =
       document.createElement(
         "div"
       );
 
-    time.className=
+
+    time.className =
       "chat-time";
 
-    time.textContent=
-      "🕒 "+
+
+    time.textContent =
+      "🕒 " +
       new Date(
         m.timestamp
       ).toLocaleTimeString(
@@ -3432,6 +4502,7 @@ function renderChat(){
       answerText
     );
 
+
     answer.appendChild(
       time
     );
@@ -3440,6 +4511,7 @@ function renderChat(){
     aiContainer.appendChild(
       aiLabel
     );
+
 
     aiContainer.appendChild(
       answer
@@ -3450,9 +4522,11 @@ function renderChat(){
       userContainer
     );
 
+
     wrap.appendChild(
       aiContainer
     );
+
 
     box.appendChild(
       wrap
@@ -3461,7 +4535,7 @@ function renderChat(){
   });
 
 
-  box.scrollTop=
+  box.scrollTop =
     box.scrollHeight;
 
 }
@@ -3475,6 +4549,7 @@ function clearCurrentChat(){
 
   const s=current();
 
+
   if(
     !s ||
     !s.messages.length
@@ -3483,6 +4558,7 @@ function clearCurrentChat(){
     return;
 
   }
+
 
   if(
     !confirm(
@@ -3494,9 +4570,11 @@ function clearCurrentChat(){
 
   }
 
+
   s.messages=[];
 
   s.title="New Chat";
+
 
   saveSessions();
 
@@ -3513,17 +4591,19 @@ function clearCurrentChat(){
 
 async function askAI(){
 
-  const input=
+  const input =
     document.getElementById(
       "questionInput"
     );
 
-  const button=
+
+  const button =
     document.getElementById(
       "askButton"
     );
 
-  const question=
+
+  const question =
     input.value.trim();
 
 
@@ -3548,7 +4628,7 @@ async function askAI(){
     s.messages.length===0
   ){
 
-    s.title=
+    s.title =
       question.length>42
         ? question.slice(0,42)+"…"
         : question;
@@ -3558,25 +4638,28 @@ async function askAI(){
 
   button.disabled=true;
 
-  button.textContent=
+
+  button.textContent =
     "Thinking... 🤔";
 
 
-  const box=
+  const box =
     document.getElementById(
       "chatHistory"
     );
 
 
-  const thinking=
+  const thinking =
     document.createElement(
       "div"
     );
 
-  thinking.className=
+
+  thinking.className =
     "chat-answer thinking";
 
-  thinking.textContent=
+
+  thinking.textContent =
     "🤖 Thinking... 🧠✨";
 
 
@@ -3584,7 +4667,8 @@ async function askAI(){
     thinking
   );
 
-  box.scrollTop=
+
+  box.scrollTop =
     box.scrollHeight;
 
 
@@ -3592,7 +4676,7 @@ async function askAI(){
 
     const {
       data:sd
-    }=
+    } =
       await supabaseClient
         .auth
         .getSession();
@@ -3610,7 +4694,7 @@ async function askAI(){
     const {
       data,
       error
-    }=
+    } =
       await supabaseClient
         .functions
         .invoke(
@@ -3662,6 +4746,7 @@ async function askAI(){
 
     renderChat();
 
+
     input.value="";
 
 
@@ -3669,28 +4754,35 @@ async function askAI(){
 
     thinking.remove();
 
-    const err=
+
+    const err =
       document.createElement(
         "div"
       );
 
-    err.className=
+
+    err.className =
       "chat-answer";
 
-    err.textContent=
-      "❌ DIVYAM.AI ERROR\n\n"+
+
+    err.textContent =
+      "❌ DIVYAM.AI ERROR\n\n" +
       (
         e.message ||
         "Could not connect to DIVYAM.AI."
       );
 
-    box.appendChild(err);
+
+    box.appendChild(
+      err
+    );
 
   }finally{
 
     button.disabled=false;
 
-    button.textContent=
+
+    button.textContent =
       "Ask AI 🚀";
 
   }
@@ -3704,7 +4796,7 @@ async function askAI(){
 
 async function editUsername(){
 
-  const currentUsername=
+  const currentUsername =
     document
       .getElementById(
         "profileUsername"
@@ -3713,7 +4805,7 @@ async function editUsername(){
       .trim();
 
 
-  const newUsername=
+  const newUsername =
     prompt(
       "✏️ Enter your new username:",
       currentUsername
@@ -3729,7 +4821,7 @@ async function editUsername(){
   }
 
 
-  const username=
+  const username =
     newUsername.trim();
 
 
@@ -3744,9 +4836,7 @@ async function editUsername(){
   }
 
 
-  if(
-    username.length<3
-  ){
+  if(username.length<3){
 
     alert(
       "⚠️ Username must contain at least 3 characters."
@@ -3757,9 +4847,7 @@ async function editUsername(){
   }
 
 
-  if(
-    username.length>30
-  ){
+  if(username.length>30){
 
     alert(
       "⚠️ Username cannot be longer than 30 characters."
@@ -3775,13 +4863,15 @@ async function editUsername(){
     const {
       data,
       error
-    }=
+    } =
       await supabaseClient
         .auth
         .updateUser({
+
           data:{
             full_name:username
           }
+
         });
 
 
@@ -3796,7 +4886,7 @@ async function editUsername(){
       .getElementById(
         "profileUsername"
       )
-      .textContent=
+      .textContent =
       username;
 
 
@@ -3804,7 +4894,7 @@ async function editUsername(){
       .getElementById(
         "profileName"
       )
-      .textContent=
+      .textContent =
       username;
 
 
@@ -3812,21 +4902,19 @@ async function editUsername(){
       .getElementById(
         "welcomeName"
       )
-      .textContent=
+      .textContent =
       username;
 
 
-    const initials=
-      getInitials(
-        username
-      );
+    const initials =
+      getInitials(username);
 
 
     document
       .getElementById(
         "profileButton"
       )
-      .textContent=
+      .textContent =
       initials;
 
 
@@ -3834,7 +4922,7 @@ async function editUsername(){
       .getElementById(
         "profileMini"
       )
-      .textContent=
+      .textContent =
       initials;
 
 
@@ -3847,8 +4935,9 @@ async function editUsername(){
 
     console.error(error);
 
+
     alert(
-      "❌ Could not update username.\n\n"+
+      "❌ Could not update username.\n\n" +
       (
         error.message ||
         "Please try again."
@@ -3876,7 +4965,7 @@ async function logout(){
   );
 
 
-  location.href=
+  location.href =
     "auth.html";
 
 }
@@ -3891,7 +4980,7 @@ async function checkUser(){
   const {
     data,
     error
-  }=
+  } =
     await supabaseClient
       .auth
       .getUser();
@@ -3902,7 +4991,7 @@ async function checkUser(){
     !data.user
   ){
 
-    location.href=
+    location.href =
       "auth.html";
 
     return;
@@ -3916,11 +5005,12 @@ async function checkUser(){
   userId=u.id;
 
 
-  storageKey=
-    "divyam_sessions_"+u.id;
+  storageKey =
+    "divyam_sessions_" +
+    u.id;
 
 
-  const name=
+  const name =
     u.user_metadata?.full_name ||
     u.email?.split("@")[0] ||
     "Student";
@@ -3930,7 +5020,7 @@ async function checkUser(){
     .getElementById(
       "welcomeName"
     )
-    .textContent=
+    .textContent =
     name;
 
 
@@ -3938,11 +5028,12 @@ async function checkUser(){
     .getElementById(
       "userName"
     )
-    .textContent=
-    u.email || name;
+    .textContent =
+    u.email ||
+    name;
 
 
-  const initials=
+  const initials =
     getInitials(name);
 
 
@@ -3950,7 +5041,7 @@ async function checkUser(){
     .getElementById(
       "profileButton"
     )
-    .textContent=
+    .textContent =
     initials;
 
 
@@ -3958,7 +5049,7 @@ async function checkUser(){
     .getElementById(
       "profileMini"
     )
-    .textContent=
+    .textContent =
     initials;
 
 
@@ -3966,7 +5057,7 @@ async function checkUser(){
     .getElementById(
       "profileName"
     )
-    .textContent=
+    .textContent =
     name;
 
 
@@ -3974,7 +5065,7 @@ async function checkUser(){
     .getElementById(
       "profileUsername"
     )
-    .textContent=
+    .textContent =
     name;
 
 
@@ -3982,7 +5073,7 @@ async function checkUser(){
     .getElementById(
       "profileEmail"
     )
-    .textContent=
+    .textContent =
     u.email ||
     "Not available";
 
@@ -3991,7 +5082,7 @@ async function checkUser(){
     .getElementById(
       "profileRegisteredEmail"
     )
-    .textContent=
+    .textContent =
     u.email ||
     "Not available";
 
@@ -4010,6 +5101,7 @@ async function checkUser(){
       "1"
     );
 
+
     newChat();
 
   }else{
@@ -4020,10 +5112,11 @@ async function checkUser(){
 
     }else{
 
-      activeId=
+      activeId =
         sessions[
           sessions.length-1
         ].id;
+
 
       renderHistory();
 
@@ -4043,9 +5136,9 @@ async function checkUser(){
 function comingSoon(feature){
 
   alert(
-    "🚀 "+
-    feature+
-    " is coming soon!\n\n"+
+    "🚀 " +
+    feature +
+    " is coming soon!\n\n" +
     "We are building this feature for DIVYAM.AI. 🤖📚✨"
   );
 
@@ -4053,7 +5146,7 @@ function comingSoon(feature){
 
 
 /* =========================================================
-   ENTER KEY
+   ENTER TO ASK
 ========================================================= */
 
 document
@@ -4064,9 +5157,7 @@ document
     "keydown",
     e=>{
 
-      if(
-        e.key==="Enter"
-      ){
+      if(e.key==="Enter"){
 
         e.preventDefault();
 
@@ -4079,15 +5170,30 @@ document
 
 
 /* =========================================================
-   INITIALIZE CUSTOMIZATION
+   ESCAPE CLOSE CUSTOMIZE
 ========================================================= */
 
-loadCustomization();
+document.addEventListener(
+  "keydown",
+  e=>{
+
+    if(
+      e.key==="Escape"
+    ){
+
+      closeCustomize();
+
+    }
+
+  }
+);
 
 
 /* =========================================================
-   START DASHBOARD
+   STARTUP
 ========================================================= */
+
+loadCustomization();
 
 checkUser();
 
@@ -4095,4 +5201,3 @@ checkUser();
 
 </body>
 </html>
-````
